@@ -1609,6 +1609,9 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </footer>
 
 <script>
+window.isUserLoggedIn = false;
+window.currentUser = null;
+  
 // ================= PRELOADER & PAGE ENTER =================
 window.addEventListener('load', () => {
   const preloader = document.getElementById('preloader');
@@ -1808,6 +1811,73 @@ function showPertemuan(mapel){
   });
 }
 
+document.getElementById('btnLogin').addEventListener('click', () => {
+  const usn = document.getElementById('email').value.trim();
+  const pw  = document.getElementById('password').value.trim();
+
+  // DATA LOGIN YANG SAH
+  if (usn === "siswa" && pw === "siswa123") {
+
+    window.isUserLoggedIn = true;
+    window.currentUser = {
+      nama: "Siswa",
+      usn: "siswa"
+    };
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Login Berhasil',
+      text: 'Selamat datang Arifah Ilmaniah',
+      timer: 2000,
+      showConfirmButton: false
+    });
+
+    document.querySelector('.hero-login').style.display = "none";
+
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login Gagal',
+      text: 'USN atau Password salah. Silakan masukkan data yang benar.'
+    });
+  }
+});
+
+  document.getElementById('btnGoogle').addEventListener('click', () => {
+
+  // SIMULASI GOOGLE LOGIN
+  const googleEmail = "arifahilmaniah012@gmail.com"; 
+  // (nanti bisa diganti Firebase Auth)
+
+  if (googleEmail === "arifahilmaniah012@gmail.com") {
+
+    window.isUserLoggedIn = true;
+    window.currentUser = {
+      nama: "Arifah Ilmaniah",
+      email: googleEmail
+    };
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Login Google Berhasil',
+      text: 'Selamat datang Arifah Ilmaniah',
+      timer: 2000,
+      showConfirmButton: false
+    });
+
+    document.querySelector('.hero-login').style.display = "none";
+
+  } else {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Belum Terdaftar',
+      text: 'Email belum terdaftar. Silakan daftar terlebih dahulu.'
+    }).then(() => {
+      openDaftarSiswa();
+    });
+  }
+});
+  
 // ================= POPUP DAFTAR SISWA =================
 const btnDaftarPopup = document.getElementById('btn-daftar-siswa');
 const popupDaftar = document.getElementById('popup-daftar');
