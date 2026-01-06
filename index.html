@@ -1679,36 +1679,28 @@ document.addEventListener("DOMContentLoaded", () => {
 // HERO SLIDER
 // ======================================================
 const slides = document.querySelectorAll(".hero-bg img");
-const dotsContainer = document.getElementById("sliderDots");
-let currentSlide = 0;
+const dotsWrap = document.getElementById("sliderDots");
+let slideIndex = 0;
 
-// Buat dots
-slides.forEach((_, i) => {
+slides.forEach((_,i)=>{
   const dot = document.createElement("span");
-  if (i === 0) dot.classList.add("active");
-  dot.addEventListener("click", () => showSlide(i));
-  dotsContainer.appendChild(dot);
+  if(i===0) dot.classList.add("active");
+  dot.onclick=()=>showSlide(i);
+  dotsWrap.appendChild(dot);
 });
 
-const dots = dotsContainer.querySelectorAll("span");
-
-function showSlide(index) {
-  slides[currentSlide].classList.remove("active");
-  dots[currentSlide].classList.remove("active");
-
-  currentSlide = index;
-
-  slides[currentSlide].classList.add("active");
-  dots[currentSlide].classList.add("active");
+function showSlide(i){
+  slides.forEach(s=>s.classList.remove("active"));
+  dotsWrap.querySelectorAll("span").forEach(d=>d.classList.remove("active"));
+  slides[i].classList.add("active");
+  dotsWrap.children[i].classList.add("active");
+  slideIndex=i;
 }
 
-function nextSlide() {
-  let next = (currentSlide + 1) % slides.length;
-  showSlide(next);
-}
+setInterval(()=>{
+  showSlide((slideIndex+1)%slides.length);
+},6000);
 
-// Auto slide tiap 5 detik
-setInterval(nextSlide, 5000);
 // ======================================================
 // LOGIN MANUAL
 // ======================================================
@@ -1806,52 +1798,6 @@ function loadingKeAbsensi(){
   loading.classList.add("active");
   setTimeout(()=>location.href="absensi.html",1500);
 }
-
-  // ======================================================
-// LOGIN GOOGLE (SIMULASI)
-// ======================================================
-const btnGoogle = document.getElementById("btnGoogle");
-
-if (btnGoogle) {
-  btnGoogle.addEventListener("click", () => {
-    Swal.fire({
-      icon: "success",
-      title: "Login Google Berhasil",
-      text: "Anda masuk menggunakan akun Google",
-      confirmButtonColor: "#34d399"
-    });
-
-    // Simpan login (dummy)
-    sessionStorage.setItem("isLoggedIn", "true");
-    sessionStorage.setItem("currentUser", JSON.stringify({
-      nama: "Siswa RPL",
-      role: "student"
-    }));
-
-    window.isUserLoggedIn = true;
-    window.currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
-    updateNavbarUser();
-  });
-}
-
-// ======================================================
-// SCROLL REVEAL
-// ======================================================
-const revealElements = document.querySelectorAll(".reveal");
-
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("active");
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.15 }
-);
-
-revealElements.forEach(el => revealObserver.observe(el));
 </script>
 </body>
 </html>
