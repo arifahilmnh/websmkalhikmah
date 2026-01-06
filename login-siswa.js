@@ -22,6 +22,7 @@ const btnGoogle     = document.getElementById("btnGoogle");
 
 // ================= GLOBAL LOGIN STATE =================
 window.isUserLoggedIn = false;
+window.currentUser = null;
 
 // ================= LOGIN EMAIL =================
 btnLogin?.addEventListener("click", async () => {
@@ -43,8 +44,6 @@ btnLogin?.addEventListener("click", async () => {
       text: "Silakan pilih kelas",
       timer: 1600,
       showConfirmButton: false
-    }).then(() => {
-      document.querySelector(".hero-login")?.style.display = "none";
     });
 
   } catch (err) {
@@ -59,19 +58,19 @@ btnGoogle?.addEventListener("click", async () => {
     await simpanUser(result.user);
 
     Swal.fire({
-  icon: "success",
-  title: "Login berhasil",
-  text: "Silakan pilih kelas",
-  timer: 1600,
-  showConfirmButton: false
-});
+      icon: "success",
+      title: "Login berhasil",
+      text: "Silakan pilih kelas",
+      timer: 1600,
+      showConfirmButton: false
+    });
 
   } catch (err) {
     Swal.fire("Login Google gagal", err.message, "error");
   }
 });
 
-// ================= SIMPAN USER FIRESTORE =================
+// ================= SIMPAN USER KE FIRESTORE =================
 async function simpanUser(user) {
   const ref = doc(db, "siswa", user.uid);
   const snap = await getDoc(ref);
@@ -88,33 +87,40 @@ async function simpanUser(user) {
 }
 
 // ================= CEK LOGIN STATE =================
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        window.isUserLoggedIn = true;
-        window.currentUser = {
-          nama: user.displayName || "Siswa"
-        };
-    
-        sessionStorage.setItem("isLoggedIn", "true");
-        sessionStorage.setItem("currentUser", JSON.stringify(window.currentUser));
-    
-        document.querySelector(".hero-login")?.style.display = "none";
-        updateNavbarUser?.();
-      }
-    });
-    // 🔥 UNLOCK UI SETELAH LOGIN
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.isUserLoggedIn = true;
+    window.currentUser = {
+      nama: user.displayName || "Siswa",
+      email: user.email
+    };
+
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("currentUser", JSON.stringify(window.currentUser));
+
+    // 🔥 Sembunyikan hero login
     const heroLogin = document.querySelector(".hero-login");
     if (heroLogin) heroLogin.style.display = "none";
 
-    // 🔥 SCROLL KE PILIH KELAS
+    // 🔥 Scroll ke pilih kelas
     setTimeout(() => {
       document
         .querySelector(".class-grid")
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 500);
 
+    // 🔥 Update navbar
+    tampilkanNama(user);
+
+    document.body.classList.add("logged-in");
+
   } else {
     window.isUserLoggedIn = false;
+    window.currentUser = null;
+
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("currentUser");
+
     document.body.classList.remove("logged-in");
   }
 });
