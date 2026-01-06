@@ -1702,28 +1702,6 @@ setInterval(()=>{
 },6000);
 
 // ======================================================
-// LOGIN MANUAL
-// ======================================================
-document.getElementById("btnLogin").onclick=()=>{
-  const usn = document.getElementById("email").value.trim();
-  const pw  = document.getElementById("password").value.trim();
-
-  if(usn==="siswa" && pw==="siswa123"){
-    window.isUserLoggedIn = true;
-    window.currentUser = { nama:"Arifah Ilmaniah" };
-
-    sessionStorage.setItem("isLoggedIn","true");
-    sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
-
-    Swal.fire("Login Berhasil","Selamat datang Arifah Ilmaniah","success");
-    document.querySelector(".hero-login").style.display="none";
-    updateNavbarUser();
-  } else {
-    Swal.fire("Login Gagal","USN atau Password salah","error");
-  }
-};
-
-// ======================================================
 // MAPEL & PERTEMUAN
 // ======================================================
 const sectionSemester=document.getElementById("section-semester");
@@ -1799,5 +1777,6 @@ function loadingKeAbsensi(){
   setTimeout(()=>location.href="absensi.html",1500);
 }
 </script>
+<script type="module" src="js/login-siswa.js"></script>
 </body>
 </html>
