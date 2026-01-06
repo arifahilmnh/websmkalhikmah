@@ -1,3 +1,5 @@
+
+Anda bilang:
 bagian index.html:
 <!doctype html>
 <html lang="id">
@@ -1767,7 +1769,7 @@ function showMapel(kelas, semester){
   kelasData[kelas][semester].forEach(mp => {
     const div = document.createElement('div');
     div.classList.add('class-item');
-    div.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
+    div.textContent = mp.open ? mp.name : 🔒 ${mp.name};
     div.style.cursor = mp.open ? "pointer" : "not-allowed";
     div.style.opacity = mp.open ? "1" : ".5";
     div.onmouseenter = () => { if(mp.open) div.style.background="#f5f5f5"; }
@@ -1784,7 +1786,7 @@ function showMapel(kelas, semester){
 
 // ================= Pertemuan =================
 const pertemuanData = {
-  "Konsentrasi keahlian 2 (Web)":[...Array(16)].map((_,i)=>({name:`Pertemuan ${i+1}`, open:i===0}))
+  "Konsentrasi keahlian 2 (Web)":[...Array(16)].map((_,i)=>({name:Pertemuan ${i+1}, open:i===0}))
 };
 
 function showPertemuan(mapel){
@@ -1794,7 +1796,7 @@ function showPertemuan(mapel){
   pertemuanData[mapel].forEach(p => {
     const div = document.createElement('div');
     div.classList.add('class-item');
-    div.textContent = p.open ? p.name : `🔒 ${p.name}`;
+    div.textContent = p.open ? p.name : 🔒 ${p.name};
     div.style.cursor = p.open ? "pointer" : "not-allowed";
     div.style.opacity = p.open ? "1" : ".5";
     div.onmouseenter = () => { if(p.open) div.style.background="#f5f5f5"; }
