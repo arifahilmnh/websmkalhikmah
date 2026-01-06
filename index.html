@@ -1551,38 +1551,33 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 </section>
 
-<div id="overlay-daftar" style="
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.5);
-  backdrop-filter:blur(6px);
-  display:none;
-  z-index:999;
-"></div>
+<!-- Overlay -->
+<div id="overlay-daftar"></div>
 
-<!-- Login Popup -->
-<div id="popup-login" style="
-  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:340px;padding:28px 20px;background:rgba(255,255,255,.9);
-  backdrop-filter:blur(20px);border-radius:24px;box-shadow:0 40px 120px rgba(0,0,0,.35);
-  display:none;flex-direction:column;gap:14px;z-index:1000;
-">
-  <h3 style="text-align:center;margin:0;font-weight:700">Login Akun</h3>
-  <input placeholder="Email / NIS" style="width:100%;padding:12px;border-radius:16px;border:1px solid #e5e7eb">
-  <input type="password" placeholder="Password" style="width:100%;padding:12px;border-radius:16px;border:1px solid #e5e7eb">
-  <button style="width:100%;padding:14px;border-radius:22px;border:0;font-weight:700;background:linear-gradient(135deg,#6BCF9B,#34d399);cursor:pointer">Login</button>
-</div>
+<!-- ================= POPUP DAFTAR SISWA ================= -->
+<div id="popup-daftar">
 
-  <h3 style="text-align:center;font-weight:800;margin-bottom:20px">Daftar Siswa Baru</h3>
-  <input placeholder="Nama Lengkap" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <input placeholder="Email / NIS" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <input placeholder="Nomor Telepon" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <select style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb;color:#0f2f1f">
+  <div class="close" id="close-daftar">
+    ✕
+  </div>
+
+  <h3 style="text-align:center;font-weight:800;margin-bottom:20px">
+    Daftar Siswa Baru
+  </h3>
+
+  <input placeholder="Nama Lengkap">
+  <input placeholder="Email / NIS">
+  <input placeholder="Nomor Telepon">
+
+  <select>
     <option value="">Pilih Kelas</option>
     <option value="X">Kelas X</option>
     <option value="XI">Kelas XI</option>
     <option value="XII">Kelas XII</option>
   </select>
+
   <button id="submit-daftar">Daftar</button>
+
 </div>
 
 <!-- ===== LOADING OVERLAY ABSENSI ===== -->
