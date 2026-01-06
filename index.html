@@ -1329,9 +1329,10 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 
   <div class="video-box">
-   <iframe src="video.mp4" allowfullscreen></iframe>
+   <video controls style="width:100%;border-radius:30px">
+  <source src="video.mp4" type="video/mp4">
+</video>
   </div>
- </div>
 </section>
 
 <section style="background:#f0fdf4">
@@ -1593,7 +1594,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
     <option value="XII">Kelas XII</option>
   </select>
   <button id="submit-daftar">Daftar</button>
-</button>
 </div>
 
 <!-- ===== LOADING OVERLAY ABSENSI ===== -->
@@ -1635,10 +1635,10 @@ function updateNavbarUser(){
     `;
     btn.onclick = () => {
       Swal.fire({
-        icon:"info",
-        title:"Pendaftaran Selesai",
-        text:"Permintaan telah dicatat, Silakan tunggu informasi selanjutnya.",
-        confirmButtonColor:"#34d399"
+        icon: "info",
+        title: "Pendaftaran Selesai",
+        text: "Permintaan telah dicatat, Silakan tunggu informasi selanjutnya.",
+        confirmButtonColor: "#34d399"
       });
     };
   } else {
@@ -1647,12 +1647,11 @@ function updateNavbarUser(){
       <span>Daftar Siswa</span>
     `;
     btn.onclick = () => {
-      popupDaftar.style.right="0";
-      overlayDaftar.style.display="block";
+      popupDaftar.style.right = "0";
+      overlayDaftar.style.display = "block";
     };
   }
 }
-
 // ======================================================
 // DOM READY
 // ======================================================
