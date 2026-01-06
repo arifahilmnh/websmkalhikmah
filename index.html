@@ -888,53 +888,46 @@ button, .class-item, .announce, .info-item{
 
 /* ================= POPUP DAFTAR SISWA ================= */
 #popup-daftar{
-  position:fixed;
-  top:0;
-  right:-420px;
-  width:420px;
-  height:100%;
-  padding:40px 32px;
+  position: fixed;
+  top: 0;
+  right: -420px;
 
-  /* Background lebih hidup */
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.96),
-      rgba(240,255,247,0.92)
-    );
+  width: 420px;
+  height: 100%;
+  padding: 36px 28px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  color: #0f2f1f;
+  z-index: 1000;
+
+  overflow-y: auto;
+
+  /* Glassmorphism background */
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.96),
+    rgba(240,255,247,0.92)
+  );
 
   backdrop-filter: blur(22px) saturate(1.2);
   -webkit-backdrop-filter: blur(22px) saturate(1.2);
 
-  border-radius:32px 0 0 32px;
+  border-radius: 32px 0 0 32px;
 
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-
-  color:#0f2f1f;
-  z-index:1000;
-
+  /* Depth & accent */
   box-shadow:
     -20px 0 60px rgba(0,0,0,.18),
     -2px 0 0 rgba(16,185,129,.15);
 
+  /* Smooth slide animation */
   transition:
     right .55s cubic-bezier(.4,0,.2,1),
     box-shadow .3s ease;
-
-  overflow-y:auto;
 }
-
-/* scroll halus */
-#popup-daftar::-webkit-scrollbar{
-  width:6px;
-}
-#popup-daftar::-webkit-scrollbar-thumb{
-  background:linear-gradient(#10b981,#34d399);
-  border-radius:6px;
-}
-
+  
 /* ================= JUDUL ================= */
 #popup-daftar h3{
   font-size:26px;
@@ -1014,6 +1007,18 @@ button, .class-item, .announce, .info-item{
   color:#fff;
 }
 
+  #popup-daftar::-webkit-scrollbar{
+  width: 6px;
+}
+
+#popup-daftar::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+#popup-daftar::-webkit-scrollbar-thumb{
+  background: linear-gradient(#10b981,#34d399);
+  border-radius: 6px;
+}
 /* ================= SCROLL REVEAL ================= */
 .reveal {
   opacity: 0;
@@ -1329,7 +1334,9 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 
   <div class="video-box">
-   <iframe src="video.mp4" allowfullscreen></iframe>
+   <video controls style="width:100%;border-radius:30px">
+  <source src="video.mp4" type="video/mp4">
+  </video>
   </div>
  </div>
 </section>
@@ -1565,23 +1572,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   <button style="width:100%;padding:14px;border-radius:22px;border:0;font-weight:700;background:linear-gradient(135deg,#6BCF9B,#34d399);cursor:pointer">Login</button>
 </div>
 
-<!-- Daftar Popup -->
-<div id="popup-daftar" style="
-  position:fixed;top:0;right:-420px;
-  width:420px;height:100%;
-  padding:36px 28px;
-  background:rgba(255,255,255,0.95);
-  backdrop-filter:blur(20px);
-  border-radius:0 0 0 28px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  color:#0f2f1f;
-  z-index:1000;
-  box-shadow:0 40px 120px rgba(0,0,0,.35);
-  transition: right 0.5s ease;
-  overflow-y:auto;
-">
   <h3 style="text-align:center;font-weight:800;margin-bottom:20px">Daftar Siswa Baru</h3>
   <input placeholder="Nama Lengkap" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
   <input placeholder="Email / NIS" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
@@ -1593,7 +1583,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
     <option value="XII">Kelas XII</option>
   </select>
   <button id="submit-daftar">Daftar</button>
-</button>
 </div>
 
 <!-- ===== LOADING OVERLAY ABSENSI ===== -->
@@ -1774,17 +1763,19 @@ function showMapel(kelas, semester){
 
   kelasData[kelas][semester].forEach(mp => {
     const div = document.createElement('div');
-    div.className = 'class-item';
+    div.classList.add('class-item');
     div.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
     div.style.cursor = mp.open ? "pointer" : "not-allowed";
-    div.style.opacity = mp.open ? "1" : "0.5";
+    div.style.opacity = mp.open ? "1" : ".5";
 
-    div.onmouseenter = () => mp.open && (div.style.background="#f5f5f5");
-    div.onmouseleave = () => mp.open && (div.style.background="");
+    div.onmouseenter = () => { if(mp.open) div.style.background="#f5f5f5"; }
+    div.onmouseleave = () => { if(mp.open) div.style.background=""; }
 
-    div.onclick = mp.open
-      ? () => showPertemuan(mp.name)
-      : () => Swal.fire({icon:'info', title:'Coming Soon'});
+    if(!mp.open){
+      div.onclick = () => Swal.fire({icon:'info', title:'Coming Soon'});
+    } else {
+      div.onclick = () => showPertemuan(mp.name);
+    }
 
     mapelGrid.appendChild(div);
   });
