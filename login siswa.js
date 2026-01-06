@@ -109,3 +109,16 @@ function aktifkanAkses() {
 function nonaktifkanAkses() {
   document.body.classList.remove("logged-in");
 }
+
+// GLOBAL LOGIN STATE (BRIDGE KE HTML LAMA)
+window.isUserLoggedIn = false;
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.isUserLoggedIn = true;
+    tampilkanNama(user);
+  } else {
+    window.isUserLoggedIn = false;
+  }
+});
+
