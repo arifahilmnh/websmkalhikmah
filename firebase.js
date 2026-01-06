@@ -2,8 +2,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// Analytics OPSIONAL
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
-// 🔑 Firebase Config (punya kamu)
+// ================= CONFIG (PUNYA KAMU) =================
 const firebaseConfig = {
   apiKey: "AIzaSyBQnQ_cETiZMXrDDzyg_1cfEnfTn-UmF0A",
   authDomain: "database-user-3d1bf.firebaseapp.com",
@@ -14,17 +16,13 @@ const firebaseConfig = {
   measurementId: "G-TKR7MW4ZT4"
 };
 
-// 🚀 Init Firebase
+// ================= INIT =================
 const app = initializeApp(firebaseConfig);
 
-// 🔐 Auth & DB
-const auth = getAuth(app);
-const db   = getFirestore(app);
-const googleProvider = new GoogleAuthProvider();
+// ================= EXPORT =================
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const googleProvider = new GoogleAuthProvider();
 
-// 📦 Export
-export {
-  auth,
-  db,
-  googleProvider
-};
+// Analytics (AMAN, tidak wajib)
+export const analytics = getAnalytics(app);
