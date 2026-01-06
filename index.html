@@ -886,191 +886,132 @@ button, .class-item, .announce, .info-item{
   transition:all .35s ease;
 }
 
-/* ======================================================
-   OVERLAY POPUP DAFTAR
-====================================================== */
-#overlay-daftar{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .45s ease;
-  z-index: 999;
-}
-
-#overlay-daftar.show{
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* ======================================================
-   POPUP DAFTAR SISWA (SLIDE RIGHT)
-====================================================== */
+/* ================= POPUP DAFTAR SISWA ================= */
 #popup-daftar{
-  position: fixed;
-  top: 0;
-  right: -420px;
-  width: 420px;
-  height: 100vh;
-  padding: 42px 34px;
+  position:fixed;
+  top:0;
+  right:-420px;
+  width:420px;
+  height:100%;
+  padding:40px 32px;
 
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,.97),
-    rgba(236,253,245,.95)
-  );
+  /* Background lebih hidup */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.96),
+      rgba(240,255,247,0.92)
+    );
 
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(22px) saturate(1.2);
+  -webkit-backdrop-filter: blur(22px) saturate(1.2);
 
-  border-radius: 32px 0 0 32px;
+  border-radius:32px 0 0 32px;
+
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+
+  color:#0f2f1f;
+  z-index:1000;
+
   box-shadow:
-    -24px 0 70px rgba(0,0,0,.22),
-    -3px 0 0 rgba(16,185,129,.25);
-
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-
-  z-index: 1000;
-  overflow-y: auto;
+    -20px 0 60px rgba(0,0,0,.18),
+    -2px 0 0 rgba(16,185,129,.15);
 
   transition:
     right .55s cubic-bezier(.4,0,.2,1),
-    box-shadow .35s ease;
+    box-shadow .3s ease;
+
+  overflow-y:auto;
 }
 
-/* STATE AKTIF */
-#popup-daftar.show{
-  right: 0;
-  box-shadow:
-    -32px 0 90px rgba(0,0,0,.32),
-    -4px 0 0 rgba(16,185,129,.45);
-}
-
-/* ======================================================
-   SCROLLBAR HALUS
-====================================================== */
+/* scroll halus */
 #popup-daftar::-webkit-scrollbar{
-  width: 6px;
+  width:6px;
 }
 #popup-daftar::-webkit-scrollbar-thumb{
-  background: linear-gradient(#10b981,#34d399);
-  border-radius: 6px;
+  background:linear-gradient(#10b981,#34d399);
+  border-radius:6px;
 }
 
-/* ======================================================
-   JUDUL & DESKRIPSI
-====================================================== */
+/* ================= JUDUL ================= */
 #popup-daftar h3{
-  font-size: 26px;
-  font-weight: 800;
-  margin: 0 0 6px;
-  letter-spacing: -.02em;
+  font-size:26px;
+  font-weight:800;
+  margin:0 0 10px;
+  letter-spacing:-.02em;
 }
 
+/* ================= DESKRIPSI ================= */
 #popup-daftar p{
-  font-size: 14px;
-  line-height: 1.8;
-  color: #365a46;
+  font-size:14px;
+  line-height:1.8;
+  color:#365a46;
+  margin-bottom:12px;
 }
 
-/* ======================================================
-   FORM
-====================================================== */
-#popup-daftar form{
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+/* ================= INPUT ================= */
+#popup-daftar input{
+  width:100%;
+  padding:15px 18px;
+  border-radius:18px;
+  border:1px solid rgba(16,185,129,.25);
+  font-size:14px;
+  outline:none;
+  transition:.3s;
+  background:#fff;
 }
 
-/* INPUT & SELECT */
-#popup-daftar input,
-#popup-daftar select{
-  width: 100%;
-  padding: 15px 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(16,185,129,.25);
-  background: #fff;
-  font-size: 14px;
-  outline: none;
-  transition: .3s;
+#popup-daftar input:focus{
+  border-color:#10b981;
+  box-shadow:0 0 0 4px rgba(16,185,129,.15);
 }
 
-#popup-daftar input::placeholder{
-  color: #6b8f7c;
-}
-
-#popup-daftar input:focus,
-#popup-daftar select:focus{
-  border-color: #10b981;
-  box-shadow: 0 0 0 4px rgba(16,185,129,.18);
-}
-
-/* ======================================================
-   BUTTON SUBMIT
-====================================================== */
+/* ================= BUTTON ================= */
 #popup-daftar button{
-  margin-top: 14px;
-  padding: 15px;
-  border-radius: 22px;
-  border: 0;
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  color: #064e3b;
+  margin-top:14px;
+  padding:15px;
+  border-radius:22px;
+  border:0;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  color:#064e3b;
 
-  background: linear-gradient(135deg,#a7f3d0,#6ee7b7);
-  transition: .3s;
+  background:linear-gradient(
+    135deg,
+    #a7f3d0,
+    #6ee7b7
+  );
+
+  transition:.3s;
 }
 
 #popup-daftar button:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 18px 44px rgba(16,185,129,.35);
+  transform:translateY(-2px);
+  box-shadow:0 16px 40px rgba(16,185,129,.35);
 }
 
-#popup-daftar button:active{
-  transform: scale(.97);
-}
-
-/* ======================================================
-   TOMBOL CLOSE (X)
-====================================================== */
+/* ================= CLOSE BUTTON ================= */
 #popup-daftar .close{
-  position: absolute;
-  top: 22px;
-  right: 22px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: rgba(16,185,129,.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  cursor: pointer;
-  transition: .3s;
-  user-select: none;
+  position:absolute;
+  top:22px;
+  right:22px;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:rgba(16,185,129,.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.3s;
 }
 
 #popup-daftar .close:hover{
-  background: #10b981;
-  color: #fff;
-}
-
-/* ======================================================
-   RESPONSIVE MOBILE
-====================================================== */
-@media(max-width:480px){
-  #popup-daftar{
-    width: 100%;
-    right: -100%;
-    border-radius: 0;
-    padding: 34px 26px;
-  }
+  background:#10b981;
+  color:#fff;
 }
 
 /* ================= SCROLL REVEAL ================= */
@@ -1604,6 +1545,14 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 </section>
 
+<div id="overlay-daftar" style="
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.5);
+  backdrop-filter:blur(6px);
+  display:none;
+  z-index:999;
+"></div>
+
 <!-- Login Popup -->
 <div id="popup-login" style="
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
@@ -1617,24 +1566,34 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   <button style="width:100%;padding:14px;border-radius:22px;border:0;font-weight:700;background:linear-gradient(135deg,#6BCF9B,#34d399);cursor:pointer">Login</button>
 </div>
 
-<div id="popup-daftar"> 
-  <div class="close" id="close-daftar">✕</div>
-  <h3>Daftar Siswa Baru</h3>
-
-  <form id="form-daftar">
-    <input type="text" id="nama" placeholder="Nama Lengkap" required>
-    <input type="text" id="nis" placeholder="Email / NIS" required>
-    <input type="tel"  id="telp" placeholder="Nomor Telepon" required>
-
-    <select id="kelas" required>
-      <option value="">Pilih Kelas</option>
-      <option value="X">Kelas X</option>
-      <option value="XI">Kelas XI</option>
-      <option value="XII">Kelas XII</option>
-    </select>
-
-    <button type="submit" id="submit-daftar">Daftar</button>
-  </form>
+<!-- Daftar Popup -->
+<div id="popup-daftar" style="
+  position:fixed;top:0;right:-420px;
+  width:420px;height:100%;
+  padding:36px 28px;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);
+  border-radius:0 0 0 28px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  color:#0f2f1f;
+  z-index:1000;
+  box-shadow:0 40px 120px rgba(0,0,0,.35);
+  transition: right 0.5s ease;
+  overflow-y:auto;
+">
+  <h3 style="text-align:center;font-weight:800;margin-bottom:20px">Daftar Siswa Baru</h3>
+  <input placeholder="Nama Lengkap" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
+  <input placeholder="Email / NIS" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
+  <input placeholder="Nomor Telepon" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
+  <select style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb;color:#0f2f1f">
+    <option value="">Pilih Kelas</option>
+    <option value="X">Kelas X</option>
+    <option value="XI">Kelas XI</option>
+    <option value="XII">Kelas XII</option>
+  </select>
+  <button id="submit-daftar">Daftar</button>
 </div>
 
 <!-- ===== LOADING OVERLAY ABSENSI ===== -->
@@ -1650,8 +1609,11 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </footer>
 
 <script>
-window.isUserLoggedIn = false;
-window.currentUser = null;
+// ======================================================
+// GLOBAL LOGIN STATE
+// ======================================================
+window.isUserLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
 
 // ======================================================
 // ELEMENT
@@ -1675,7 +1637,7 @@ function updateNavbarUser(){
       Swal.fire({
         icon: "info",
         title: "Pendaftaran Selesai",
-        text: "Permintaan telah dicatat.",
+        text: "Permintaan telah dicatat, Silakan tunggu informasi selanjutnya.",
         confirmButtonColor: "#34d399"
       });
     };
@@ -1684,47 +1646,35 @@ function updateNavbarUser(){
       <i class="fa-solid fa-user-plus"></i>
       <span>Daftar Siswa</span>
     `;
-    btn.onclick = () => openDaftar();
+    btn.onclick = () => {
+      popupDaftar.style.right = "0";
+      overlayDaftar.style.display = "block";
+    };
   }
 }
-
+// ======================================================
+// DOM READY
+// ======================================================
 document.addEventListener("DOMContentLoaded", () => {
 
-  const popupDaftar   = document.getElementById("popup-daftar");
-  const overlayDaftar = document.getElementById("overlay-daftar");
-  const closeDaftar   = document.getElementById("close-daftar");
+  const preloader = document.getElementById("preloader");
 
-  // PASTIKAN SEMUA ADA
-  if(!popupDaftar || !overlayDaftar){
-    console.error("Popup / Overlay tidak ditemukan");
-    return;
+  // PRELOADER
+  if(preloader){
+    setTimeout(()=>{
+      preloader.classList.add("hidden");
+    },800);
   }
 
-  // ==== DEFAULT STATE (INI PENTING) ====
-  popupDaftar.classList.remove("show");
-  overlayDaftar.classList.remove("show");
+  document.body.classList.add("page-enter");
+  updateNavbarUser();
 
-  // ==== FUNCTION OPEN ====
-  window.openDaftar = function(){
-    popupDaftar.classList.add("show");
-    overlayDaftar.classList.add("show");
-    document.body.style.overflow = "hidden";
-  };
-
-  // ==== FUNCTION CLOSE ====
-  function closePopup(){
-    popupDaftar.classList.remove("show");
-    overlayDaftar.classList.remove("show");
-    document.body.style.overflow = "";
+  if(window.isUserLoggedIn){
+    const heroLogin = document.querySelector(".hero-login");
+    if(heroLogin) heroLogin.style.display="none";
   }
-
-  if(closeDaftar){
-    closeDaftar.onclick = closePopup;
-  }
-
-  overlayDaftar.onclick = closePopup;
-
 });
+
 // ======================================================
 // HERO SLIDER
 // ======================================================
@@ -1754,44 +1704,25 @@ setInterval(()=>{
 // ======================================================
 // LOGIN MANUAL
 // ======================================================
-const btnLogin = document.getElementById("btnLogin");
-const emailInput = document.getElementById("email");
-const passInput = document.getElementById("password");
+document.getElementById("btnLogin").onclick=()=>{
+  const usn = document.getElementById("email").value.trim();
+  const pw  = document.getElementById("password").value.trim();
 
-btnLogin.addEventListener("click", () => {
-  const user = emailInput.value.trim();
-  const pass = passInput.value.trim();
-
-  if(!user || !pass){
-    Swal.fire({
-      icon:"warning",
-      title:"Data Kosong",
-      text:"Isi username dan password terlebih dahulu"
-    });
-    return;
-  }
-
-  if(user === "siswa" && pass === "siswa123"){
+  if(usn==="siswa" && pw==="siswa123"){
     window.isUserLoggedIn = true;
-    window.currentUser = { nama: "Siswa RPL" };
+    window.currentUser = { nama:"Arifah Ilmaniah" };
 
-    Swal.fire({
-      icon:"success",
-      title:"Login Berhasil",
-      text:"Terima kasih sudah login, pilih kelas terlebih dahulu"
-    }).then(() => {
-      document.querySelector(".class-grid")
-        .scrollIntoView({ behavior:"smooth" });
-    });
+    sessionStorage.setItem("isLoggedIn","true");
+    sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
 
+    Swal.fire("Login Berhasil","Selamat datang Arifah Ilmaniah","success");
+    document.querySelector(".hero-login").style.display="none";
+    updateNavbarUser();
   } else {
-    Swal.fire({
-      icon:"error",
-      title:"Login Gagal",
-      text:"Username atau password salah"
-    });
+    Swal.fire("Login Gagal","USN atau Password salah","error");
   }
-});
+};
+
 // ======================================================
 // MAPEL & PERTEMUAN
 // ======================================================
@@ -1867,157 +1798,6 @@ function loadingKeAbsensi(){
   loading.classList.add("active");
   setTimeout(()=>location.href="absensi.html",1500);
 }
-
-  window.addEventListener("load", () => {
-  const preloader = document.getElementById("preloader");
-  if(preloader){
-    preloader.classList.add("hidden");
-    setTimeout(()=>preloader.remove(),600);
-  }
-});
-  
-const btnDaftarNav = document.getElementById("navUserBtn");
-const popupDaftar = document.getElementById("popup-daftar");
-const overlayDaftar = document.getElementById("overlay-daftar");
-const submitDaftar = document.getElementById("submit-daftar");
-
-/* buka popup daftar */
-btnDaftarNav.addEventListener("click", () => {
-  popupDaftar.style.right = "0";
-  overlayDaftar.style.display = "block";
-});
-
-/* tutup popup */
-overlayDaftar.addEventListener("click", closeDaftar);
-function closeDaftar(){
-  popupDaftar.style.right = "-420px";
-  overlayDaftar.style.display = "none";
-}
-
-/* submit daftar */
-submitDaftar.addEventListener("click", () => {
-  const inputs = popupDaftar.querySelectorAll("input");
-  let kosong = false;
-
-  inputs.forEach(i => {
-    if(i.value.trim() === "") kosong = true;
-  });
-
-  if(kosong){
-    Swal.fire({
-      icon:"warning",
-      title:"Data belum lengkap",
-      text:"Silakan isi seluruh data pendaftaran"
-    });
-    return;
-  }
-
-  Swal.fire({
-    icon:"success",
-    title:"Permintaan Dicatat",
-    text:"Tunggu informasi selanjutnya dari pihak sekolah"
-  }).then(() => {
-    inputs.forEach(i => i.value = "");
-    closeDaftar();
-  });
-});
-</script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-
-  <script>
-// ================= CONFIG (PUNYA KAMU) =================
-const firebaseConfig = {
-  apiKey: "AIzaSyBQnQ_cETiZMXrDDzyg_1cfEnfTn-UmF0A",
-  authDomain: "database-user-3d1bf.firebaseapp.com",
-  projectId: "database-user-3d1bf",
-  storageBucket: "database-user-3d1bf.firebasestorage.app",
-  messagingSenderId: "786734472712",
-  appId: "1:786734472712:web:555858156018bdfaa17bbd",
-  measurementId: "G-TKR7MW4ZT4"
-};
-
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const provider = new firebase.auth.GoogleAuthProvider();
-</script>
-<script>
-const btnGoogle = document.getElementById("btnGoogle");
-
-btnGoogle.addEventListener("click", () => {
-  auth.signInWithPopup(provider)
-    .then(result => {
-      const email = result.user.email;
-
-      if(email !== "arifahilmaniah012@gmail.com"){
-        auth.signOut();
-        Swal.fire({
-          icon:"error",
-          title:"Akses Ditolak",
-          text:"Akun Google ini tidak terdaftar"
-        });
-        return;
-      }
-
-      sessionStorage.setItem("isLoggedIn","true");
-
-      Swal.fire({
-        icon:"success",
-        title:"Login Berhasil",
-        text:"Terima kasih sudah login, silakan pilih kelas"
-      }).then(() => {
-        document.querySelector(".class-grid")
-          .scrollIntoView({behavior:"smooth"});
-      });
-    })
-    .catch(() => {
-      Swal.fire("Error","Gagal login dengan Google","error");
-    });
-});
-</script>
-  <script type="module">
-import { auth, googleProvider } from "./js/firebase.js";
-import { signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-const btnGoogle = document.getElementById("btnGoogle");
-
-btnGoogle.addEventListener("click", async () => {
-  try {
-    const result = await signInWithPopup(auth, googleProvider);
-    const user = result.user;
-
-    // BATASI HANYA EMAIL INI
-    if(user.email !== "arifahilmaniah012@gmail.com"){
-      Swal.fire({
-        icon:"error",
-        title:"Akses Ditolak",
-        text:"Akun Google ini tidak terdaftar"
-      });
-      return;
-    }
-
-    window.isUserLoggedIn = true;
-    window.currentUser = { nama: user.displayName };
-
-    Swal.fire({
-      icon:"success",
-      title:"Login Google Berhasil",
-      text:"Silakan pilih kelas untuk melanjutkan"
-    }).then(()=>{
-      document.querySelector(".class-grid")
-        .scrollIntoView({ behavior:"smooth" });
-    });
-
-  } catch (error) {
-    Swal.fire({
-      icon:"error",
-      title:"Login Gagal",
-      text:error.message
-    });
-  }
-});
-
-    
 </script>
 </body>
 </html>
