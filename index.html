@@ -1572,16 +1572,24 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   <button style="width:100%;padding:14px;border-radius:22px;border:0;font-weight:700;background:linear-gradient(135deg,#6BCF9B,#34d399);cursor:pointer">Login</button>
 </div>
 
-  <h3 style="text-align:center;font-weight:800;margin-bottom:20px">Daftar Siswa Baru</h3>
-  <input placeholder="Nama Lengkap" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <input placeholder="Email / NIS" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <input placeholder="Nomor Telepon" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <select style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb;color:#0f2f1f">
+  <div id="popup-daftar">
+  <div class="close" id="close-daftar">
+    <i class="fa-solid fa-xmark"></i>
+  </div>
+
+  <h3>Daftar Siswa Baru</h3>
+
+  <input placeholder="Nama Lengkap">
+  <input placeholder="Email / NIS">
+  <input placeholder="Nomor Telepon">
+
+  <select>
     <option value="">Pilih Kelas</option>
     <option value="X">Kelas X</option>
     <option value="XI">Kelas XI</option>
     <option value="XII">Kelas XII</option>
   </select>
+
   <button id="submit-daftar">Daftar</button>
 </div>
 
