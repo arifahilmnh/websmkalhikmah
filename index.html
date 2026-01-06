@@ -1610,15 +1610,15 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 
 <script>
 // ======================================================
-// GLOBAL STATE
+// GLOBAL LOGIN STATE
 // ======================================================
-window.isUserLoggedIn = false;
-window.currentUser = null;
+window.isUserLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
 
 // ======================================================
 // ELEMENT
 // ======================================================
-const popupDaftar   = document.getElementById("popup-daftar");
+const popupDaftar = document.getElementById("popup-daftar");
 const overlayDaftar = document.getElementById("overlay-daftar");
 
 // ======================================================
@@ -1636,8 +1636,8 @@ function updateNavbarUser(){
     btn.onclick = () => {
       Swal.fire({
         icon: "info",
-        title: "Status Akun",
-        text: "Anda sudah login. Silakan pilih kelas untuk melanjutkan.",
+        title: "Pendaftaran Selesai",
+        text: "Permintaan telah dicatat, Silakan tunggu informasi selanjutnya.",
         confirmButtonColor: "#34d399"
       });
     };
@@ -1652,107 +1652,122 @@ function updateNavbarUser(){
     };
   }
 }
-
 // ======================================================
 // DOM READY
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
+
+  const preloader = document.getElementById("preloader");
+
+  // PRELOADER
+  if(preloader){
+    setTimeout(()=>{
+      preloader.classList.add("hidden");
+    },800);
+  }
+
+  document.body.classList.add("page-enter");
   updateNavbarUser();
+
+  if(window.isUserLoggedIn){
+    const heroLogin = document.querySelector(".hero-login");
+    if(heroLogin) heroLogin.style.display="none";
+  }
 });
 
 // ======================================================
-// 1. DAFTAR SISWA (DUMMY)
+// HERO SLIDER
 // ======================================================
-document.getElementById("btnDaftarSiswa")?.addEventListener("click", () => {
-  Swal.fire({
-    icon: "success",
-    title: "Pendaftaran Berhasil",
-    text: "Permintaan telah dicatat, tunggu informasi selanjutnya.",
-    confirmButtonText: "Tutup"
-  }).then(() => {
-    popupDaftar.style.right = "-100%";
-    overlayDaftar.style.display = "none";
-  });
+const slides = document.querySelectorAll(".hero-bg img");
+const dotsWrap = document.getElementById("sliderDots");
+let slideIndex = 0;
+
+slides.forEach((_,i)=>{
+  const dot = document.createElement("span");
+  if(i===0) dot.classList.add("active");
+  dot.onclick=()=>showSlide(i);
+  dotsWrap.appendChild(dot);
 });
 
+function showSlide(i){
+  slides.forEach(s=>s.classList.remove("active"));
+  dotsWrap.querySelectorAll("span").forEach(d=>d.classList.remove("active"));
+  slides[i].classList.add("active");
+  dotsWrap.children[i].classList.add("active");
+  slideIndex=i;
+}
+
+setInterval(()=>{
+  showSlide((slideIndex+1)%slides.length);
+},6000);
+
 // ======================================================
-// 2. LOGIN MANUAL (DEMO)
+// LOGIN MANUAL
 // ======================================================
-document.getElementById("btnLogin")?.addEventListener("click", () => {
+document.getElementById("btnLogin").onclick=()=>{
   const usn = document.getElementById("email").value.trim();
   const pw  = document.getElementById("password").value.trim();
 
-  if(!usn || !pw){
-    Swal.fire("Peringatan","Isi email dan password","warning");
-    return;
-  }
-
-  if(usn === "siswa" && pw === "siswa123"){
+  if(usn==="siswa" && pw==="siswa123"){
     window.isUserLoggedIn = true;
     window.currentUser = { nama:"Arifah Ilmaniah" };
 
-    Swal.fire({
-      icon: "success",
-      title: "Login Berhasil",
-      text: "Silakan pilih kelas untuk melanjutkan"
-    });
+    sessionStorage.setItem("isLoggedIn","true");
+    sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
 
+    Swal.fire("Login Berhasil","Selamat datang Arifah Ilmaniah","success");
+    document.querySelector(".hero-login").style.display="none";
     updateNavbarUser();
-
-    document.getElementById("section-kelas")
-      ?.scrollIntoView({ behavior:"smooth" });
-
   } else {
-    Swal.fire("Login Gagal","Email atau password salah","error");
-  }
-});
-
-// ======================================================
-// 3. PILIH KELAS
-// ======================================================
-document.querySelectorAll(".class-btn").forEach(btn=>{
-  btn.onclick = () => {
-    if(!window.isUserLoggedIn){
-      Swal.fire("Login dulu","Silakan login terlebih dahulu","info");
-      return;
-    }
-    document.getElementById("section-semester").style.display="block";
-    document.getElementById("section-semester")
-      .scrollIntoView({behavior:"smooth"});
-  };
-});
-
-// ======================================================
-// 4. DATA MAPEL
-// ======================================================
-const sectionSemester  = document.getElementById("section-semester");
-const sectionMapel     = document.getElementById("section-mapel");
-const sectionPertemuan = document.getElementById("section-pertemuan");
-const mapelGrid        = document.getElementById("mapel-grid");
-const pertemuanGrid    = document.getElementById("pertemuan-grid");
-
-const kelasData = {
-  XI:{
-    1:[
-      { name: "Konsentrasi Keahlian 2 (Web)", open: true },
-      { name: "Framework", open: false },
-      { name: "Matematika", open: false },
-      { name: "Bahasa Indonesia", open: false },
-      { name: "Bahasa Inggris", open: false },
-      { name: "PJOK", open: false },
-      { name: "PAI & Budi Pekerti", open: false }
-    ]
+    Swal.fire("Login Gagal","USN atau Password salah","error");
   }
 };
 
 // ======================================================
-// 5. SEMESTER
+// MAPEL & PERTEMUAN
 // ======================================================
+const sectionSemester=document.getElementById("section-semester");
+const sectionMapel=document.getElementById("section-mapel");
+const sectionPertemuan=document.getElementById("section-pertemuan");
+const mapelGrid=document.getElementById("mapel-grid");
+const pertemuanGrid=document.getElementById("pertemuan-grid");
+
+const kelasData={
+  XI:{
+    1:[
+      {name:"Konsentrasi keahlian 2 (Web)",open:true},
+      {name:"Mapel pilihan (framework)",open:false},
+      {name:"Matematika",open:false},
+      {name:"Pendidikan Pancasila dan kewarganegaraan",open:false},
+      {name:"Bahasa Indonesia",open:false},
+      {name:"Projek kreatif dan kewirausahaan",open:false},
+      {name:"Pjok",open:false},
+      {name:"Sejarah",open:false},
+      {name:"Pendidikan agama Islam dan Budi pekerti",open:false},
+      {name:"Bahasa inggris",open:false},
+      {name:"BK",open:false},
+      {name:"Konsentrasi keahlian 1 (PBO)",open:false},
+      {name:"Konsentrasi keahlian 4 (Android)",open:false},
+      {name:"Konsentrasi keahlian 3 (Basis data)",open:false}
+    ]
+  }
+};
+
+document.querySelectorAll(".class-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    if(!window.isUserLoggedIn){
+      Swal.fire("Login dulu","Silakan login terlebih dahulu","info");
+      return;
+    }
+    sectionSemester.style.display="block";
+    sectionSemester.scrollIntoView({behavior:"smooth"});
+  };
+});
+
 document.querySelectorAll(".semester-btn").forEach(btn=>{
   btn.onclick=()=>{
     sectionMapel.style.display="block";
     mapelGrid.innerHTML="";
-
     kelasData.XI[1].forEach(mp=>{
       const d=document.createElement("div");
       d.className="class-item";
@@ -1764,16 +1779,12 @@ document.querySelectorAll(".semester-btn").forEach(btn=>{
   };
 });
 
-// ======================================================
-// 6. PERTEMUAN
-// ======================================================
 function showPertemuan(){
   sectionPertemuan.style.display="block";
   pertemuanGrid.innerHTML="";
-
   for(let i=1;i<=16;i++){
-    const open=i===1;
     const d=document.createElement("div");
+    const open=i===1;
     d.className="class-item";
     d.textContent=open?`Pertemuan ${i}`:`🔒 Pertemuan ${i}`;
     d.style.opacity=open?1:.5;
@@ -1782,17 +1793,11 @@ function showPertemuan(){
   }
 }
 
-// ======================================================
-// 7. LOADING KE ABSENSI
-// ======================================================
 function loadingKeAbsensi(){
   const loading=document.getElementById("loadingAbsensi");
   loading.classList.add("active");
   setTimeout(()=>location.href="absensi.html",1500);
 }
 </script>
-<!-- FIREBASE MODULE -->
-<script type="module" src="js/firebase.js"></script>
-<script type="module" src="js/login-siswa.js"></script>
 </body>
 </html>
