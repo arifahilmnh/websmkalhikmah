@@ -1,4 +1,3 @@
-bagian index.html:
 <!doctype html>
 <html lang="id">
 <head>
@@ -1599,31 +1598,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </footer>
 
 <script>
-
-  const btnLogin = document.getElementById("btnLogin");
-
-btnLogin.onclick = () => {
-  btnLogin.disabled = true;
-  btnLogin.innerHTML = "Memproses...";
-
-  setTimeout(()=>{
-    sessionStorage.setItem("isLoggedIn", "true");
-
-    Swal.fire({
-      icon:'success',
-      title:'Login berhasil',
-      text:'Selamat datang siswa 👋',
-      timer:1500,
-      showConfirmButton:false
-    });
-
-    btnLogin.innerHTML = "Login";
-    btnLogin.disabled = false;
-
-    document.getElementById("loginPopup").classList.remove("active");
-  }, 1200);
-};
-  
 // ================= GLOBAL STATE =================
 window.isUserLoggedIn = false;
 
