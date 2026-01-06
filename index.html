@@ -1610,15 +1610,15 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 
 <script>
 // ======================================================
-// GLOBAL LOGIN STATE
+// GLOBAL STATE
 // ======================================================
-window.isUserLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
-window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
+window.isUserLoggedIn = false;
+window.currentUser = null;
 
 // ======================================================
 // ELEMENT
 // ======================================================
-const popupDaftar = document.getElementById("popup-daftar");
+const popupDaftar   = document.getElementById("popup-daftar");
 const overlayDaftar = document.getElementById("overlay-daftar");
 
 // ======================================================
@@ -1636,8 +1636,8 @@ function updateNavbarUser(){
     btn.onclick = () => {
       Swal.fire({
         icon: "info",
-        title: "Pendaftaran Selesai",
-        text: "Permintaan telah dicatat, Silakan tunggu informasi selanjutnya.",
+        title: "Status Pendaftaran",
+        text: "Permintaan telah dicatat, silakan tunggu informasi selanjutnya.",
         confirmButtonColor: "#34d399"
       });
     };
@@ -1652,109 +1652,145 @@ function updateNavbarUser(){
     };
   }
 }
+
 // ======================================================
 // DOM READY
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
-
-  const preloader = document.getElementById("preloader");
-
-  // PRELOADER
-  if(preloader){
-    setTimeout(()=>{
-      preloader.classList.add("hidden");
-    },800);
-  }
-
-  document.body.classList.add("page-enter");
   updateNavbarUser();
-
-  if(window.isUserLoggedIn){
-    const heroLogin = document.querySelector(".hero-login");
-    if(heroLogin) heroLogin.style.display="none";
-  }
 });
 
 // ======================================================
-// HERO SLIDER
+// ================== 1. DAFTAR SISWA ====================
 // ======================================================
-const slides = document.querySelectorAll(".hero-bg img");
-const dotsWrap = document.getElementById("sliderDots");
-let slideIndex = 0;
-
-slides.forEach((_,i)=>{
-  const dot = document.createElement("span");
-  if(i===0) dot.classList.add("active");
-  dot.onclick=()=>showSlide(i);
-  dotsWrap.appendChild(dot);
+document.getElementById("btnDaftarSiswa")?.addEventListener("click", () => {
+  Swal.fire({
+    icon: "success",
+    title: "Pendaftaran Berhasil",
+    text: "Permintaan telah dicatat, tunggu informasi selanjutnya.",
+    confirmButtonText: "Tutup"
+  }).then(() => {
+    popupDaftar.style.right = "-100%";
+    overlayDaftar.style.display = "none";
+  });
 });
 
-function showSlide(i){
-  slides.forEach(s=>s.classList.remove("active"));
-  dotsWrap.querySelectorAll("span").forEach(d=>d.classList.remove("active"));
-  slides[i].classList.add("active");
-  dotsWrap.children[i].classList.add("active");
-  slideIndex=i;
-}
-
-setInterval(()=>{
-  showSlide((slideIndex+1)%slides.length);
-},6000);
-
 // ======================================================
-// LOGIN MANUAL
+// ================== 2. LOGIN MANUAL ====================
 // ======================================================
-document.getElementById("btnLogin").onclick=()=>{
+document.getElementById("btnLogin").onclick = () => {
   const usn = document.getElementById("email").value.trim();
   const pw  = document.getElementById("password").value.trim();
 
-  if(usn==="siswa" && pw==="siswa123"){
+  // ❌ kosong
+  if(!usn || !pw){
+    Swal.fire("Peringatan","Isi data terlebih dahulu untuk login","warning");
+    return;
+  }
+
+  // ✅ akun valid
+  if(usn === "siswa" && pw === "siswa123"){
     window.isUserLoggedIn = true;
     window.currentUser = { nama:"Arifah Ilmaniah" };
 
-    sessionStorage.setItem("isLoggedIn","true");
-    sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
+    Swal.fire({
+      icon: "success",
+      title: "Login Berhasil",
+      text: "Terimakasih sudah login, pilih kelas terlebih dahulu untuk melanjutkan."
+    });
 
-    Swal.fire("Login Berhasil","Selamat datang Arifah Ilmaniah","success");
-    document.querySelector(".hero-login").style.display="none";
     updateNavbarUser();
+
+    // scroll ke pilih kelas
+    document.getElementById("section-kelas")
+      ?.scrollIntoView({ behavior:"smooth" });
+
   } else {
     Swal.fire("Login Gagal","USN atau Password salah","error");
   }
 };
 
 // ======================================================
-// MAPEL & PERTEMUAN
+// =========== 3. LOGIN GOOGLE (FIREBASE) ================
 // ======================================================
-const sectionSemester=document.getElementById("section-semester");
-const sectionMapel=document.getElementById("section-mapel");
-const sectionPertemuan=document.getElementById("section-pertemuan");
-const mapelGrid=document.getElementById("mapel-grid");
-const pertemuanGrid=document.getElementById("pertemuan-grid");
 
-const kelasData={
+// 🔥 FIREBASE CONFIG (WAJIB GANTI PUNYA KAMU)
+const firebaseConfig = {
+  apiKey: "ISI_API_KEY",
+  authDomain: "ISI_AUTH_DOMAIN",
+  projectId: "ISI_PROJECT_ID",
+};
+
+// init firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
+
+// tombol login google
+document.getElementById("btnGoogleLogin")?.addEventListener("click", () => {
+  auth.signInWithPopup(provider)
+    .then(result => {
+      const email = result.user.email;
+
+      // ❗ hanya akun arifah
+      if(email !== "arifahilmaniah012@gmail.com"){
+        auth.signOut();
+        Swal.fire("Akses Ditolak","Akun Google tidak terdaftar","error");
+        return;
+      }
+
+      window.isUserLoggedIn = true;
+      window.currentUser = { nama:"Arifah Ilmaniah" };
+
+      Swal.fire({
+        icon:"success",
+        title:"Login Berhasil",
+        text:"Terimakasih sudah login, pilih kelas terlebih dahulu untuk melanjutkan."
+      });
+
+      updateNavbarUser();
+
+      document.getElementById("section-kelas")
+        ?.scrollIntoView({ behavior:"smooth" });
+    })
+    .catch(err => {
+      Swal.fire("Error", err.message, "error");
+    });
+});
+
+// ======================================================
+// =============== PILIH KELAS & MAPEL ===================
+// ======================================================
+const sectionSemester  = document.getElementById("section-semester");
+const sectionMapel     = document.getElementById("section-mapel");
+const sectionPertemuan = document.getElementById("section-pertemuan");
+const mapelGrid        = document.getElementById("mapel-grid");
+const pertemuanGrid    = document.getElementById("pertemuan-grid");
+
+const kelasData = {
   XI:{
     1:[
-      {name:"Konsentrasi keahlian 2 (Web)",open:true},
-      {name:"Mapel pilihan (framework)",open:false},
-      {name:"Matematika",open:false},
-      {name:"Pendidikan Pancasila dan kewarganegaraan",open:false},
-      {name:"Bahasa Indonesia",open:false},
-      {name:"Projek kreatif dan kewirausahaan",open:false},
-      {name:"Pjok",open:false},
-      {name:"Sejarah",open:false},
-      {name:"Pendidikan agama Islam dan Budi pekerti",open:false},
-      {name:"Bahasa inggris",open:false},
-      {name:"BK",open:false},
-      {name:"Konsentrasi keahlian 1 (PBO)",open:false},
-      {name:"Konsentrasi keahlian 4 (Android)",open:false},
-      {name:"Konsentrasi keahlian 3 (Basis data)",open:false}
+      [
+  { name: "Konsentrasi Keahlian 2 (Web)", open: true },
+  { name: "Mata Pelajaran Pilihan (Framework)", open: false },
+  { name: "Matematika", open: false },
+  { name: "Pendidikan Pancasila dan Kewarganegaraan", open: false },
+  { name: "Bahasa Indonesia", open: false },
+  { name: "Projek Kreatif dan Kewirausahaan", open: false },
+  { name: "PJOK", open: false },
+  { name: "Sejarah", open: false },
+  { name: "Pendidikan Agama Islam dan Budi Pekerti", open: false },
+  { name: "Bahasa Inggris", open: false },
+  { name: "Bimbingan Konseling (BK)", open: false },
+  { name: "Konsentrasi Keahlian 1 (PBO)", open: false },
+  { name: "Konsentrasi Keahlian 4 (Android)", open: false },
+  { name: "Konsentrasi Keahlian 3 (Basis Data)", open: false }
     ]
   }
 };
 
 document.querySelectorAll(".class-btn").forEach(btn=>{
-  btn.onclick=()=>{
+  btn.onclick = () => {
     if(!window.isUserLoggedIn){
       Swal.fire("Login dulu","Silakan login terlebih dahulu","info");
       return;
