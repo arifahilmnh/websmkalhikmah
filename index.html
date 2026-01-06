@@ -1224,7 +1224,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
     <span id="navUserText">Daftar Siswa</span>
   </button>
 </div>
-</div>
 </nav>
 
 <section class="hero">
@@ -1619,7 +1618,7 @@ window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
 // ======================================================
 // ELEMENT
 // ======================================================
-const popupDaftar = document.getElementById("popup-daftar-siswa");
+const popupDaftar = document.getElementById("popup-daftar");
 const overlayDaftar = document.getElementById("overlay-daftar");
 
 // ======================================================
@@ -1638,9 +1637,10 @@ function updateNavbarUser(){
       Swal.fire({
         icon: "info",
         title: "Pendaftaran Selesai",
-        text: "Permintaan telah dicatat."
+        text: "Permintaan telah dicatat, Silakan tunggu informasi selanjutnya.",
+        confirmButtonColor: "#34d399"
       });
-    }
+    };
   } else {
     btn.innerHTML = `
       <i class="fa-solid fa-user-plus"></i>
@@ -1679,28 +1679,36 @@ document.addEventListener("DOMContentLoaded", () => {
 // HERO SLIDER
 // ======================================================
 const slides = document.querySelectorAll(".hero-bg img");
-const dotsWrap = document.getElementById("sliderDots");
-let slideIndex = 0;
+const dotsContainer = document.getElementById("sliderDots");
+let currentSlide = 0;
 
-slides.forEach((_,i)=>{
+// Buat dots
+slides.forEach((_, i) => {
   const dot = document.createElement("span");
-  if(i===0) dot.classList.add("active");
-  dot.onclick=()=>showSlide(i);
-  dotsWrap.appendChild(dot);
+  if (i === 0) dot.classList.add("active");
+  dot.addEventListener("click", () => showSlide(i));
+  dotsContainer.appendChild(dot);
 });
 
-function showSlide(i){
-  slides.forEach(s=>s.classList.remove("active"));
-  dotsWrap.querySelectorAll("span").forEach(d=>d.classList.remove("active"));
-  slides[i].classList.add("active");
-  dotsWrap.children[i].classList.add("active");
-  slideIndex=i;
+const dots = dotsContainer.querySelectorAll("span");
+
+function showSlide(index) {
+  slides[currentSlide].classList.remove("active");
+  dots[currentSlide].classList.remove("active");
+
+  currentSlide = index;
+
+  slides[currentSlide].classList.add("active");
+  dots[currentSlide].classList.add("active");
 }
 
-setInterval(()=>{
-  showSlide((slideIndex+1)%slides.length);
-},6000);
+function nextSlide() {
+  let next = (currentSlide + 1) % slides.length;
+  showSlide(next);
+}
 
+// Auto slide tiap 5 detik
+setInterval(nextSlide, 5000);
 // ======================================================
 // LOGIN MANUAL
 // ======================================================
@@ -1799,9 +1807,51 @@ function loadingKeAbsensi(){
   setTimeout(()=>location.href="absensi.html",1500);
 }
 
-  window.addEventListener("load", () => {
-  document.getElementById("preloader").classList.add("hidden");
-});
+  // ======================================================
+// LOGIN GOOGLE (SIMULASI)
+// ======================================================
+const btnGoogle = document.getElementById("btnGoogle");
+
+if (btnGoogle) {
+  btnGoogle.addEventListener("click", () => {
+    Swal.fire({
+      icon: "success",
+      title: "Login Google Berhasil",
+      text: "Anda masuk menggunakan akun Google",
+      confirmButtonColor: "#34d399"
+    });
+
+    // Simpan login (dummy)
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("currentUser", JSON.stringify({
+      nama: "Siswa RPL",
+      role: "student"
+    }));
+
+    window.isUserLoggedIn = true;
+    window.currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    updateNavbarUser();
+  });
+}
+
+// ======================================================
+// SCROLL REVEAL
+// ======================================================
+const revealElements = document.querySelectorAll(".reveal");
+
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.15 }
+);
+
+revealElements.forEach(el => revealObserver.observe(el));
 </script>
 </body>
 </html>
