@@ -88,12 +88,20 @@ async function simpanUser(user) {
 }
 
 // ================= CEK LOGIN STATE =================
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    window.isUserLoggedIn = true;
-    tampilkanNama(user);
-    document.body.classList.add("logged-in");
-
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.isUserLoggedIn = true;
+        window.currentUser = {
+          nama: user.displayName || "Siswa"
+        };
+    
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("currentUser", JSON.stringify(window.currentUser));
+    
+        document.querySelector(".hero-login")?.style.display = "none";
+        updateNavbarUser?.();
+      }
+    });
     // 🔥 UNLOCK UI SETELAH LOGIN
     const heroLogin = document.querySelector(".hero-login");
     if (heroLogin) heroLogin.style.display = "none";
