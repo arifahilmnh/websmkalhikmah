@@ -21,7 +21,7 @@ const btnLogin      = document.getElementById("btnLogin");
 const btnGoogle     = document.getElementById("btnGoogle");
 
 // ================= LOGIN EMAIL =================
-btnLogin.addEventListener("click", async () => {
+btnLogin?.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
@@ -33,24 +33,36 @@ btnLogin.addEventListener("click", async () => {
   try {
     const result = await signInWithEmailAndPassword(auth, email, password);
     await simpanUser(result.user);
-    Swal.fire("Berhasil", "Login sukses", "success");
+
+    Swal.fire({
+      icon: "success",
+      title: "Login berhasil",
+      timer: 1500,
+      showConfirmButton: false
+    });
   } catch (err) {
-    Swal.fire("Gagal", err.message, "error");
+    Swal.fire("Login gagal", err.message, "error");
   }
 });
 
 // ================= LOGIN GOOGLE =================
-btnGoogle.addEventListener("click", async () => {
+btnGoogle?.addEventListener("click", async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     await simpanUser(result.user);
-    Swal.fire("Berhasil", "Login Google sukses", "success");
+
+    Swal.fire({
+      icon: "success",
+      title: "Login Google berhasil",
+      timer: 1500,
+      showConfirmButton: false
+    });
   } catch (err) {
-    Swal.fire("Gagal", err.message, "error");
+    Swal.fire("Login Google gagal", err.message, "error");
   }
 });
 
-// ================= SIMPAN USER KE FIRESTORE =================
+// ================= SIMPAN USER FIRESTORE =================
 async function simpanUser(user) {
   const ref = doc(db, "siswa", user.uid);
   const snap = await getDoc(ref);
@@ -71,12 +83,16 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     tampilkanNama(user);
     aktifkanAkses();
+  } else {
+    nonaktifkanAkses();
   }
 });
 
-// ================= TAMPILKAN NAMA DI NAVBAR =================
+// ================= NAVBAR =================
 function tampilkanNama(user) {
   const nav = document.querySelector(".nav-action");
+  if (!nav) return;
+
   nav.innerHTML = `
     <div style="display:flex;align-items:center;gap:10px;font-weight:600">
       <i class="fa-solid fa-user"></i>
@@ -85,7 +101,11 @@ function tampilkanNama(user) {
   `;
 }
 
-// ================= AKTIFKAN FLOW KELAS =================
+// ================= FLOW AKSES =================
 function aktifkanAkses() {
-  window.loggedIn = true;
+  document.body.classList.add("logged-in");
+}
+
+function nonaktifkanAkses() {
+  document.body.classList.remove("logged-in");
 }
