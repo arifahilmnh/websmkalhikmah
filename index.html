@@ -1705,16 +1705,22 @@ let selectedClass = null;
 // ================= Kelas =================
 document.querySelectorAll('.class-btn').forEach(btn => {
   btn.onclick = () => {
-    if(!loggedIn){
+
+    if(!window.isUserLoggedIn){
       Swal.fire({icon:'info', title:'Silakan login terlebih dahulu'})
-        .then(()=>document.querySelector('.hero-login').scrollIntoView({behavior:"smooth", block:"center"}));
+        .then(() => {
+          document.querySelector('.hero-login')
+            .scrollIntoView({behavior:"smooth", block:"center"});
+        });
       return;
     }
+
     const kelas = btn.dataset.class;
     if(kelas !== "XI"){
       Swal.fire({icon:'info', title:'Coming Soon'});
       return;
     }
+
     selectedClass = kelas;
     showSemester();
   };
@@ -1830,17 +1836,19 @@ popupDaftar.querySelector('.close')?.addEventListener('click', () => {
 
 btnSubmitForm.onclick = (e) => {
   e.preventDefault();
-  if(!loggedIn){
+
+  if(!window.isUserLoggedIn){
     Swal.fire({icon:'info', title:'Harap login untuk mengakses pembelajaran'})
       .then(() => {
-        document.querySelector('.hero-login').scrollIntoView({behavior:"smooth", block:"center"});
+        document.querySelector('.hero-login')
+          .scrollIntoView({behavior:"smooth", block:"center"});
         popupDaftar.style.right = '-420px';
         overlayDaftar.style.display = 'none';
       });
     return;
   }
 
-  Swal.fire({icon:'success', title:'Pendaftaran berhasil!', showConfirmButton:true})
+  Swal.fire({icon:'success', title:'Pendaftaran berhasil!'})
     .then(() => {
       popupDaftar.style.right = '-420px';
       overlayDaftar.style.display = 'none';
