@@ -1,136 +1,91 @@
 // js/login-siswa.js
-
-/* ===============================
-   IMPORT FIREBASE SERVICE
-================================ */
-import { auth, provider, db } from "./firebase.js";
+import { auth, db, googleProvider } from "./firebase.js";
 
 import {
- signInWithEmailAndPassword,
- signInWithPopup
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
- doc,
- setDoc,
- serverTimestamp
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* ===============================
-   ELEMENT
-================================ */
-const emailInput = document.getElementById("email");
+// ================= ELEMENT =================
+const emailInput    = document.getElementById("email");
 const passwordInput = document.getElementById("password");
-const btnLogin = document.getElementById("btnLogin");
-const btnGoogle = document.getElementById("btnGoogle");
+const btnLogin      = document.getElementById("btnLogin");
+const btnGoogle     = document.getElementById("btnGoogle");
 
-/* ===============================
-   SWEETALERT BASE
-================================ */
-const swalBase = Swal.mixin({
- confirmButtonColor: "#10b981",
- backdrop: `rgba(16,185,129,.15)`
+// ================= LOGIN EMAIL =================
+btnLogin.addEventListener("click", async () => {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!email || !password) {
+    Swal.fire("Oops", "Email dan password wajib diisi", "warning");
+    return;
+  }
+
+  try {
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    await simpanUser(result.user);
+    Swal.fire("Berhasil", "Login sukses", "success");
+  } catch (err) {
+    Swal.fire("Gagal", err.message, "error");
+  }
 });
 
-/* ===============================
-   LOGIN EMAIL & PASSWORD
-================================ */
-btnLogin?.addEventListener("click", async () => {
- const email = emailInput.value.trim();
- const password = passwordInput.value.trim();
-
- if (!email || !password) {
-  return swalBase.fire({
-   icon: "warning",
-   title: "Data belum lengkap",
-   text: "Email dan password wajib diisi"
-  });
- }
-
- try {
-  const res = await signInWithEmailAndPassword(auth, email, password);
-
-  await saveUser(res.user);
-
-  swalBase.fire({
-   icon: "success",
-   title: "Login berhasil 🎉",
-   text: "Selamat datang kembali",
-   timer: 1600,
-   showConfirmButton: false
-  }).then(() => {
-   window.location.href = "BERANDA.html";
-  });
-
- } catch (err) {
-  handleAuthError(err);
- }
+// ================= LOGIN GOOGLE =================
+btnGoogle.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    await simpanUser(result.user);
+    Swal.fire("Berhasil", "Login Google sukses", "success");
+  } catch (err) {
+    Swal.fire("Gagal", err.message, "error");
+  }
 });
 
-/* ===============================
-   LOGIN GOOGLE
-================================ */
-btnGoogle?.addEventListener("click", async () => {
- try {
-  const res = await signInWithPopup(auth, provider);
+// ================= SIMPAN USER KE FIRESTORE =================
+async function simpanUser(user) {
+  const ref = doc(db, "siswa", user.uid);
+  const snap = await getDoc(ref);
 
-  await saveUser(res.user);
-
-  swalBase.fire({
-   icon: "success",
-   title: "Login Google berhasil 🎉",
-   timer: 1600,
-   showConfirmButton: false
-  }).then(() => {
-   window.location.href = "BERANDA.html";
-  });
-
- } catch (err) {
-  handleAuthError(err);
- }
-});
-
-/* ===============================
-   SAVE USER TO FIRESTORE
-================================ */
-async function saveUser(user) {
- if (!user) return;
-
- const userRef = doc(db, "users", user.uid);
-
- await setDoc(userRef, {
-  uid: user.uid,
-  nama: user.displayName || "Siswa",
-  email: user.email,
-  role: "siswa",
-  lastLogin: serverTimestamp()
- }, { merge: true });
+  if (!snap.exists()) {
+    await setDoc(ref, {
+      uid: user.uid,
+      nama: user.displayName || "Siswa",
+      email: user.email,
+      role: "siswa",
+      createdAt: serverTimestamp()
+    });
+  }
 }
 
-/* ===============================
-   HANDLE ERROR
-================================ */
-function handleAuthError(error) {
- let message = "Terjadi kesalahan saat login";
+// ================= CEK LOGIN STATE =================
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    tampilkanNama(user);
+    aktifkanAkses();
+  }
+});
 
- switch (error.code) {
-  case "auth/user-not-found":
-   message = "Akun tidak ditemukan";
-   break;
-  case "auth/wrong-password":
-   message = "Password salah";
-   break;
-  case "auth/invalid-email":
-   message = "Format email tidak valid";
-   break;
-  case "auth/popup-closed-by-user":
-   message = "Login Google dibatalkan";
-   break;
- }
+// ================= TAMPILKAN NAMA DI NAVBAR =================
+function tampilkanNama(user) {
+  const nav = document.querySelector(".nav-action");
+  nav.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;font-weight:600">
+      <i class="fa-solid fa-user"></i>
+      <span>${user.displayName || user.email}</span>
+    </div>
+  `;
+}
 
- swalBase.fire({
-  icon: "error",
-  title: "Login gagal",
-  text: message
- });
+// ================= AKTIFKAN FLOW KELAS =================
+function aktifkanAkses() {
+  window.loggedIn = true;
 }
