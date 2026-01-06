@@ -1609,8 +1609,11 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </footer>
 
 <script>
-window.isUserLoggedIn = false;
-window.currentUser = null;
+// ======================================================
+// GLOBAL LOGIN STATE
+// ======================================================
+window.isUserLoggedIn = sessionStorage.getItem("isLoggedIn") === "false";
+window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
 
 // ======================================================
 // ELEMENT
@@ -1649,6 +1652,19 @@ function updateNavbarUser(){
     };
   }
 }
+
+  document.getElementById("submit-daftar").addEventListener("click", () => {
+  Swal.fire({
+    icon: "success",
+    title: "Permintaan Dicatat",
+    text: "Tunggu informasi selanjutnya dari pihak sekolah.",
+    confirmButtonColor: "#34d399"
+  }).then(() => {
+    popupDaftar.style.right = "-420px";
+    overlayDaftar.style.display = "none";
+  });
+});
+
 // ======================================================
 // DOM READY
 // ======================================================
@@ -1665,9 +1681,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.classList.add("page-enter");
   updateNavbarUser();
-
-});
-
 // ======================================================
 // HERO SLIDER
 // ======================================================
@@ -1697,6 +1710,10 @@ setInterval(()=>{
 // ======================================================
 // LOGIN MANUAL
 // ======================================================
+const btnLogin = document.getElementById("btnLogin");
+const emailInput = document.getElementById("email");
+const passInput = document.getElementById("password");
+
 btnLogin.addEventListener("click", () => {
   const user = emailInput.value.trim();
   const pass = passInput.value.trim();
@@ -1731,7 +1748,6 @@ btnLogin.addEventListener("click", () => {
     });
   }
 });
-
 // ======================================================
 // MAPEL & PERTEMUAN
 // ======================================================
@@ -1816,18 +1832,48 @@ window.addEventListener("load", () => {
 const btnDaftarNav = document.getElementById("navUserBtn");
 const popupDaftar = document.getElementById("popup-daftar");
 const overlayDaftar = document.getElementById("overlay-daftar");
-const submitDaftar = document.getElementById("submit-daftar").addEventListener("click", () => {
+const submitDaftar = document.getElementById("submit-daftar");
+
+/* buka popup daftar */
+btnDaftarNav.addEventListener("click", () => {
+  popupDaftar.style.right = "0";
+  overlayDaftar.style.display = "block";
+});
+
+/* tutup popup */
+overlayDaftar.addEventListener("click", closeDaftar);
+function closeDaftar(){
+  popupDaftar.style.right = "-420px";
+  overlayDaftar.style.display = "none";
+}
+
+/* submit daftar */
+submitDaftar.addEventListener("click", () => {
+  const inputs = popupDaftar.querySelectorAll("input");
+  let kosong = false;
+
+  inputs.forEach(i => {
+    if(i.value.trim() === "") kosong = true;
+  });
+
+  if(kosong){
+    Swal.fire({
+      icon:"warning",
+      title:"Data belum lengkap",
+      text:"Silakan isi seluruh data pendaftaran"
+    });
+    return;
+  }
+
   Swal.fire({
-    icon: "success",
-    title: "Permintaan Dicatat",
-    text: "Tunggu informasi selanjutnya dari pihak sekolah.",
-    confirmButtonColor: "#34d399"
+    icon:"success",
+    title:"Permintaan Dicatat",
+    text:"Tunggu informasi selanjutnya dari pihak sekolah"
   }).then(() => {
-    popupDaftar.style.right = "-420px";
-    overlayDaftar.style.display = "none";
+    inputs.forEach(i => i.value = "");
+    closeDaftar();
   });
 });
-  
 </script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
