@@ -9,6 +9,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
 <style>
   /* ================= PRELOADER ================= */
 #preloader {
@@ -1243,21 +1244,17 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 
   <div class="hero-login">
-  <h3>Login E-Learning</h3>
-
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
-
-  <button id="btnLogin">Masuk</button>
-
-  <div class="divider">atau</div>
-
-  <button class="btn-google" id="btnGoogle">
+   <h3>Login E-Learning</h3>
+   <input placeholder="Email / NIS">
+   <input type="password" placeholder="Password">
+   <button>Masuk</button>
+   <div class="divider">atau</div>
+   <button class="btn-google">
     <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="20">
     Login dengan Google
-  </button>
-</div>
+   </button>
   </div>
+ </div>
 </section>
 
 <section class="about">
@@ -1694,6 +1691,53 @@ document.querySelectorAll('.count').forEach(counter => {
   update();
 });
 
+// ================= LOGIN SYSTEM =================
+const LOGIN_USER = "siswa";
+const LOGIN_PASS = "siswa123";
+let loggedIn = false;
+
+const loginBtn = document.querySelector('.hero-login button');
+const loginInputs = document.querySelectorAll('.hero-login input');
+
+loginBtn.onclick = () => {
+  const username = loginInputs[0].value.trim();
+  const password = loginInputs[1].value.trim();
+
+  if(!username || !password){
+    Swal.fire({icon:'warning', title:'Oops...', text:'Username dan password wajib diisi!'});
+    return;
+  }
+
+  if(username === LOGIN_USER && password === LOGIN_PASS){
+    loggedIn = true;
+    sessionStorage.setItem("wasLoggedIn","true");
+    sessionStorage.setItem("nama", username);
+
+    loginBtn.innerText = "Sudah Login";
+    loginBtn.disabled = true;
+    loginBtn.style.opacity = ".7";
+    loginInputs.forEach(i => { i.disabled = true; i.style.opacity = ".7"; });
+
+    tampilkanNama();
+    Swal.fire({icon:'success', title:'Login Berhasil', text:'Silakan pilih kelas', timer:1500, showConfirmButton:false});
+    document.querySelector('.class-grid').scrollIntoView({behavior:"smooth", block:"center"});
+  } else {
+    Swal.fire({icon:'error', title:'Gagal', text:'Username atau password salah!'});
+  }
+};
+
+function tampilkanNama(){
+  const nama = sessionStorage.getItem("nama");
+  if(nama){
+    document.querySelector('.nav-action').innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;font-weight:600">
+        <i class="fa-solid fa-user"></i>
+        <span>${nama}</span>
+      </div>
+    `;
+  }
+}
+
 // ================= FLOW KELAS → SEMESTER → MAPEL → PERTEMUAN =================
 const sectionSemester   = document.getElementById('section-semester');
 const sectionMapel      = document.getElementById('section-mapel');
@@ -1871,6 +1915,5 @@ const flowObserver = new IntersectionObserver(entries=>{
 
 flowItems.forEach(item=>flowObserver.observe(item));
 </script>
-  <script type="module" src="js/login-siswa.js"></script>
 </body>
 </html>
