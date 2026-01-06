@@ -1609,11 +1609,12 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </footer>
 
 <script>
+<script>
 // ======================================================
 // GLOBAL LOGIN STATE
 // ======================================================
-window.isUserLoggedIn = false;
-window.currentUser = null;
+window.isUserLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
 
 // ======================================================
 // PRELOADER & PAGE ENTER
@@ -1632,6 +1633,11 @@ window.addEventListener('load', () => {
   }
 
   document.body.classList.add('page-enter');
+
+  if(window.isUserLoggedIn){
+    document.querySelector('.hero-login').style.display="none";
+  }
+
   document.querySelector('.hero').scrollIntoView({behavior:"smooth"});
 });
 
@@ -1786,7 +1792,7 @@ function showPertemuan(mapel){
 }
 
 // ======================================================
-// LOGIN MANUAL (FINAL)
+// LOGIN MANUAL (FINAL & FIX)
 // ======================================================
 document.getElementById("btnLogin").onclick=()=>{
   const usn=document.getElementById("email").value.trim();
@@ -1794,7 +1800,10 @@ document.getElementById("btnLogin").onclick=()=>{
 
   if(usn==="siswa" && pw==="siswa123"){
     window.isUserLoggedIn=true;
-    window.currentUser={nama:"Arifah Ilmaniah"};
+    window.currentUser={nama:"Siswa"};
+
+    sessionStorage.setItem("isLoggedIn","true");
+    sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
 
     Swal.fire({
       icon:"success",
@@ -1811,7 +1820,7 @@ document.getElementById("btnLogin").onclick=()=>{
 };
 
 // ======================================================
-// LOGIN GOOGLE (FINAL)
+// LOGIN GOOGLE (FINAL & TERINTEGRASI)
 // ======================================================
 document.getElementById("btnGoogle").onclick=()=>{
   const email=prompt("Masukkan email Google");
@@ -1820,6 +1829,9 @@ document.getElementById("btnGoogle").onclick=()=>{
   if(email==="arifahilmaniah012@gmail.com"){
     window.isUserLoggedIn=true;
     window.currentUser={nama:"Arifah Ilmaniah"};
+
+    sessionStorage.setItem("isLoggedIn","true");
+    sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
 
     Swal.fire({
       icon:"success",
@@ -1830,10 +1842,23 @@ document.getElementById("btnGoogle").onclick=()=>{
 
     document.querySelector(".hero-login").style.display="none";
   }else{
-    Swal.fire("Belum terdaftar","Silakan daftar dulu","info");
-    document.getElementById("popup-daftar").style.right="0";
-    document.getElementById("overlay-daftar").style.display="block";
+    Swal.fire("Belum terdaftar","Silakan daftar dulu","info")
+      .then(()=>{
+        document.getElementById("popup-daftar").style.right="0";
+        document.getElementById("overlay-daftar").style.display="block";
+      });
   }
+};
+
+// ======================================================
+// POPUP DAFTAR SISWA
+// ======================================================
+const popupDaftar=document.getElementById("popup-daftar");
+const overlayDaftar=document.getElementById("overlay-daftar");
+
+overlayDaftar.onclick=()=>{
+  popupDaftar.style.right="-420px";
+  overlayDaftar.style.display="none";
 };
 
 // ======================================================
