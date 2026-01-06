@@ -20,10 +20,13 @@ const passwordInput = document.getElementById("password");
 const btnLogin      = document.getElementById("btnLogin");
 const btnGoogle     = document.getElementById("btnGoogle");
 
+// ================= GLOBAL LOGIN STATE =================
+window.isUserLoggedIn = false;
+
 // ================= LOGIN EMAIL =================
 btnLogin?.addEventListener("click", async () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
+  const email = emailInput?.value.trim();
+  const password = passwordInput?.value.trim();
 
   if (!email || !password) {
     Swal.fire("Oops", "Email dan password wajib diisi", "warning");
@@ -37,9 +40,13 @@ btnLogin?.addEventListener("click", async () => {
     Swal.fire({
       icon: "success",
       title: "Login berhasil",
-      timer: 1500,
+      text: "Silakan pilih kelas",
+      timer: 1600,
       showConfirmButton: false
+    }).then(() => {
+      document.querySelector(".hero-login")?.style.display = "none";
     });
+
   } catch (err) {
     Swal.fire("Login gagal", err.message, "error");
   }
@@ -54,9 +61,13 @@ btnGoogle?.addEventListener("click", async () => {
     Swal.fire({
       icon: "success",
       title: "Login Google berhasil",
-      timer: 1500,
+      text: "Silakan pilih kelas",
+      timer: 1600,
       showConfirmButton: false
+    }).then(() => {
+      document.querySelector(".hero-login")?.style.display = "none";
     });
+
   } catch (err) {
     Swal.fire("Login Google gagal", err.message, "error");
   }
@@ -81,14 +92,16 @@ async function simpanUser(user) {
 // ================= CEK LOGIN STATE =================
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    window.isUserLoggedIn = true;
     tampilkanNama(user);
-    aktifkanAkses();
+    document.body.classList.add("logged-in");
   } else {
-    nonaktifkanAkses();
+    window.isUserLoggedIn = false;
+    document.body.classList.remove("logged-in");
   }
 });
 
-// ================= NAVBAR =================
+// ================= TAMPILKAN NAMA DI NAVBAR =================
 function tampilkanNama(user) {
   const nav = document.querySelector(".nav-action");
   if (!nav) return;
@@ -100,25 +113,3 @@ function tampilkanNama(user) {
     </div>
   `;
 }
-
-// ================= FLOW AKSES =================
-function aktifkanAkses() {
-  document.body.classList.add("logged-in");
-}
-
-function nonaktifkanAkses() {
-  document.body.classList.remove("logged-in");
-}
-
-// GLOBAL LOGIN STATE (BRIDGE KE HTML LAMA)
-window.isUserLoggedIn = false;
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    window.isUserLoggedIn = true;
-    tampilkanNama(user);
-  } else {
-    window.isUserLoggedIn = false;
-  }
-});
-
