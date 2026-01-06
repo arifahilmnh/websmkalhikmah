@@ -1627,10 +1627,6 @@ window.addEventListener('load', () => {
 
   document.body.classList.add('page-enter');
 
-  // Reset login lama saat reload
-  localStorage.removeItem("login");
-  localStorage.removeItem("nama");
-
   if (sessionStorage.getItem("wasLoggedIn")) {
     Swal.fire({
       icon: 'info',
