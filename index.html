@@ -1702,22 +1702,43 @@ function updateNavbarUser(){
   }
 }
 
-// ======================================================
-// DOM READY
-// ======================================================
 document.addEventListener("DOMContentLoaded", () => {
 
-  const preloader = document.getElementById("preloader");
+  const popupDaftar   = document.getElementById("popup-daftar");
+  const overlayDaftar = document.getElementById("overlay-daftar");
+  const closeDaftar   = document.getElementById("close-daftar");
 
-  // PRELOADER
-  if(preloader){
-    setTimeout(()=>{
-      preloader.classList.add("hidden");
-    },800);
+  // PASTIKAN SEMUA ADA
+  if(!popupDaftar || !overlayDaftar){
+    console.error("Popup / Overlay tidak ditemukan");
+    return;
   }
 
-  document.body.classList.add("page-enter");
-  updateNavbarUser();
+  // ==== DEFAULT STATE (INI PENTING) ====
+  popupDaftar.classList.remove("show");
+  overlayDaftar.classList.remove("show");
+
+  // ==== FUNCTION OPEN ====
+  window.openDaftar = function(){
+    popupDaftar.classList.add("show");
+    overlayDaftar.classList.add("show");
+    document.body.style.overflow = "hidden";
+  };
+
+  // ==== FUNCTION CLOSE ====
+  function closePopup(){
+    popupDaftar.classList.remove("show");
+    overlayDaftar.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+
+  if(closeDaftar){
+    closeDaftar.onclick = closePopup;
+  }
+
+  overlayDaftar.onclick = closePopup;
+
+});
 // ======================================================
 // HERO SLIDER
 // ======================================================
