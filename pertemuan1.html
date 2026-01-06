@@ -1,0 +1,1752 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pertemuan 1 | Struktur Dasar HTML</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+:root{
+ --primary:#34d399;
+ --secondary:#10b981;
+ --accent:#6ee7b7;
+ --dark:#064e3b;
+ --glass:rgba(255,255,255,.82);
+}
+
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Poppins,sans-serif;
+ background:
+  radial-gradient(circle at top left,#bbf7d0,transparent 45%),
+  radial-gradient(circle at bottom right,#99f6e4,transparent 45%),
+  linear-gradient(180deg,#ecfdf5,#f8fdfb);
+ color:var(--dark);
+ overflow-x:hidden;
+}
+
+/* ================= NAVBAR ================= */
+nav{
+ position:fixed;
+ top:0;left:0;width:100%;
+ z-index:99;
+ background:rgba(255,255,255,.92);
+ backdrop-filter:blur(22px);
+ padding:14px 36px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ font-weight:800;
+ font-size:18px;
+}
+
+.brand img{
+ width:44px;
+ border-radius:50%;
+ box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+
+.nav-user{
+ font-size:14px;
+ font-weight:600;
+ opacity:.9;
+}
+
+/* ================= PROGRESS ================= */
+.progress{
+ position:fixed;
+ top:78px;
+ left:50%;
+ transform:translateX(-50%);
+ width:90%;
+ height:10px;
+ background:#d1fae5;
+ border-radius:999px;
+ overflow:hidden;
+ z-index:98;
+ box-shadow:inset 0 3px 6px rgba(0,0,0,.1);
+}
+
+.progress span{
+ position:relative;
+ display:block;
+ height:100%;
+ width:0%;
+ border-radius:999px;
+ background:
+  linear-gradient(
+   90deg,
+   #6ee7b7,
+   #34d399,
+   #10b981,
+   #34d399
+  );
+ background-size:300% 100%;
+ animation:progressFlow 4s linear infinite;
+ transition:
+  width 1.6s cubic-bezier(.22,1,.36,1);
+ box-shadow:
+  0 0 0 rgba(16,185,129,0);
+}
+
+/* Glow pulse saat update */
+.progress span.active{
+ box-shadow:
+  0 0 18px rgba(16,185,129,.8),
+  0 0 36px rgba(16,185,129,.6);
+}
+
+/* Kilau berjalan */
+.progress span::after{
+ content:"";
+ position:absolute;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background:
+  linear-gradient(
+   120deg,
+   transparent,
+   rgba(255,255,255,.6),
+   transparent
+  );
+ transform:translateX(-100%);
+ animation:shine 2.5s infinite;
+}
+
+@keyframes progressFlow{
+ from{background-position:0%}
+ to{background-position:300%}
+}
+
+@keyframes shine{
+ 0%{transform:translateX(-100%)}
+ 50%{transform:translateX(100%)}
+ 100%{transform:translateX(100%)}
+}
+
+/* ================= SECTION ================= */
+section{
+ padding:160px 20px 120px;
+ display:none;
+ justify-content:center;
+}
+
+section.active{
+ display:flex;
+ animation:pageIn .8s cubic-bezier(.2,.8,.2,1);
+}
+
+section.exit{
+ animation:pageOut .5s ease forwards;
+}
+
+@keyframes pageIn{
+ from{opacity:0;transform:translateY(40px) scale(.97)}
+ to{opacity:1;transform:none}
+}
+
+@keyframes pageOut{
+ to{opacity:0;transform:translateY(-40px) scale(.98)}
+}
+
+/* ================= CONTAINER ================= */
+.container{
+ width:100%;
+ max-width:920px;
+ background:linear-gradient(
+   180deg,
+   rgba(255,255,255,.9),
+   rgba(255,255,255,.75)
+ );
+ backdrop-filter:blur(28px);
+ border-radius:40px;
+ padding:58px 54px;
+ box-shadow:
+  0 40px 100px rgba(0,0,0,.18),
+  inset 0 0 0 1px rgba(255,255,255,.7);
+ position:relative;
+ overflow:hidden;
+}
+
+.container::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:
+  radial-gradient(circle at top right,#bbf7d0,transparent 40%),
+  radial-gradient(circle at bottom left,#99f6e4,transparent 40%);
+ opacity:.4;
+ pointer-events:none;
+}
+/* ================= BOX MATERI ================= */
+.box{
+ background:rgba(255,255,255,.75);
+ border-left:8px solid var(--primary);
+ padding:34px;
+ border-radius:30px;
+ line-height:2;
+ box-shadow:
+  0 20px 60px rgba(0,0,0,.08),
+  inset 0 0 0 1px rgba(16,185,129,.2);
+ backdrop-filter:blur(14px);
+}
+
+pre{
+ background:#022c22;
+ color:#ecfeff;
+ padding:18px 22px;
+ border-radius:18px;
+ overflow:auto;
+ margin-top:18px;
+ font-size:13px;
+}
+
+/* ================= VIDEO ================= */
+iframe{
+ width:100%;
+ height:420px;
+ border-radius:28px;
+ border:none;
+ margin:40px 0;
+ box-shadow:0 25px 50px rgba(0,0,0,.25);
+}
+
+/* ================= QUIZ ================= */
+.quiz{
+ margin-top:70px;
+ display:none;
+ animation:quizIn .6s ease;
+}
+
+@keyframes quizIn{
+ from{opacity:0;transform:translateY(40px)}
+ to{opacity:1}
+}
+
+.quiz-card{
+ background:#ffffff;
+ padding:28px;
+ border-radius:28px;
+ box-shadow:0 18px 40px rgba(0,0,0,.12);
+ margin-bottom:26px;
+ transition:.35s;
+}
+
+.quiz-card h4{
+ margin-bottom:14px;
+ font-size:16px;
+}
+
+.quiz-card label{
+ display:block;
+ margin-top:12px;
+ padding:14px 18px;
+ border-radius:18px;
+ background:#f0fdf4;
+ cursor:pointer;
+ transition:.25s;
+}
+
+.quiz-card label:hover{
+ background:#dcfce7;
+ transform:translateX(6px);
+ transform:translateY(-6px);
+ box-shadow:0 30px 60px rgba(0,0,0,.18);
+
+}
+
+.quiz-card input{
+ accent-color:#34d399;
+}
+/* ================= BUTTON ================= */
+button{
+ margin-top:48px;
+ padding:18px 64px;
+ border-radius:999px;
+ border:none;
+ font-weight:700;
+ font-size:15px;
+ letter-spacing:.3px;
+ color:#064e3b;
+ cursor:pointer;
+ background:
+  linear-gradient(135deg,#6ee7b7,#34d399);
+ box-shadow:
+  0 22px 60px rgba(16,185,129,.45),
+  inset 0 -6px 14px rgba(0,0,0,.1);
+ transition:.35s cubic-bezier(.2,.8,.2,1);
+ position:relative;
+ overflow:hidden;
+}
+
+button::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:linear-gradient(
+  120deg,
+  transparent,
+  rgba(255,255,255,.45),
+  transparent
+ );
+ transform:translateX(-100%);
+ transition:.6s;
+}
+
+button:hover::after{
+ transform:translateX(100%);
+}
+
+button:hover{
+ transform:translateY(-8px) scale(1.04);
+ box-shadow:0 36px 90px rgba(16,185,129,.65);
+}
+
+/* ================= FOOTER ================= */
+footer{
+ background:#064e3b;
+ color:#ecfeff;
+ text-align:center;
+ padding:22px;
+ font-size:13px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:720px){
+ .container{padding:42px 28px}
+ iframe{height:240px}
+}
+
+:target {
+ scroll-margin-top: 140px;
+}
+
+.title{
+ font-size:34px;
+ font-weight:800;
+ letter-spacing:-.5px;
+ margin-bottom:6px;
+}
+
+.subtitle{
+ font-size:15px;
+ opacity:.8;
+ margin-bottom:34px;
+}
+
+/* ================= BADGE ================= */
+.badge{
+ display:inline-flex;
+ align-items:center;
+ gap:10px;
+ padding:12px 22px;
+ border-radius:999px;
+ background:linear-gradient(135deg,#fef3c7,#fde68a);
+ color:#92400e;
+ font-weight:700;
+ box-shadow:0 18px 40px rgba(0,0,0,.18);
+ margin-top:18px;
+}
+
+.badge i{
+ font-size:22px;
+}
+
+/* ================= RANGKUMAN & LATIHAN ================= */
+
+.section-head{
+ text-align:center;
+ margin:80px auto 56px;
+ max-width:720px;
+}
+
+.section-head h2{
+ font-size:38px;
+ font-weight:900;
+ letter-spacing:-.8px;
+ line-height:1.2;
+}
+
+.section-head p{
+ margin-top:14px;
+ font-size:15.5px;
+ opacity:.85;
+ line-height:1.7;
+}
+
+.section-divider{
+ width:160px;
+ height:6px;
+ margin:22px auto 0;
+ border-radius:999px;
+ background:linear-gradient(90deg,#6ee7b7,#10b981);
+ box-shadow:0 16px 36px rgba(16,185,129,.45);
+}
+
+/* ================= RANGKUMAN IMPROVED ================= */
+
+.summary-grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+ gap:42px;
+ margin:64px 0 90px;
+}
+
+.summary-item{
+ background:linear-gradient(180deg,#ffffff,#f0fdf4);
+ padding:38px 36px 40px;
+ border-radius:34px;
+ box-shadow:0 28px 70px rgba(0,0,0,.14);
+ border-top:7px solid var(--primary);
+ position:relative;
+ display:flex;
+ flex-direction:column;
+ min-height:280px;
+ transition:.35s cubic-bezier(.2,.8,.2,1);
+}
+
+.summary-item:hover{
+ transform:translateY(-8px);
+ box-shadow:0 40px 90px rgba(0,0,0,.22);
+}
+
+.summary-item h4{
+ font-size:21px;
+ font-weight:900;
+ margin-bottom:16px;
+ color:#065f46;
+ line-height:1.3;
+}
+
+.summary-item p{
+ font-size:15px;
+ line-height:1.9;
+ opacity:.9;
+}
+
+.summary-item span{
+ margin-top:auto;
+ margin-top:28px;
+ display:inline-flex;
+ align-items:center;
+ gap:8px;
+ font-size:13px;
+ font-weight:800;
+ color:#047857;
+ background:#d1fae5;
+ padding:9px 18px;
+ border-radius:999px;
+ align-self:flex-start;
+ box-shadow:0 8px 18px rgba(0,0,0,.12);
+}
+
+/* ================= VIDEO RANGKUMAN ================= */
+
+.summary-video{
+ margin:70px 0 90px;
+ padding:34px 36px 42px;
+ border-radius:36px;
+ background:
+  linear-gradient(180deg,#ffffff,#f0fdf4);
+ box-shadow:0 32px 90px rgba(0,0,0,.18);
+ border-top:8px solid var(--primary);
+ position:relative;
+}
+
+.summary-video h3{
+ font-size:24px;
+ font-weight:900;
+ margin-bottom:12px;
+ color:#065f46;
+}
+
+.summary-video p{
+ font-size:15px;
+ line-height:1.8;
+ opacity:.85;
+ margin-bottom:26px;
+}
+
+.summary-video iframe{
+ margin:0;
+ height:380px;
+ border-radius:26px;
+ box-shadow:0 25px 60px rgba(0,0,0,.25);
+}
+
+.summary-video .badge{
+ margin-top:24px;
+}
+
+/* ================= LATIHAN IMPROVED ================= */
+
+.exercise-progress{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin:0 0 36px;
+ font-size:14px;
+ font-weight:800;
+ color:#047857;
+}
+
+.exercise-progress span{
+ background:#d1fae5;
+ padding:8px 18px;
+ border-radius:999px;
+ box-shadow:0 8px 18px rgba(0,0,0,.12);
+}
+
+.exercise-item{
+ position:relative;
+ background:linear-gradient(180deg,#ffffff,#f0fdf4);
+ padding:40px 40px 44px;
+ border-radius:36px;
+ box-shadow:0 30px 80px rgba(0,0,0,.15);
+ border-left:9px solid var(--primary);
+ overflow:hidden;
+ transition:.45s cubic-bezier(.2,.8,.2,1);
+ margin-bottom:48px;
+}
+
+.exercise-item::before{
+ content:attr(data-no);
+ position:absolute;
+ top:-28px;
+ right:-18px;
+ font-size:92px;
+ font-weight:900;
+ color:rgba(16,185,129,.13);
+}
+
+.exercise-item:hover{
+ transform:translateY(-10px) scale(1.015);
+ box-shadow:0 45px 110px rgba(0,0,0,.25);
+}
+
+.exercise-item h4{
+ font-size:19px;
+ font-weight:900;
+ margin-bottom:22px;
+ color:#065f46;
+ line-height:1.4;
+}
+
+.exercise-item label{
+ display:flex;
+ align-items:center;
+ gap:14px;
+ margin-top:16px;
+ padding:16px 20px;
+ border-radius:20px;
+ background:#ecfdf5;
+ cursor:pointer;
+ transition:.25s;
+ font-size:15px;
+}
+
+.exercise-item label:hover{
+ background:#d1fae5;
+ transform:translateX(8px);
+ box-shadow:0 10px 22px rgba(0,0,0,.14);
+}
+
+.exercise-item input{
+ accent-color:#10b981;
+ transform:scale(1.2);
+}
+
+/* ================= CATATAN / NOTE ================= */
+
+.note-box{
+ margin:80px auto 0;
+ max-width:880px;
+ background:linear-gradient(135deg,#ecfeff,#d1fae5);
+ padding:34px 38px;
+ border-radius:36px;
+ box-shadow:0 28px 70px rgba(0,0,0,.18);
+ border-left:10px solid var(--secondary);
+}
+
+.note-box p{
+ font-size:15.5px;
+ line-height:1.85;
+ opacity:.9;
+}
+
+.locked{
+ opacity:.45;
+ pointer-events:none;
+ filter:grayscale(1);
+}
+
+.locked-btn{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+.unlocked{
+ opacity:1;
+ pointer-events:auto;
+ filter:none;
+}
+
+.quiz-box.locked input,
+.quiz-box.locked label{
+ pointer-events:none;
+ user-select:none;
+}
+
+.quiz-box.locked{
+ filter:blur(1.5px) grayscale(1);
+ opacity:.6;
+}
+
+/* ================= VIDEO LUMI (UPGRADE) ================= */
+
+.video-lumi{
+ position:relative;
+ margin:70px 0 90px;
+ padding:36px 42px 42px;
+ border-radius:44px;
+ background:
+  linear-gradient(180deg,#ffffff,#ecfdf5);
+ box-shadow:
+  0 45px 120px rgba(0,0,0,.22),
+  inset 0 0 0 1px rgba(255,255,255,.8);
+ border-top:10px solid var(--primary);
+}
+
+.video-lumi h3{
+ font-size:26px;
+ font-weight:900;
+ margin-bottom:22px;
+ color:#065f46;
+ letter-spacing:-.4px;
+}
+
+/* VIDEO LEBIH LEBAR & PROPORSIONAL */
+.video-lumi iframe{
+ width:100%;
+ height:480px;
+ border-radius:34px;
+ border:none;
+ box-shadow:0 35px 90px rgba(0,0,0,.35);
+ background:#000;
+ pointer-events:auto;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+ .video-lumi iframe{height:360px}
+}
+@media(max-width:600px){
+ .video-lumi iframe{height:240px}
+}
+/* ================= STATUS & PROGRESS ================= */
+
+.video-progress-wrap{
+ margin-top:26px;
+}
+
+.video-progress-text{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ font-size:14px;
+ font-weight:800;
+ color:#065f46;
+ margin-bottom:10px;
+}
+
+.video-progress-bar{
+ width:100%;
+ height:12px;
+ border-radius:999px;
+ background:#d1fae5;
+ overflow:hidden;
+ box-shadow:inset 0 4px 8px rgba(0,0,0,.15);
+}
+
+.video-progress-bar span{
+ display:block;
+ height:100%;
+ width:0%;
+ border-radius:999px;
+ background:
+  linear-gradient(
+   90deg,
+   #6ee7b7,
+   #34d399,
+   #10b981
+  );
+ transition:width .8s cubic-bezier(.22,1,.36,1);
+}
+
+/* STATUS BADGE */
+.video-status{
+ margin-top:22px;
+ padding:14px 26px;
+ border-radius:999px;
+ font-size:14px;
+ font-weight:800;
+ display:inline-flex;
+ align-items:center;
+ gap:10px;
+ background:#fde68a;
+ color:#92400e;
+ box-shadow:0 18px 40px rgba(0,0,0,.2);
+}
+
+.video-status.done{
+ background:linear-gradient(135deg,#6ee7b7,#34d399);
+ color:#064e3b;
+}
+
+body.lock-scroll{
+ overflow:hidden;
+}
+
+/* ================= VIDEO TUJUAN PEMBELAJARAN ================= */
+.video-lumi.tujuan{
+ border-top:10px solid var(--primary);
+ background:linear-gradient(180deg,#ffffff,#ecfdf5);
+}
+
+.video-lumi.tujuan h3{
+ color:#065f46;
+}
+
+.video-lumi.tujuan .video-status{
+ background:#fde68a;
+ color:#92400e;
+}
+
+.video-lumi.tujuan .video-status.done{
+ background:linear-gradient(135deg,#6ee7b7,#34d399);
+ color:#064e3b;
+}
+
+/* RAPATKAN STATUS VIDEO & TOMBOL */
+.video-lumi .video-status{
+ margin-bottom:20px;
+}
+
+#btnMulai{
+ margin-top:24px !important;
+}
+
+.video-lumi{
+ margin-bottom:40px;
+}
+
+.video-wrapper{
+ position:relative;
+}
+
+.video-overlay{
+ position:absolute;
+ inset:0;
+ z-index:5;
+ cursor:pointer;
+ background:transparent;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+ <div class="brand">
+  <img src="logo.png">
+  E-Learning RPL
+ </div>
+ <div class="nav-user">
+  <i class="fa-solid fa-user"></i> Siswa
+ </div>
+</nav>
+
+<div class="progress"><span id="bar"></span></div>
+
+<!-- ================= TUJUAN ================= -->
+<section id="s1" class="active">
+<div class="container">
+<h2>Tujuan Pembelajaran</h2>
+<p class="desc">Peserta didik memahami struktur dasar HTML</p>
+<div class="box">
+<ol>
+<li>Menganalisis struktur dasar HTML untuk memahami fungsi dan peran setiap elemennya.</li>
+<li>Mengevaluasi penggunaan berbagai tag dan format teks HTML dalam membangun konten.</li>
+<li>Mengintegrasikan struktur dasar dan format teks HTML untuk merancang halaman web sederhana.</li>
+</ol>
+</div>
+
+ <div class="video-lumi tujuan"
+      data-indikator="tujuan"
+      data-durasi="124">
+
+  <h3>🎥 Video Pengantar Pembelajaran</h3>
+
+  <p class="subtitle-video">
+   Video ini memberikan gambaran awal mengenai tujuan dan alur pembelajaran
+   Struktur Dasar HTML pada pertemuan ini.
+  </p>
+
+  <!-- VIDEO -->
+  <div class="video-wrapper">
+   <div class="video-overlay"
+        aria-label="Klik untuk memulai video"
+        role="button"
+        tabindex="0"></div>
+
+   <iframe
+    src="https://app.lumi.education/run/FK9K4N?embed=true"
+    loading="lazy"
+    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    allow="autoplay; fullscreen">
+   </iframe>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="video-progress-wrap">
+   <div class="video-progress-text">
+    <span id="videoLabeltujuan">⏸️ Video belum diputar</span>
+    <span id="videoPercenttujuan">0%</span>
+   </div>
+
+   <div class="video-progress-bar">
+    <span id="videoBartujuan"></span>
+   </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="video-status" id="videoStatustujuan">
+   Selesaikan video pengantar untuk melanjutkan pembelajaran
+  </div>
+
+ </div>
+
+ <!-- BUTTON -->
+ <button id="btnMulai" class="locked-btn" disabled>
+  🔒 Mulai Pembelajaran
+ </button>
+</section>
+
+<!-- ================= INDIKATOR 1 ================= -->
+<section id="s2">
+<div class="container">
+<h2 class="title" id="judul-1">Indikator 1</h2>
+<p class="subtitle">Struktur Dasar HTML</p>
+
+<div id="m1" class="box">
+<p><b>HTML (HyperText Markup Language)</b> merupakan bahasa markup standar yang digunakan untuk membuat dan menampilkan halaman web melalui browser seperti Google Chrome, Mozilla Firefox, dan Microsoft Edge. HTML berasal dari pengembangan <b>SGML</b> dan dikendalikan oleh <b>World Wide Web Consortium (W3C)</b>.</p>
+
+<p>Dokumen HTML tersusun dari elemen-elemen yang ditandai dengan tag. Struktur dasar HTML terdiri dari:</p>
+<ul>
+<li><b>&lt;html&gt;</b> sebagai pembungkus utama dokumen</li>
+<li><b>&lt;head&gt;</b> berisi informasi dokumen seperti judul</li>
+<li><b>&lt;body&gt;</b> berisi seluruh konten yang tampil di halaman web</li>
+</ul>
+
+<p>Penulisan struktur HTML harus berurutan dan ditutup dengan benar agar browser dapat menampilkan halaman dengan sempurna.</p>
+</div>
+
+<div class="video-lumi"
+     data-indikator="1"
+     data-durasi="90">
+
+ <h3>🎥 Video Indikator 1</h3>
+
+ <!-- VIDEO -->
+ <div class="video-wrapper">
+  <div class="video-overlay"
+       aria-label="Klik untuk memulai video"
+       role="button"
+       tabindex="0"></div>
+
+  <iframe
+   src="https://app.lumi.education/run/Ax4fGZ?embed=true"
+   loading="lazy"
+   sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+   allow="autoplay; fullscreen">
+  </iframe>
+ </div>
+
+ <!-- PROGRESS -->
+ <div class="video-progress-wrap">
+  <div class="video-progress-text">
+   <span id="videoLabel1">⏸️ Video belum diputar</span>
+   <span id="videoPercent1">0%</span>
+  </div>
+
+  <div class="video-progress-bar">
+   <span id="videoBar1"></span>
+  </div>
+ </div>
+
+ <!-- STATUS -->
+ <div class="video-status" id="videoStatus1">
+  Selesaikan video untuk membuka kuis
+ </div>
+</div>
+
+<!-- QUIZ -->
+<button id="btnQuiz1" class="locked-btn" disabled style="display:none"
+ onclick="showQuiz(1)">
+ 🔒 Mulai Kuis
+</button>
+
+<div id="quiz1" class="quiz" style="display:none">
+ <h3>Kuis Indikator 1</h3>
+<div class="quiz-card">
+<h4>1. HTML digunakan untuk …</h4>
+<label><input type="radio" name="i1_1" value="20"> Membuat struktur dan konten web</label>
+<label><input type="radio" name="i1_1" value="0"> Mengatur database</label>
+<label><input type="radio" name="i1_1" value="0"> Bahasa pemrograman server</label>
+<label><input type="radio" name="i1_1" value="0"> Sistem operasi</label>
+</div>
+
+<div class="quiz-card">
+<h4>2. Struktur utama HTML (pilih lebih dari satu)</h4>
+<label><input type="checkbox" value="10"> &lt;html&gt;</label>
+<label><input type="checkbox" value="10"> &lt;head&gt;</label>
+<label><input type="checkbox" value="10"> &lt;body&gt;</label>
+<label><input type="checkbox" value="0"> &lt;footer&gt;</label>
+</div>
+
+<div class="quiz-card">
+<h4>3. HTML distandarisasi oleh W3C</h4>
+<label><input type="radio" name="i1_3" value="20"> Benar</label>
+<label><input type="radio" name="i1_3" value="0"> Salah</label>
+</div>
+
+<div class="quiz-card">
+<h4>4. Tag &lt;body&gt; berfungsi untuk …</h4>
+<label><input type="radio" name="i1_4" value="20"> Menampilkan isi halaman</label>
+<label><input type="radio" name="i1_4" value="0"> Menyimpan metadata</label>
+<label><input type="radio" name="i1_4" value="0"> Menghubungkan CSS</label>
+<label><input type="radio" name="i1_4" value="0"> Menentukan judul tab</label>
+</div>
+
+<div class="quiz-card">
+<h4>5. Semua dokumen HTML harus ditutup dengan …</h4>
+<label><input type="radio" name="i1_5" value="20"> &lt;/html&gt;</label>
+<label><input type="radio" name="i1_5" value="0"> &lt;/body&gt;</label>
+<label><input type="radio" name="i1_5" value="0"> &lt;/head&gt;</label>
+<label><input type="radio" name="i1_5" value="0"> &lt;/title&gt;</label>
+</div>
+
+<button onclick="cekIndikator(1,3)">Submit Kuis</button>
+</div>
+</section>
+
+<!-- ================= INDIKATOR 2 ================= -->
+<section id="s3">
+<div class="container">
+<h2 class="title" id="judul-2">Indikator 2</h2>
+<p class="desc">Tag dan Format Teks HTML</p>
+
+<div id="m2" class="box">
+<p><b>Tag HTML</b> adalah perintah khusus yang digunakan untuk memberi instruksi kepada browser tentang bagaimana suatu konten harus ditampilkan. Tag HTML ditulis menggunakan tanda kurung sudut (&lt; &gt;) dan umumnya ditulis berpasangan, yaitu tag pembuka dan tag penutup.</p>
+
+<p>Contoh penulisan tag HTML:</p>
+<pre>&lt;b&gt;Teks Tebal&lt;/b&gt;</pre>
+
+<p>Beberapa tag format teks yang sering digunakan dalam HTML antara lain:</p>
+<ul>
+<li><b>&lt;b&gt;</b> untuk menebalkan teks</li>
+<li><b>&lt;i&gt;</b> untuk memiringkan teks</li>
+<li><b>&lt;u&gt;</b> untuk memberi garis bawah</li>
+<li><b>&lt;p&gt;</b> untuk paragraf</li>
+<li><b>&lt;br&gt;</b> untuk pindah baris</li>
+</ul>
+
+<p>Penulisan tag HTML harus dilakukan secara <b>berurutan dan bersarang (nested)</b>. Kesalahan dalam penutupan tag dapat menyebabkan tampilan halaman web tidak sesuai dengan yang diharapkan.</p>
+</div>
+<div class="video-lumi" data-indikator="2" data-durasi="38">
+ <h3>🎥 Video Indikator 2</h3>
+
+ <!-- VIDEO -->
+ <div class="video-wrapper">
+  <div class="video-overlay"
+       aria-label="Klik untuk memulai video"
+       role="button"
+       tabindex="0"></div>
+
+  <iframe
+   src="https://app.lumi.education/run/GwcWnk?embed=true"
+   loading="lazy"
+   sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+   allow="autoplay; fullscreen">
+  </iframe>
+ </div>
+
+ <!-- PROGRESS -->
+ <div class="video-progress-wrap">
+  <div class="video-progress-text">
+   <span id="videoLabel2">⏸️ Video belum diputar</span>
+   <span id="videoPercent2">0%</span>
+  </div>
+
+  <div class="video-progress-bar">
+   <span id="videoBar2"></span>
+  </div>
+ </div>
+
+ <!-- STATUS -->
+ <div class="video-status" id="videoStatus2">
+  Selesaikan video untuk membuka kuis
+ </div>
+</div>
+
+<!-- QUIZ -->
+<button id="btnQuiz2" class="locked-btn" disabled style="display:none"
+ onclick="showQuiz(2)">
+ 🔒 Mulai Kuis
+</button>
+
+<div id="quiz2" class="quiz" style="display:none">
+ <h3>Kuis Indikator 2</h3>
+  <div class="quiz-card">
+   <h4>1. Fungsi utama tag HTML adalah …</h4>
+   <label><input type="radio" name="i2_1" value="20"> Memberi instruksi tampilan ke browser</label>
+   <label><input type="radio" name="i2_1" value="0"> Menyimpan data</label>
+   <label><input type="radio" name="i2_1" value="0"> Mengatur server</label>
+   <label><input type="radio" name="i2_1" value="0"> Sistem operasi</label>
+  </div>
+
+  <div class="quiz-card">
+   <h4>2. Berikut ini yang termasuk tag format teks (pilih lebih dari satu)</h4>
+   <label><input type="checkbox" value="10"> &lt;b&gt;</label>
+   <label><input type="checkbox" value="10"> &lt;i&gt;</label>
+   <label><input type="checkbox" value="10"> &lt;u&gt;</label>
+   <label><input type="checkbox" value="0"> &lt;html&gt;</label>
+  </div>
+
+  <div class="quiz-card">
+   <h4>3. Tag HTML harus ditulis berpasangan</h4>
+   <label><input type="radio" name="i2_3" value="20"> Benar</label>
+   <label><input type="radio" name="i2_3" value="0"> Salah</label>
+  </div>
+
+  <div class="quiz-card">
+   <h4>4. Penulisan tag yang benar adalah …</h4>
+   <label><input type="radio" name="i2_4" value="20"> &lt;p&gt;Isi&lt;/p&gt;</label>
+   <label><input type="radio" name="i2_4" value="0"> &lt;p&gt;Isi</label>
+   <label><input type="radio" name="i2_4" value="0"> &lt;/p&gt;Isi</label>
+   <label><input type="radio" name="i2_4" value="0"> &lt;p/&gt;</label>
+  </div>
+
+  <div class="quiz-card">
+   <h4>5. Tag &lt;br&gt; berfungsi untuk …</h4>
+   <label><input type="radio" name="i2_5" value="20"> Pindah baris</label>
+   <label><input type="radio" name="i2_5" value="0"> Paragraf baru</label>
+   <label><input type="radio" name="i2_5" value="0"> Menebalkan teks</label>
+   <label><input type="radio" name="i2_5" value="0"> Mengubah warna</label>
+  </div>
+
+  <button onclick="cekIndikator(2)">Submit Kuis</button>
+ </div>
+</div>
+</section>
+
+<!-- ================= INDIKATOR 3 ================= -->
+<section id="s4">
+<div class="container">
+<h2 class="title" id="judul-3">Indikator 3</h2>
+<p class="desc">Integrasi Struktur dan Format HTML</p>
+
+<div id="m3" class="box">
+<p>Pada tahap ini, peserta didik diharapkan mampu <b>mengintegrasikan struktur dasar HTML dengan berbagai format teks</b> untuk membentuk sebuah halaman web sederhana yang utuh.</p>
+
+<p>Contoh struktur HTML lengkap:</p>
+<pre>
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Web Pertamaku&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;h1&gt;Selamat Datang&lt;/h1&gt;
+  &lt;p&gt;Ini adalah halaman web pertamaku.&lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>Struktur HTML bersifat <b>hierarkis</b>, artinya setiap elemen memiliki hubungan induk dan anak. Pemahaman struktur ini sangat penting agar halaman web dapat dikembangkan lebih lanjut menggunakan CSS dan JavaScript.</p>
+</div>
+<div class="video-lumi" data-indikator="3" data-durasi="107">
+ <h3>🎥 Video Indikator 3</h3>
+
+ <!-- VIDEO -->
+ <div class="video-wrapper">
+  <div class="video-overlay"
+       aria-label="Klik untuk memulai video"
+       role="button"
+       tabindex="0"></div>
+
+  <iframe
+   src="https://app.lumi.education/run/D_tOW3?embed=true"
+   loading="lazy"
+   sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+   allow="autoplay; fullscreen">
+  </iframe>
+ </div>
+
+ <!-- PROGRESS -->
+ <div class="video-progress-wrap">
+  <div class="video-progress-text">
+   <span id="videoLabel3">⏸️ Video belum diputar</span>
+   <span id="videoPercent3">0%</span>
+  </div>
+
+  <div class="video-progress-bar">
+   <span id="videoBar3"></span>
+  </div>
+ </div>
+
+ <!-- STATUS -->
+ <div class="video-status" id="videoStatus3">
+  Selesaikan video untuk membuka kuis
+ </div>
+</div>
+
+<!-- QUIZ -->
+<button id="btnQuiz3" class="locked-btn" disabled style="display:none"
+ onclick="showQuiz(3)">
+ 🔒 Mulai Kuis
+</button>
+
+<div id="quiz3" class="quiz" style="display:none">
+
+<h3>Kuis Indikator 3</h3>
+
+  <div class="quiz-card">
+   <h4>1. Dokumen HTML diawali dengan tag …</h4>
+   <label><input type="radio" name="i3_1" value="20"> &lt;html&gt;</label>
+   <label><input type="radio" name="i3_1" value="0"> &lt;head&gt;</label>
+   <label><input type="radio" name="i3_1" value="0"> &lt;body&gt;</label>
+   <label><input type="radio" name="i3_1" value="0"> &lt;title&gt;</label>
+  </div>
+
+  <div class="quiz-card">
+   <h4>2. Judul halaman web ditampilkan pada …</h4>
+   <label><input type="radio" name="i3_2" value="20"> Tab browser</label>
+   <label><input type="radio" name="i3_2" value="0"> Isi halaman</label>
+   <label><input type="radio" name="i3_2" value="0"> Footer</label>
+   <label><input type="radio" name="i3_2" value="0"> Header</label>
+  </div>
+
+  <div class="quiz-card">
+   <h4>3. Semua konten web berada di dalam tag &lt;body&gt;</h4>
+   <label><input type="radio" name="i3_3" value="20"> Benar</label>
+   <label><input type="radio" name="i3_3" value="0"> Salah</label>
+  </div>
+
+  <div class="quiz-card">
+   <h4>4. Struktur HTML harus ditutup secara berurutan</h4>
+   <label><input type="radio" name="i3_4" value="20"> Benar</label>
+   <label><input type="radio" name="i3_4" value="0"> Salah</label>
+  </div>
+
+  <div class="quiz-card">
+   <h4>5. HTML bersifat hierarkis</h4>
+   <label><input type="radio" name="i3_5" value="20"> Benar</label>
+   <label><input type="radio" name="i3_5" value="0"> Salah</label>
+  </div>
+
+  <button onclick="cekIndikator(3,5)">Submit Kuis</button>
+
+ </div>
+</div>
+</section>
+
+<!-- ================= RANGKUMAN ================= -->
+<section id="s5">
+<div class="container">
+
+<div class="section-head">
+<h2 class="title">RANGKUMAN PERTEMUAN 1</h2>
+<p>Struktur Dasar dan Format Teks HTML</p>
+<div class="section-divider"></div>
+</div>
+
+<div class="summary-grid">
+
+<div class="summary-item">
+<h4>1. Konsep Dasar HTML</h4>
+<p>
+HTML (<i>HyperText Markup Language</i>) merupakan bahasa markup standar yang digunakan untuk menyusun struktur dan konten halaman web. HTML bukan bahasa pemrograman, melainkan bahasa penanda (markup) yang memberi instruksi kepada browser.
+</p>
+</div>
+
+<div class="summary-item">
+<h4>2. Struktur Dasar HTML</h4>
+<p>
+Struktur dasar HTML terdiri dari tag <b>&lt;html&gt;</b> sebagai pembungkus dokumen, <b>&lt;head&gt;</b> yang berisi informasi dokumen seperti judul halaman, dan <b>&lt;body&gt;</b> yang memuat seluruh konten yang ditampilkan pada halaman web.
+</p>
+</div>
+
+<div class="summary-item">
+<h4>3. Tag dan Format Teks</h4>
+<p>
+Tag HTML digunakan untuk mengatur tampilan teks dan konten. Beberapa tag format teks yang umum digunakan antara lain <b>&lt;b&gt;</b> untuk teks tebal, <b>&lt;i&gt;</b> untuk teks miring, <b>&lt;u&gt;</b> untuk garis bawah, <b>&lt;p&gt;</b> untuk paragraf, dan <b>&lt;br&gt;</b> untuk pindah baris.
+</p>
+</div>
+
+<div class="summary-item">
+<h4>4. Integrasi Struktur dan Format</h4>
+<p>
+Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk dan anak. Integrasi struktur dasar dengan format teks memungkinkan pembuatan halaman web sederhana yang rapi, terstruktur, dan mudah dikembangkan.
+</p>
+</div>
+
+</div>
+<div class="summary-video">
+   <h3>🎥 Video Rangkuman Materi</h3>
+   <p>
+    Video berikut merangkum seluruh materi Pertemuan 1 mulai dari
+    struktur dasar HTML, penggunaan tag, hingga integrasi format teks
+    dalam sebuah halaman web sederhana.
+   </p>
+
+   <div class="video-lumi" data-indikator="rangkuman" data-durasi="352">
+
+ <div class="video-wrapper">
+  <div class="video-overlay"
+       aria-label="Klik untuk memulai video"
+       role="button"
+       tabindex="0"></div>
+
+  <iframe
+   src="https://app.lumi.education/run/mujxea?embed=true"
+   loading="lazy"
+   sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+   allow="autoplay; fullscreen">
+  </iframe>
+ </div>
+
+    <div class="video-progress-wrap">
+     <div class="video-progress-text">
+      <span id="videoLabelrangkuman">🔒 Video belum selesai</span>
+      <span id="videoPercentrangkuman">0%</span>
+     </div>
+     <div class="video-progress-bar">
+      <span id="videoBarrangkuman"></span>
+     </div>
+    </div>
+
+    <div class="video-status" id="videoStatusrangkuman">
+     Selesaikan video untuk membuka latihan
+    </div>
+   </div>
+
+   <div class="note-box">
+    <b>Capaian Setelah Pertemuan 1:</b>
+    <ul style="margin-top:10px;line-height:1.9">
+     <li>Memahami fungsi dan struktur dasar HTML</li>
+     <li>Mampu menuliskan tag HTML sederhana dengan benar</li>
+     <li>Mampu menyusun halaman web sederhana secara utuh</li>
+    </ul>
+   </div>
+
+   <button id="btnLatihan" class="locked-btn" disabled>
+    🔒 Mulai Latihan Pertemuan 1
+   </button>
+  </div>
+ </div>
+</section>
+
+<!-- ================= LATIHAN AKHIR ================= -->
+<section id="s6">
+<div class="container">
+  <div class="section-head">
+   <h2>Latihan Akhir Pertemuan 1</h2>
+   <p>Jawab soal berikut untuk mengukur pemahaman kamu di pertemuan 1 ini!</p>
+   <div class="section-divider"></div>
+  </div>
+
+  <div id="latihan" class="exercise-list">
+
+   <div class="exercise-progress">
+    <div>📘 Latihan Pertemuan 1</div>
+    <span>10 Soal</span>
+   </div>
+
+<!-- PILIHAN GANDA -->
+<div class="exercise-item" data-no="01">
+<h4>1. HTML berfungsi untuk …</h4>
+<label><input type="radio" name="l1" value="10"> Membuat struktur halaman web</label><br>
+<label><input type="radio" name="l1" value="0"> Mengelola database</label>
+</div>
+
+<div class="exercise-item" data-no="02">
+<h4>2. Tag utama HTML adalah …</h4>
+<label><input type="checkbox" value="5"> &lt;html&gt;</label><br>
+<label><input type="checkbox" value="5"> &lt;head&gt;</label><br>
+<label><input type="checkbox" value="5"> &lt;body&gt;</label>
+</div>
+
+<div class="exercise-item" data-no="03">
+<h4>3. Tag &lt;body&gt; berfungsi menampilkan isi halaman</h4>
+<label><input type="radio" name="l3" value="10"> Benar</label>
+<label><input type="radio" name="l3" value="0"> Salah</label>
+</div>
+
+<div class="exercise-item" data-no="04">
+<h4>4. Tag untuk teks tebal adalah …</h4>
+<label><input type="radio" name="l4" value="10"> &lt;b&gt;</label>
+<label><input type="radio" name="l4" value="0"> &lt;p&gt;</label>
+</div>
+
+<div class="exercise-item" data-no="05">
+<h4>5. HTML harus ditutup dengan benar</h4>
+<label><input type="radio" name="l5" value="10"> Benar</label>
+<label><input type="radio" name="l5" value="0"> Salah</label>
+</div>
+
+<div class="exercise-item" data-no="06">
+<h4>6. Pilih tag format teks</h4>
+<label><input type="checkbox" value="5"> &lt;i&gt;</label>
+<label><input type="checkbox" value="5"> &lt;u&gt;</label>
+</div>
+
+<div class="exercise-item" data-no="07">
+<h4>7. Struktur HTML bersifat hierarkis</h4>
+<label><input type="radio" name="l7" value="10"> Benar</label>
+<label><input type="radio" name="l7" value="0"> Salah</label>
+</div>
+
+<div class="exercise-item" data-no="08">
+<h4>8. Tag judul halaman berada di …</h4>
+<label><input type="radio" name="l8" value="10"> &lt;head&gt;</label>
+<label><input type="radio" name="l8" value="0"> &lt;body&gt;</label>
+</div>
+
+<div class="exercise-item" data-no="09">
+<h4>9. &lt;br&gt; berfungsi untuk …</h4>
+<label><input type="radio" name="l9" value="10"> Pindah baris</label>
+<label><input type="radio" name="l9" value="0"> Paragraf</label>
+</div>
+
+<div class="exercise-item" data-no="10">
+<h4>10. HTML adalah bahasa markup</h4>
+<label><input type="radio" name="l10" value="10"> Benar</label>
+<label><input type="radio" name="l10" value="0"> Salah</label>
+</div>
+
+</div>
+<button onclick="selesaiLatihan()">Selesai Latihan</button>
+</div>
+</section>
+
+<footer>
+ © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
+</footer>
+
+<script>
+/* ======================= USER INTERACTION ======================= */
+let userInteracting = false;
+document.addEventListener("mousemove",()=>userInteracting=true);
+document.addEventListener("keydown",()=>userInteracting=true);
+document.addEventListener("click",()=>userInteracting=true);
+setInterval(()=>userInteracting=false,1500);
+
+/* ======================= GLOBAL PROGRESS ======================= */
+let globalProgress = 0;
+const bar = document.getElementById("bar");
+
+function setGlobalProgressSafe(value){
+ if(value <= globalProgress) return;
+ globalProgress = value;
+ bar.classList.add("active");
+ bar.style.width = value.toFixed(1) + "%";
+ setTimeout(()=>bar.classList.remove("active"),600);
+}
+
+/* ======================= KONFIGURASI ======================= */
+const KKM = 70;
+let current = 1;
+let nilai = {1:0,2:0,3:0};
+let nilaiLatihan = 0;
+let indikatorLulus = {1:false,2:false,3:false}; // ← dipakai
+
+ const progressMap = {
+ halaman:{
+  tujuan:5,
+  indikator1:15,
+  indikator2:35,
+  indikator3:55,
+  rangkuman:75,
+  latihan:100
+ },
+ video:{
+  tujuan:{start:0,end:5},
+  1:{start:5,end:15},
+  2:{start:25,end:35},
+  3:{start:45,end:55},
+  rangkuman:{start:65,end:75}
+ },
+ kuis:{1:25,2:45,3:65}
+};
+
+/* ======================= SWEETALERT BASE ======================= */
+const swalBase = Swal.mixin({
+ confirmButtonColor:"#10b981",
+ denyButtonColor:"#064e3b",
+ backdrop:`rgba(16,185,129,.15)`,
+ buttonsStyling:true
+});
+
+/* ======================= SCROLL HELPER ======================= */
+function scrollToEl(el){
+ const y = el.getBoundingClientRect().top + window.pageYOffset - 140;
+ window.scrollTo({top:y,behavior:"smooth"});
+}
+
+/* ======================= CONFETTI ======================= */
+function launchConfetti(final=false){
+ confetti({particleCount: final?220:120, spread: final?110:90, origin:{y:0.6}});
+}
+
+/* ======================= UPDATE PROGRESS ======================= */
+function updateProgress(type, indikator){
+ if(!progressMap[type]) return;
+ const target = progressMap[type][indikator];
+ if(!target) return;
+ bar.classList.add("active");
+ bar.style.width = target + "%";
+ setTimeout(()=>bar.classList.remove("active"),1200);
+}
+
+function updateGlobalProgressRealtime(indikator, percent){
+ if(!progressMap.video[indikator]) return;
+ const {start,end} = progressMap.video[indikator];
+ const real = start + ((end-start)*(percent/100));
+ setGlobalProgressSafe(real);
+}
+
+/* ======================= NAVIGASI HALAMAN ======================= */
+function go(step){
+ const prev = document.getElementById("s"+current);
+ const next = document.getElementById("s"+step);
+
+ prev?.classList.remove("active");
+ next?.classList.add("active");
+ current = step;
+
+ // ✅ 
+ if(step === 5){
+  setGlobalProgressSafe(progressMap.halaman.rangkuman);
+ }
+
+ setTimeout(()=>{
+  const judul = next?.querySelector(".title, h2");
+  if(judul) scrollToEl(judul);
+  else window.scrollTo({top:0,behavior:"smooth"});
+ },300);
+}
+
+/* ======================= TAMPILKAN KUIS ======================= */
+function showQuiz(n){
+ const quiz = document.getElementById(`quiz${n}`);
+ quiz.style.display = "block";
+ setGlobalProgressSafe(progressMap.kuis[n]);
+ scrollToEl(quiz);
+}
+
+
+const indikatorToSection = {
+  1: 3, // setelah indikator 1 → s3 (indikator 2)
+  2: 4, // setelah indikator 2 → s4 (indikator 3)
+  3: 5  // setelah indikator 3 → s5 (rangkuman)
+};
+
+/* ======================= CEK INDIKATOR (FIX & VALID) ======================= */
+function cekIndikator(n){
+ let skor = 0;
+
+ const container = document.getElementById(`quiz${n}`);
+ if(!container){
+  console.error("Quiz container tidak ditemukan:", n);
+  return;
+ }
+
+ container
+  .querySelectorAll('input[type="radio"]:checked')
+  .forEach(r => skor += Number(r.value));
+
+ container
+  .querySelectorAll('input[type="checkbox"]:checked')
+  .forEach(c => skor += Number(c.value));
+
+ nilai[n] = skor;
+ const lulus = skor >= KKM;
+ indikatorLulus[n] = lulus;
+
+ updateProgress("kuis", n);
+
+ if(lulus){
+  launchConfetti();
+  swalBase.fire({
+   icon:"success",
+   title:`Indikator ${n} LULUS 🎉`,
+   html:`
+    <p><b>Nilai Indikator ${n}</b></p>
+    <h1 style="margin:14px 0">${skor}</h1>
+    <div class="badge">
+     <i class="fa-solid fa-award"></i>
+     Siap lanjut ke indikator berikutnya
+    </div>
+   `,
+   confirmButtonText:`Lanjut`,
+   allowOutsideClick:false
+  }).then(()=>{
+ const target = indikatorToSection[n];
+ if(target){
+  go(target);
+ }
+});
+
+ }else{
+  swalBase.fire({
+    icon: "warning",
+    title: `Indikator ${n} BELUM LULUS`,
+    html: `
+      <p>Nilai kamu:</p>
+      <h1 style="margin:14px 0">${skor}</h1>
+      <p>Nilai minimum kelulusan adalah <b>${KKM}</b>.</p>
+      <p>Silakan pelajari kembali materi dan ulangi kuis.</p>
+    `,
+    confirmButtonText: "Ulangi Kuis",
+    allowOutsideClick: false
+  }).then(() => {
+    scrollToEl(container);
+  });
+}
+}
+
+function konversiPredikat(nilai){
+ if(nilai >= 90) return {huruf:"A",label:"Sangat Baik"};
+ if(nilai >= 80) return {huruf:"B",label:"Baik"};
+ if(nilai >= 70) return {huruf:"C",label:"Cukup"};
+ return {huruf:"D",label:"Perlu Bimbingan"};
+}
+
+/* ======================= SUBMIT LATIHAN & NILAI AKHIR ======================= */
+function selesaiLatihan(){
+ nilaiLatihan = 0;
+
+ document
+  .querySelectorAll('#latihan input:checked')
+  .forEach(i => nilaiLatihan += Number(i.value));
+
+ const nilaiAkhir = nilai[1] + nilai[2] + nilai[3] + nilaiLatihan;
+ const predikat = konversiPredikat(nilaiAkhir);
+
+ localStorage.setItem("nilai_pertemuan_1", nilaiAkhir);
+
+ launchConfetti(true);
+
+ swalBase.fire({
+  icon:"success",
+  title:"🎓 Hasil Akhir Pertemuan 1",
+  html:`
+   <div class="badge" style="margin-bottom:18px">
+    <i class="fa-solid fa-graduation-cap"></i>
+    Predikat: <b>${predikat.huruf}</b> — ${predikat.label}
+   </div>
+   <table style="width:100%;font-size:14px;line-height:1.8">
+    <tr><td>Indikator 1</td><td>: ${nilai[1]}</td></tr>
+    <tr><td>Indikator 2</td><td>: ${nilai[2]}</td></tr>
+    <tr><td>Indikator 3</td><td>: ${nilai[3]}</td></tr>
+    <tr><td>Latihan</td><td>: ${nilaiLatihan}</td></tr>
+    <tr><td><b>Total Nilai</b></td><td><b>: ${nilaiAkhir}</b></td></tr>
+   </table>`,
+  showDenyButton:true,
+  confirmButtonText:" Lanjut Pertemuan 2",
+  denyButtonText:" Kembali ke Beranda",
+  allowOutsideClick:false
+ }).then((result)=>{
+  if(result.isConfirmed){
+   window.location.href = "pertemuan2.html";
+  }else if(result.isDenied){
+   window.location.href = "BERANDA.html";
+  }
+ });
+}
+
+
+const videoState = {};
+let pageVisible = true;
+
+/* === VISIBILITY === */
+document.addEventListener("visibilitychange",()=>{
+ pageVisible = !document.hidden;
+ Object.keys(videoState).forEach(pauseVideo);
+});
+
+/* === INIT === */
+function initVideo(ind){
+ if(videoState[ind]) return;
+
+ const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
+ const durasi = Number(box.dataset.durasi || 0);
+
+ videoState[ind] = {
+  watched:0,
+  duration:durasi,
+  playing:false,
+  done:false,
+  timer:null
+ };
+}
+
+function playVideo(ind){
+ initVideo(ind);
+ const v = videoState[ind];
+
+ if(v.done) return;
+
+ // 🛑 hentikan timer lama jika ada
+ if(v.timer){
+  clearInterval(v.timer);
+  v.timer = null;
+ }
+
+ v.playing = true;
+
+ v.timer = setInterval(()=>{
+  if(!pageVisible) return;
+
+  v.watched++;
+  const percent = Math.min(
+   Math.round((v.watched / v.duration) * 100),
+   100
+  );
+
+  updateVideoUI(ind, percent);
+  updateGlobalProgressRealtime(ind, percent);
+
+  if(percent >= 100){
+   finishVideo(ind);
+  }
+ },1000);
+}
+
+/* === PAUSE === */
+function pauseVideo(ind){
+ const v = videoState[ind];
+ if(!v?.timer) return;
+
+ clearInterval(v.timer);
+ v.timer = null;
+ v.playing = false;
+}
+
+ // VIDEO INDIKATOR → BUKA TOMBOL KUIS
+ function finishVideo(ind){
+ const v = videoState[ind];
+ if(v.done) return;
+
+ v.done = true;
+ pauseVideo(ind);
+
+ // ================= VIDEO TUJUAN =================
+ if(ind === "tujuan"){
+  unlockButton("btnMulai","▶️ Mulai Pembelajaran");
+ }
+
+ // ================= VIDEO INDIKATOR =================
+ if(["1","2","3"].includes(String(ind))){
+  unlockButton(`btnQuiz${ind}`,`▶️ Mulai Kuis ${ind}`);
+ }
+
+ // ================= VIDEO RANGKUMAN (FIX FINAL) =================
+ if(ind === "rangkuman"){
+  const status = document.getElementById("videoStatusrangkuman");
+  const label  = document.getElementById("videoLabelrangkuman");
+  const percent= document.getElementById("videoPercentrangkuman");
+
+  if(label)   label.innerText = "✅ Video selesai";
+  if(percent)percent.innerText = "100%";
+
+  if(status){
+   status.classList.add("done");
+   status.innerText = "Video rangkuman selesai";
+  }
+
+  unlockButton("btnLatihan","▶️ Mulai Latihan Pertemuan 1");
+
+  // global progress 100%
+  setGlobalProgressSafe(progressMap.halaman.latihan);
+ }
+}
+
+/* === UI === */
+function updateVideoUI(ind, percent){
+ const bar = document.getElementById(`videoBar${ind}`);
+ const label = document.getElementById(`videoLabel${ind}`);
+ const persen = document.getElementById(`videoPercent${ind}`);
+
+ if(!bar || !label || !persen) return;
+
+ bar.style.width = percent + "%";
+ persen.innerText = percent + "%";
+
+ if(percent === 0){
+  label.innerText = "🔒 Video belum diputar";
+ }else if(percent < 100){
+  label.innerText = "▶️ Video sedang diputar";
+ }else{
+  label.innerText = "✅ Video selesai";
+ }
+}
+
+document.querySelectorAll(".video-lumi").forEach(box=>{
+ const ind = box.dataset.indikator;
+ const overlay = box.querySelector(".video-overlay");
+
+ if(!overlay) return;
+
+ overlay.addEventListener("click",()=>{
+  playVideo(ind);
+
+  // setelah klik pertama, overlay dinonaktifkan
+  overlay.style.pointerEvents = "none";
+ });
+});
+
+/* === BUTTON UNLOCK === */
+function unlockButton(id, text){
+ const btn = document.getElementById(id);
+ if(!btn) return;
+
+ btn.disabled = false;
+ btn.classList.remove("locked-btn");
+ btn.classList.add("unlocked");
+ btn.style.display = "inline-block";
+ btn.innerHTML = text;
+}
+document.getElementById("btnMulai").onclick = () => go(2);
+
+</script>
+</body>
+</html>
