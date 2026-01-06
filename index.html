@@ -1604,14 +1604,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 </section>
 
-<div id="overlay-daftar" style="
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.5);
-  backdrop-filter:blur(6px);
-  display:none;
-  z-index:999;
-"></div>
-
 <!-- Login Popup -->
 <div id="popup-login" style="
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
@@ -1625,11 +1617,8 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   <button style="width:100%;padding:14px;border-radius:22px;border:0;font-weight:700;background:linear-gradient(135deg,#6BCF9B,#34d399);cursor:pointer">Login</button>
 </div>
 
-<!-- Overlay -->
-<div id="overlay-daftar" class="overlay"></div>
-
-<!-- Popup Daftar -->
-<div id="popup-daftar" class="popup-daftar">
+<div id="popup-daftar"> 
+  <div class="close" id="close-daftar">✕</div>
   <h3>Daftar Siswa Baru</h3>
 
   <form id="form-daftar">
@@ -1686,7 +1675,7 @@ function updateNavbarUser(){
       Swal.fire({
         icon: "info",
         title: "Pendaftaran Selesai",
-        text: "Permintaan telah dicatat, Silakan tunggu informasi selanjutnya.",
+        text: "Permintaan telah dicatat.",
         confirmButtonColor: "#34d399"
       });
     };
@@ -1695,10 +1684,7 @@ function updateNavbarUser(){
       <i class="fa-solid fa-user-plus"></i>
       <span>Daftar Siswa</span>
     `;
-    btn.onclick = () => {
-      popupDaftar.style.right = "0";
-      overlayDaftar.style.display = "block";
-    };
+    btn.onclick = () => openDaftar();
   }
 }
 
@@ -1882,11 +1868,14 @@ function loadingKeAbsensi(){
   setTimeout(()=>location.href="absensi.html",1500);
 }
 
-window.addEventListener("load", () => {
+  window.addEventListener("load", () => {
   const preloader = document.getElementById("preloader");
-  preloader.classList.add("hidden");
+  if(preloader){
+    preloader.classList.add("hidden");
+    setTimeout(()=>preloader.remove(),600);
+  }
 });
-
+  
 const btnDaftarNav = document.getElementById("navUserBtn");
 const popupDaftar = document.getElementById("popup-daftar");
 const overlayDaftar = document.getElementById("overlay-daftar");
@@ -2027,6 +2016,8 @@ btnGoogle.addEventListener("click", async () => {
     });
   }
 });
+
+    
 </script>
 </body>
 </html>
