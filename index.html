@@ -1609,18 +1609,22 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </footer>
 
 <script>
+<script>
+// ================= GLOBAL STATE =================
+window.isUserLoggedIn = false;
+
 // ================= PRELOADER & PAGE ENTER =================
 window.addEventListener('load', () => {
   const preloader = document.getElementById('preloader');
 
   if (!localStorage.getItem('preloaderShown')) {
-    preloader.classList.remove('hidden');
+    preloader?.classList.remove('hidden');
     setTimeout(() => {
-      preloader.classList.add('hidden');
+      preloader?.classList.add('hidden');
       localStorage.setItem('preloaderShown', 'true');
     }, 2000);
   } else {
-    preloader.style.display = 'none';
+    if(preloader) preloader.style.display = 'none';
   }
 
   document.body.classList.add('page-enter');
@@ -1633,11 +1637,12 @@ window.addEventListener('load', () => {
       timer: 2000,
       showConfirmButton: false
     });
-    document.querySelector('.hero-login').scrollIntoView({behavior:"smooth", block:"start"});
+    document.querySelector('.hero-login')
+      ?.scrollIntoView({behavior:"smooth", block:"start"});
     sessionStorage.removeItem("wasLoggedIn");
   } else {
-    // jika reload normal scroll ke hero
-    document.querySelector('.hero').scrollIntoView({behavior:"smooth", block:"start"});
+    document.querySelector('.hero')
+      ?.scrollIntoView({behavior:"smooth", block:"start"});
   }
 });
 
@@ -1659,18 +1664,21 @@ slides.forEach((_, i) => {
   const dot = document.createElement('span');
   if (i === 0) dot.classList.add('active');
   dot.onclick = () => showSlide(i);
-  dotsWrap.appendChild(dot);
+  dotsWrap?.appendChild(dot);
 });
 
 function showSlide(i) {
   slides.forEach(s => s.classList.remove('active'));
   const dots = document.querySelectorAll('.slider-dots span');
   dots.forEach(d => d.classList.remove('active'));
-  slides[i].classList.add('active');
-  dots[i].classList.add('active');
+
+  slides[i]?.classList.add('active');
+  dots[i]?.classList.add('active');
   slideIndex = i;
 }
-setInterval(() => showSlide((slideIndex + 1) % slides.length), 6000);
+if(slides.length){
+  setInterval(() => showSlide((slideIndex + 1) % slides.length), 6000);
+}
 
 // ================= COUNT UP =================
 document.querySelectorAll('.count').forEach(counter => {
@@ -1688,7 +1696,7 @@ document.querySelectorAll('.count').forEach(counter => {
   update();
 });
 
-// ================= FLOW KELAS → SEMESTER → MAPEL → PERTEMUAN =================
+// ================= FLOW SECTION =================
 const sectionSemester   = document.getElementById('section-semester');
 const sectionMapel      = document.getElementById('section-mapel');
 const sectionPertemuan  = document.getElementById('section-pertemuan');
@@ -1696,7 +1704,7 @@ const mapelGrid         = document.getElementById('mapel-grid');
 const pertemuanGrid     = document.getElementById('pertemuan-grid');
 let selectedClass = null;
 
-// ================= Kelas =================
+// ================= KELAS =================
 document.querySelectorAll('.class-btn').forEach(btn => {
   btn.onclick = () => {
 
@@ -1704,7 +1712,7 @@ document.querySelectorAll('.class-btn').forEach(btn => {
       Swal.fire({icon:'info', title:'Silakan login terlebih dahulu'})
         .then(() => {
           document.querySelector('.hero-login')
-            .scrollIntoView({behavior:"smooth", block:"center"});
+            ?.scrollIntoView({behavior:"smooth", block:"center"});
         });
       return;
     }
@@ -1725,7 +1733,7 @@ function showSemester(){
   sectionSemester.scrollIntoView({behavior:"smooth", block:"center"});
 }
 
-// ================= Semester =================
+// ================= SEMESTER =================
 document.querySelectorAll('.semester-btn').forEach(btn => {
   btn.onclick = () => {
     const semester = btn.dataset.semester;
@@ -1737,7 +1745,7 @@ document.querySelectorAll('.semester-btn').forEach(btn => {
   };
 });
 
-// ================= Mapel =================
+// ================= MAPEL DATA =================
 const kelasData = {
   XI: {
     1: [
@@ -1759,53 +1767,77 @@ const kelasData = {
   }
 };
 
+// ================= MAPEL =================
 function showMapel(kelas, semester){
   sectionMapel.style.display = "block";
   sectionMapel.scrollIntoView({behavior:"smooth", block:"center"});
   mapelGrid.innerHTML = '';
+
   kelasData[kelas][semester].forEach(mp => {
     const div = document.createElement('div');
-    div.classList.add('class-item');
+    div.className = 'class-item';
     div.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
     div.style.cursor = mp.open ? "pointer" : "not-allowed";
-    div.style.opacity = mp.open ? "1" : ".5";
-    div.onmouseenter = () => { if(mp.open) div.style.background="#f5f5f5"; }
-    div.onmouseleave = () => { if(mp.open) div.style.background=""; }
+    div.style.opacity = mp.open ? "1" : "0.5";
 
-    if(!mp.open){
-      div.onclick = () => Swal.fire({icon:'info', title:'Coming Soon'});
-    } else {
-      div.onclick = () => showPertemuan(mp.name);
-    }
+    div.onmouseenter = () => mp.open && (div.style.background="#f5f5f5");
+    div.onmouseleave = () => mp.open && (div.style.background="");
+
+    div.onclick = mp.open
+      ? () => showPertemuan(mp.name)
+      : () => Swal.fire({icon:'info', title:'Coming Soon'});
+
     mapelGrid.appendChild(div);
   });
 }
 
-// ================= Pertemuan =================
+// ================= PERTEMUAN DATA =================
 const pertemuanData = {
-  "Konsentrasi keahlian 2 (Web)":[...Array(16)].map((_,i)=>({name:`Pertemuan ${i+1}`, open:i===0}))
+  "Konsentrasi keahlian 2 (Web)":
+    [...Array(16)].map((_,i)=>({name:`Pertemuan ${i+1}`, open:i===0}))
 };
 
+// ================= PERTEMUAN =================
 function showPertemuan(mapel){
   sectionPertemuan.style.display = "block";
   sectionPertemuan.scrollIntoView({behavior:"smooth", block:"center"});
   pertemuanGrid.innerHTML = '';
-  pertemuanData[mapel].forEach(p => {
+
+  if(!pertemuanData[mapel]){
+    Swal.fire({icon:'warning', title:'Data pertemuan belum tersedia'});
+    return;
+  }
+
+  pertemuanData[mapel].forEach((p,index) => {
     const div = document.createElement('div');
-    div.classList.add('class-item');
+    div.className = 'class-item';
     div.textContent = p.open ? p.name : `🔒 ${p.name}`;
     div.style.cursor = p.open ? "pointer" : "not-allowed";
-    div.style.opacity = p.open ? "1" : ".5";
-    div.onmouseenter = () => { if(p.open) div.style.background="#f5f5f5"; }
-    div.onmouseleave = () => { if(p.open) div.style.background=""; }
+    div.style.opacity = p.open ? "1" : "0.5";
 
-    if(!p.open){
-      div.onclick = () => Swal.fire({icon:'info', title:'Coming Soon'});
-    } else {
-      div.onclick = () => loadingKeAbsensi();
-    }
+    div.onmouseenter = () => p.open && (div.style.background="#f5f5f5");
+    div.onmouseleave = () => p.open && (div.style.background="");
+
+    div.onclick = p.open
+      ? () => loadingKeAbsensi(mapel, index)
+      : () => Swal.fire({icon:'info', title:'Coming Soon'});
+
     pertemuanGrid.appendChild(div);
   });
+}
+
+// ================= ABSENSI & UNLOCK =================
+function loadingKeAbsensi(mapel, index){
+  const loading = document.getElementById("loadingAbsensi");
+  loading?.classList.add("active");
+
+  setTimeout(()=>{
+    if(pertemuanData[mapel][index+1]){
+      pertemuanData[mapel][index+1].open = true;
+    }
+    sessionStorage.setItem("wasLoggedIn", "true");
+    window.location.href = "absensi.html";
+  },2000);
 }
 
 // ================= POPUP DAFTAR SISWA =================
@@ -1819,14 +1851,13 @@ btnDaftarPopup.onclick = () => {
   overlayDaftar.style.display = 'block';
 };
 
-overlayDaftar.onclick = () => {
+overlayDaftar.onclick = closeDaftar;
+popupDaftar.querySelector('.close')?.addEventListener('click', closeDaftar);
+
+function closeDaftar(){
   popupDaftar.style.right = '-420px';
   overlayDaftar.style.display = 'none';
-};
-popupDaftar.querySelector('.close')?.addEventListener('click', () => {
-  popupDaftar.style.right = '-420px';
-  overlayDaftar.style.display = 'none';
-});
+}
 
 btnSubmitForm.onclick = (e) => {
   e.preventDefault();
@@ -1835,32 +1866,18 @@ btnSubmitForm.onclick = (e) => {
     Swal.fire({icon:'info', title:'Harap login untuk mengakses pembelajaran'})
       .then(() => {
         document.querySelector('.hero-login')
-          .scrollIntoView({behavior:"smooth", block:"center"});
-        popupDaftar.style.right = '-420px';
-        overlayDaftar.style.display = 'none';
+          ?.scrollIntoView({behavior:"smooth", block:"center"});
+        closeDaftar();
       });
     return;
   }
 
   Swal.fire({icon:'success', title:'Pendaftaran berhasil!'})
-    .then(() => {
-      popupDaftar.style.right = '-420px';
-      overlayDaftar.style.display = 'none';
-    });
+    .then(closeDaftar);
 };
 
-function loadingKeAbsensi(){
-  const loading = document.getElementById("loadingAbsensi");
-  loading.classList.add("active");
-
-  setTimeout(()=>{
-    window.location.href = "absensi.html";
-  },2000);
-}
-
-/* Flow step stagger animation */
+// ================= FLOW STAGGER =================
 const flowItems = document.querySelectorAll('.flow-item');
-
 const flowObserver = new IntersectionObserver(entries=>{
   entries.forEach((entry,i)=>{
     if(entry.isIntersecting){
@@ -1869,8 +1886,7 @@ const flowObserver = new IntersectionObserver(entries=>{
       }, i*120);
     }
   });
-},{threshold:.2});
-
+},{threshold:0.2});
 flowItems.forEach(item=>flowObserver.observe(item));
 </script>
 <script type="module" src="js/firebase.js"></script>
