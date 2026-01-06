@@ -1228,10 +1228,10 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 
 <section class="hero">
  <div class="hero-bg">
-  <img src="asesmen.png" class="active">
-  <img src="guru smk.png">
-  <img src="siswa.png">
-  <img src="guru.png">
+  <img src="asesmen.png" class="active" loading="eager" fetchpriority="high">
+<img src="guru smk.png" loading="lazy">
+<img src="siswa.png" loading="lazy">
+<img src="guru.png" loading="lazy">
  </div>
  <div class="slider-dots" id="sliderDots"></div>
 
@@ -1617,10 +1617,9 @@ window.addEventListener('load', () => {
 
   if (!localStorage.getItem('preloaderShown')) {
     preloader.classList.remove('hidden');
-    setTimeout(() => {
-      preloader.classList.add('hidden');
-      localStorage.setItem('preloaderShown', 'true');
-    }, 2000);
+   requestAnimationFrame(() => {
+  preloader.classList.add('hidden');
+});
   } else {
     preloader.style.display = 'none';
   }
