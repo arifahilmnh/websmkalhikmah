@@ -59,14 +59,12 @@ btnGoogle?.addEventListener("click", async () => {
     await simpanUser(result.user);
 
     Swal.fire({
-      icon: "success",
-      title: "Login Google berhasil",
-      text: "Silakan pilih kelas",
-      timer: 1600,
-      showConfirmButton: false
-    }).then(() => {
-      document.querySelector(".hero-login")?.style.display = "none";
-    });
+  icon: "success",
+  title: "Login berhasil",
+  text: "Silakan pilih kelas",
+  timer: 1600,
+  showConfirmButton: false
+});
 
   } catch (err) {
     Swal.fire("Login Google gagal", err.message, "error");
@@ -95,6 +93,18 @@ onAuthStateChanged(auth, (user) => {
     window.isUserLoggedIn = true;
     tampilkanNama(user);
     document.body.classList.add("logged-in");
+
+    // 🔥 UNLOCK UI SETELAH LOGIN
+    const heroLogin = document.querySelector(".hero-login");
+    if (heroLogin) heroLogin.style.display = "none";
+
+    // 🔥 SCROLL KE PILIH KELAS
+    setTimeout(() => {
+      document
+        .querySelector(".class-grid")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 500);
+
   } else {
     window.isUserLoggedIn = false;
     document.body.classList.remove("logged-in");
