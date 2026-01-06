@@ -1694,53 +1694,6 @@ document.querySelectorAll('.count').forEach(counter => {
   update();
 });
 
-// ================= LOGIN SYSTEM =================
-const LOGIN_USER = "siswa";
-const LOGIN_PASS = "siswa123";
-let loggedIn = false;
-
-const loginBtn = document.querySelector('.hero-login button');
-const loginInputs = document.querySelectorAll('.hero-login input');
-
-loginBtn.onclick = () => {
-  const username = loginInputs[0].value.trim();
-  const password = loginInputs[1].value.trim();
-
-  if(!username || !password){
-    Swal.fire({icon:'warning', title:'Oops...', text:'Username dan password wajib diisi!'});
-    return;
-  }
-
-  if(username === LOGIN_USER && password === LOGIN_PASS){
-    loggedIn = true;
-    sessionStorage.setItem("wasLoggedIn","true");
-    sessionStorage.setItem("nama", username);
-
-    loginBtn.innerText = "Sudah Login";
-    loginBtn.disabled = true;
-    loginBtn.style.opacity = ".7";
-    loginInputs.forEach(i => { i.disabled = true; i.style.opacity = ".7"; });
-
-    tampilkanNama();
-    Swal.fire({icon:'success', title:'Login Berhasil', text:'Silakan pilih kelas', timer:1500, showConfirmButton:false});
-    document.querySelector('.class-grid').scrollIntoView({behavior:"smooth", block:"center"});
-  } else {
-    Swal.fire({icon:'error', title:'Gagal', text:'Username atau password salah!'});
-  }
-};
-
-function tampilkanNama(){
-  const nama = sessionStorage.getItem("nama");
-  if(nama){
-    document.querySelector('.nav-action').innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;font-weight:600">
-        <i class="fa-solid fa-user"></i>
-        <span>${nama}</span>
-      </div>
-    `;
-  }
-}
-
 // ================= FLOW KELAS → SEMESTER → MAPEL → PERTEMUAN =================
 const sectionSemester   = document.getElementById('section-semester');
 const sectionMapel      = document.getElementById('section-mapel');
@@ -1752,11 +1705,6 @@ let selectedClass = null;
 // ================= Kelas =================
 document.querySelectorAll('.class-btn').forEach(btn => {
   btn.onclick = () => {
-    if(!loggedIn){
-      Swal.fire({icon:'info', title:'Silakan login terlebih dahulu'})
-        .then(()=>document.querySelector('.hero-login').scrollIntoView({behavior:"smooth", block:"center"}));
-      return;
-    }
     const kelas = btn.dataset.class;
     if(kelas !== "XI"){
       Swal.fire({icon:'info', title:'Coming Soon'});
@@ -1877,14 +1825,6 @@ popupDaftar.querySelector('.close')?.addEventListener('click', () => {
 
 btnSubmitForm.onclick = (e) => {
   e.preventDefault();
-  if(!loggedIn){
-    Swal.fire({icon:'info', title:'Harap login untuk mengakses pembelajaran'})
-      .then(() => {
-        document.querySelector('.hero-login').scrollIntoView({behavior:"smooth", block:"center"});
-        popupDaftar.style.right = '-420px';
-        overlayDaftar.style.display = 'none';
-      });
-    return;
   }
 
   Swal.fire({icon:'success', title:'Pendaftaran berhasil!', showConfirmButton:true})
@@ -1917,7 +1857,17 @@ const flowObserver = new IntersectionObserver(entries=>{
 },{threshold:.2});
 
 flowItems.forEach(item=>flowObserver.observe(item));
+  import { requireLogin } from "./auth-guard.js";
+
+btn.onclick = () => {
+  requireLogin(() => {
+    showSemester();
+  });
+};
+
 </script>
-  <script type="module" src="js/login-siswa.js"></script>
+ <script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/login-siswa.js"></script>
+<script type="module" src="js/auth-guard.js"></script>
 </body>
 </html>
