@@ -1219,9 +1219,9 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   <img src="logo.png"> SMK AL-HIKMAH TAROGONG KALER GARUT
  </div>
  <div class="nav-action">
-  <button id="btn-daftar-siswa" class="nav-btn">
+  <button id="navUserBtn" class="nav-btn">
     <i class="fa-solid fa-user-plus"></i>
-    <span>Daftar Siswa</span>
+    <span id="navUserText">Daftar Siswa</span>
   </button>
 </div>
 </nav>
@@ -1615,14 +1615,46 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 window.isUserLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
 window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
 
+  function updateNavbarUser(){
+  const btn = document.getElementById("navUserBtn");
+  const text = document.getElementById("navUserText");
+
+  if(window.isUserLoggedIn && window.currentUser){
+    btn.innerHTML = `<i class="fa-solid fa-circle-check"></i>
+                     <span>${window.currentUser.nama}</span>`;
+    btn.onclick = () => {
+      Swal.fire({
+        icon:"info",
+        title:"Pendaftaran Selesai",
+        text:"Permintaan telah dicatat, Silakan tunggu informasi selanjutnya.",
+        confirmButtonColor:"#34d399"
+      });
+    };
+  }else{
+    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i>
+                     <span>Daftar Siswa</span>`;
+    btn.onclick = () => {
+      popupDaftar.style.right="0";
+      overlayDaftar.style.display="block";
+    };
+  }
+}
 // ======================================================
 // PRELOADER & PAGE ENTER
 // ======================================================
 document.addEventListener('DOMContentLoaded', () => {
   const preloader = document.getElementById('preloader');
 
-  document.addEventListener('DOMContentLoaded', () => {
-  const preloader = document.getElementById('preloader');
+  // PRELOADER
+  setTimeout(() => {
+    preloader.classList.add('hidden');
+  }, 800);
+
+  document.body.classList.add('page-enter');
+
+  // 🔥 PANGGIL DI SINI
+  updateNavbarUser();
+});
 
   setTimeout(() => {
     preloader.classList.add('hidden');
@@ -1823,60 +1855,110 @@ function showPertemuan(mapel){
 // ======================================================
 // LOGIN MANUAL (FINAL & FIX)
 // ======================================================
-document.getElementById("btnLogin").onclick=()=>{
-  const usn=document.getElementById("email").value.trim();
-  const pw=document.getElementById("password").value.trim();
+document.getElementById("btnLogin").onclick = () => {
+  const usn = document.getElementById("email").value.trim();
+  const pw  = document.getElementById("password").value.trim();
 
-  if(usn==="siswa" && pw==="siswa123"){
-    window.isUserLoggedIn=true;
-    window.currentUser={nama:"Siswa"};
+  if(usn === "siswa" && pw === "siswa123"){
+    window.isUserLoggedIn = true;
+    window.currentUser = { nama: "Siswa" };
 
     sessionStorage.setItem("isLoggedIn","true");
     sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
 
     Swal.fire({
       icon:"success",
-      title:"Login berhasil",
-      text:"Selamat datang Arifah Ilmaniah",
-      timer:1500,
+      title:"Login Berhasil",
+      text:"Selamat datang, Arifah Ilmaniah",
+      timer:1600,
       showConfirmButton:false
     });
 
     document.querySelector(".hero-login").style.display="none";
+    updateNavbarUser();
+
+    // AUTO SCROLL KE PILIH KELAS
+    setTimeout(()=>{
+      document.querySelector(".class-grid")
+        .scrollIntoView({behavior:"smooth"});
+    },600);
+
   }else{
-    Swal.fire("Login gagal","USN atau password salah","error");
+    Swal.fire({
+      icon:"error",
+      title:"Login Gagal",
+      text:"USN atau Password salah",
+      confirmButtonColor:"#ef4444"
+    });
   }
 };
-
 // ======================================================
 // LOGIN GOOGLE (FINAL & TERINTEGRASI)
 // ======================================================
-document.getElementById("btnGoogle").onclick=()=>{
-  const email=prompt("Masukkan email Google");
-  if(!email) return;
+document.getElementById("btnGoogle").onclick = () => {
 
-  if(email==="arifahilmaniah012@gmail.com"){
-    window.isUserLoggedIn=true;
-    window.currentUser={nama:"Arifah Ilmaniah"};
+  // SIMULASI DATA AKUN GOOGLE
+  const googleAccount = {
+    email: "arifahilmaniah012@gmail.com",
+    name: "Arifah Ilmaniah"
+  };
 
-    sessionStorage.setItem("isLoggedIn","true");
-    sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
+  Swal.fire({
+    title: "Pilih Akun Google",
+    html: `
+      <div style="text-align:left">
+        <p style="margin-bottom:10px">Masuk sebagai:</p>
+        <div style="
+          padding:12px 16px;
+          border:1px solid #e5e7eb;
+          border-radius:14px;
+          cursor:pointer"
+          id="googleAcc">
+          <b>${googleAccount.name}</b><br>
+          <small>${googleAccount.email}</small>
+        </div>
+      </div>
+    `,
+    showConfirmButton:false,
+    didOpen:()=>{
+      document.getElementById("googleAcc").onclick=()=>{
+        Swal.close();
 
-    Swal.fire({
-      icon:"success",
-      title:"Login Google berhasil",
-      timer:1500,
-      showConfirmButton:false
-    });
+        if(googleAccount.email === "arifahilmaniah012@gmail.com"){
+          window.isUserLoggedIn = true;
+          window.currentUser = { nama: googleAccount.name };
 
-    document.querySelector(".hero-login").style.display="none";
-  }else{
-    Swal.fire("Belum terdaftar","Silakan daftar dulu","info")
-      .then(()=>{
-        document.getElementById("popup-daftar").style.right="0";
-        document.getElementById("overlay-daftar").style.display="block";
-      });
-  }
+          sessionStorage.setItem("isLoggedIn","true");
+          sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
+
+          Swal.fire({
+            icon:"success",
+            title:"Login Google Berhasil",
+            timer:1500,
+            showConfirmButton:false
+          });
+
+          document.querySelector(".hero-login").style.display="none";
+          updateNavbarUser();
+
+          setTimeout(()=>{
+            document.querySelector(".class-grid")
+              .scrollIntoView({behavior:"smooth"});
+          },600);
+
+        }else{
+          Swal.fire({
+            icon:"info",
+            title:"Akun Belum Terdaftar",
+            text:"Silakan daftar terlebih dahulu"
+          }).then(()=>{
+            popupDaftar.style.right="0";
+            overlayDaftar.style.display="block";
+          });
+        }
+      };
+    }
+  });
 };
 
 // ======================================================
