@@ -887,6 +887,29 @@ button, .class-item, .announce, .info-item{
 }
 
 /* ================= POPUP DAFTAR SISWA ================= */
+/* ======================================================
+   OVERLAY
+====================================================== */
+#overlay-daftar{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .4s ease;
+  z-index:999;
+}
+
+#overlay-daftar.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* ======================================================
+   POPUP DAFTAR SISWA
+====================================================== */
 #popup-daftar{
   position:fixed;
   top:0;
@@ -895,7 +918,6 @@ button, .class-item, .announce, .info-item{
   height:100%;
   padding:40px 32px;
 
-  /* Background lebih hidup */
   background:
     linear-gradient(
       180deg,
@@ -926,7 +948,17 @@ button, .class-item, .announce, .info-item{
   overflow-y:auto;
 }
 
-/* scroll halus */
+/* STATE BUKA */
+#popup-daftar.show{
+  right:0;
+  box-shadow:
+    -28px 0 80px rgba(0,0,0,.25),
+    -3px 0 0 rgba(16,185,129,.35);
+}
+
+/* ======================================================
+   SCROLLBAR
+====================================================== */
 #popup-daftar::-webkit-scrollbar{
   width:6px;
 }
@@ -935,7 +967,9 @@ button, .class-item, .announce, .info-item{
   border-radius:6px;
 }
 
-/* ================= JUDUL ================= */
+/* ======================================================
+   HEADER
+====================================================== */
 #popup-daftar h3{
   font-size:26px;
   font-weight:800;
@@ -943,7 +977,6 @@ button, .class-item, .announce, .info-item{
   letter-spacing:-.02em;
 }
 
-/* ================= DESKRIPSI ================= */
 #popup-daftar p{
   font-size:14px;
   line-height:1.8;
@@ -951,8 +984,20 @@ button, .class-item, .announce, .info-item{
   margin-bottom:12px;
 }
 
-/* ================= INPUT ================= */
-#popup-daftar input{
+/* ======================================================
+   FORM
+====================================================== */
+#popup-daftar form{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* ======================================================
+   INPUT & SELECT
+====================================================== */
+#popup-daftar input,
+#popup-daftar select{
   width:100%;
   padding:15px 18px;
   border-radius:18px;
@@ -963,12 +1008,19 @@ button, .class-item, .announce, .info-item{
   background:#fff;
 }
 
-#popup-daftar input:focus{
+#popup-daftar input::placeholder{
+  color:#6b8f7c;
+}
+
+#popup-daftar input:focus,
+#popup-daftar select:focus{
   border-color:#10b981;
   box-shadow:0 0 0 4px rgba(16,185,129,.15);
 }
 
-/* ================= BUTTON ================= */
+/* ======================================================
+   BUTTON
+====================================================== */
 #popup-daftar button{
   margin-top:14px;
   padding:15px;
@@ -993,7 +1045,14 @@ button, .class-item, .announce, .info-item{
   box-shadow:0 16px 40px rgba(16,185,129,.35);
 }
 
-/* ================= CLOSE BUTTON ================= */
+#popup-daftar button:active{
+  transform:translateY(0);
+  box-shadow:0 10px 24px rgba(16,185,129,.25);
+}
+
+/* ======================================================
+   CLOSE BUTTON
+====================================================== */
 #popup-daftar .close{
   position:absolute;
   top:22px;
@@ -1007,11 +1066,25 @@ button, .class-item, .announce, .info-item{
   justify-content:center;
   cursor:pointer;
   transition:.3s;
+  font-size:18px;
+  user-select:none;
 }
 
 #popup-daftar .close:hover{
   background:#10b981;
   color:#fff;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+@media(max-width:480px){
+  #popup-daftar{
+    width:100%;
+    right:-100%;
+    border-radius:0;
+    padding:32px 24px;
+  }
 }
 
 /* ================= SCROLL REVEAL ================= */
@@ -1566,34 +1639,27 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   <button style="width:100%;padding:14px;border-radius:22px;border:0;font-weight:700;background:linear-gradient(135deg,#6BCF9B,#34d399);cursor:pointer">Login</button>
 </div>
 
-<!-- Daftar Popup -->
-<div id="popup-daftar" style="
-  position:fixed;top:0;right:-420px;
-  width:420px;height:100%;
-  padding:36px 28px;
-  background:rgba(255,255,255,0.95);
-  backdrop-filter:blur(20px);
-  border-radius:0 0 0 28px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  color:#0f2f1f;
-  z-index:1000;
-  box-shadow:0 40px 120px rgba(0,0,0,.35);
-  transition: right 0.5s ease;
-  overflow-y:auto;
-">
-  <h3 style="text-align:center;font-weight:800;margin-bottom:20px">Daftar Siswa Baru</h3>
-  <input placeholder="Nama Lengkap" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <input placeholder="Email / NIS" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <input placeholder="Nomor Telepon" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <select style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb;color:#0f2f1f">
-    <option value="">Pilih Kelas</option>
-    <option value="X">Kelas X</option>
-    <option value="XI">Kelas XI</option>
-    <option value="XII">Kelas XII</option>
-  </select>
-  <button id="submit-daftar">Daftar</button>
+<!-- Overlay -->
+<div id="overlay-daftar" class="overlay"></div>
+
+<!-- Popup Daftar -->
+<div id="popup-daftar" class="popup-daftar">
+  <h3>Daftar Siswa Baru</h3>
+
+  <form id="form-daftar">
+    <input type="text" id="nama" placeholder="Nama Lengkap" required>
+    <input type="text" id="nis" placeholder="Email / NIS" required>
+    <input type="tel"  id="telp" placeholder="Nomor Telepon" required>
+
+    <select id="kelas" required>
+      <option value="">Pilih Kelas</option>
+      <option value="X">Kelas X</option>
+      <option value="XI">Kelas XI</option>
+      <option value="XII">Kelas XII</option>
+    </select>
+
+    <button type="submit" id="submit-daftar">Daftar</button>
+  </form>
 </div>
 
 <!-- ===== LOADING OVERLAY ABSENSI ===== -->
@@ -1609,11 +1675,8 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </footer>
 
 <script>
-// ======================================================
-// GLOBAL LOGIN STATE
-// ======================================================
-window.isUserLoggedIn = sessionStorage.getItem("isLoggedIn") === "false";
-window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
+window.isUserLoggedIn = false;
+window.currentUser = null;
 
 // ======================================================
 // ELEMENT
@@ -1652,18 +1715,6 @@ function updateNavbarUser(){
     };
   }
 }
-
-  document.getElementById("submit-daftar").addEventListener("click", () => {
-  Swal.fire({
-    icon: "success",
-    title: "Permintaan Dicatat",
-    text: "Tunggu informasi selanjutnya dari pihak sekolah.",
-    confirmButtonColor: "#34d399"
-  }).then(() => {
-    popupDaftar.style.right = "-420px";
-    overlayDaftar.style.display = "none";
-  });
-});
 
 // ======================================================
 // DOM READY
