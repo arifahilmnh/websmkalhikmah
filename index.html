@@ -1798,6 +1798,12 @@ function loadingKeAbsensi(){
   loading.classList.add("active");
   setTimeout(()=>location.href="absensi.html",1500);
 }
+
+window.addEventListener("load", () => {
+  const preloader = document.getElementById("preloader");
+  preloader.classList.add("hidden");
+});
+  
 </script>
 </body>
 </html>
