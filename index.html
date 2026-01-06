@@ -1741,11 +1741,23 @@ document.querySelectorAll('.semester-btn').forEach(btn=>{
 // ======================================================
 // MAPEL DATA
 // ======================================================
-const kelasData={
-  XI:{
-    1:[
-      {name:"Konsentrasi keahlian 2 (Web)",open:true},
-      {name:"Mapel lain",open:false}
+const kelasData = {
+  XI: {
+    1: [
+      {name:"Konsentrasi keahlian 2 (Web)", open:true},
+      {name:"Mapel pilihan (framework)", open:false},
+      {name:"Matematika", open:false},
+      {name:"Pendidikan Pancasila dan kewarganegaraan", open:false},
+      {name:"Bahasa Indonesia", open:false},
+      {name:"Projek kreatif dan kewirausahaan", open:false},
+      {name:"Pjok", open:false},
+      {name:"Sejarah", open:false},
+      {name:"Pendidikan agama Islam dan Budi pekerti", open:false},
+      {name:"Bahasa inggris", open:false},
+      {name:"BK", open:false},
+      {name:"Konsentrasi keahlian 1 (PBO)", open:false},
+      {name:"Konsentrasi keahlian 4 (Android)", open:false},
+      {name:"Konsentrasi keahlian 3 (Basis data)", open:false}
     ]
   }
 };
@@ -1778,15 +1790,29 @@ function showMapel(kelas,semester){
 // PERTEMUAN
 // ======================================================
 function showPertemuan(mapel){
-  sectionPertemuan.style.display="block";
+  sectionPertemuan.style.display = "block";
   sectionPertemuan.scrollIntoView({behavior:"smooth"});
-  pertemuanGrid.innerHTML="";
+  pertemuanGrid.innerHTML = "";
 
-  for(let i=1;i<=8;i++){
-    const div=document.createElement('div');
-    div.className="class-item";
-    div.textContent=`Pertemuan ${i}`;
-    div.onclick=()=>loadingKeAbsensi();
+  for(let i = 1; i <= 16; i++){
+    const div = document.createElement("div");
+    div.className = "class-item";
+
+    const isOpen = i === 1;
+    div.textContent = isOpen ? `Pertemuan ${i}` : `🔒 Pertemuan ${i}`;
+    div.style.cursor = isOpen ? "pointer" : "not-allowed";
+    div.style.opacity = isOpen ? "1" : "0.5";
+
+    if(isOpen){
+      div.onclick = () => loadingKeAbsensi();
+    } else {
+      div.onclick = () => Swal.fire({
+        icon: "info",
+        title: "Pertemuan terkunci",
+        text: "Selesaikan pertemuan sebelumnya terlebih dahulu"
+      });
+    }
+
     pertemuanGrid.appendChild(div);
   }
 }
