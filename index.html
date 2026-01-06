@@ -1704,25 +1704,43 @@ setInterval(()=>{
 // ======================================================
 // LOGIN MANUAL
 // ======================================================
-document.getElementById("btnLogin").onclick=()=>{
-  const usn = document.getElementById("email").value.trim();
-  const pw  = document.getElementById("password").value.trim();
+const btnLogin = document.getElementById("btnLogin");
+const emailInput = document.getElementById("email");
+const passInput = document.getElementById("password");
 
-  if(usn==="siswa" && pw==="siswa123"){
-    window.isUserLoggedIn = true;
-    window.currentUser = { nama:"Arifah Ilmaniah" };
+btnLogin.addEventListener("click", () => {
+  const user = emailInput.value.trim();
+  const pass = passInput.value.trim();
 
-    sessionStorage.setItem("isLoggedIn","true");
-    sessionStorage.setItem("currentUser",JSON.stringify(window.currentUser));
-
-    Swal.fire("Login Berhasil","Selamat datang Arifah Ilmaniah","success");
-    document.querySelector(".hero-login").style.display="none";
-    updateNavbarUser();
-  } else {
-    Swal.fire("Login Gagal","USN atau Password salah","error");
+  if(user === "" || pass === ""){
+    Swal.fire({
+      icon:"warning",
+      title:"Data kosong",
+      text:"Isi username dan password terlebih dahulu"
+    });
+    return;
   }
-};
 
+  if(user === "siswa" && pass === "siswa123"){
+    sessionStorage.setItem("isLoggedIn","true");
+
+    Swal.fire({
+      icon:"success",
+      title:"Login Berhasil",
+      text:"Terima kasih sudah login, silakan pilih kelas"
+    }).then(() => {
+      document.querySelector(".class-grid")
+        .scrollIntoView({behavior:"smooth"});
+    });
+
+  } else {
+    Swal.fire({
+      icon:"error",
+      title:"Login Gagal",
+      text:"Username atau password salah"
+    });
+  }
+});
 // ======================================================
 // MAPEL & PERTEMUAN
 // ======================================================
@@ -1803,7 +1821,52 @@ window.addEventListener("load", () => {
   const preloader = document.getElementById("preloader");
   preloader.classList.add("hidden");
 });
-  
+
+const btnDaftarNav = document.getElementById("navUserBtn");
+const popupDaftar = document.getElementById("popup-daftar");
+const overlayDaftar = document.getElementById("overlay-daftar");
+const submitDaftar = document.getElementById("submit-daftar");
+
+/* buka popup daftar */
+btnDaftarNav.addEventListener("click", () => {
+  popupDaftar.style.right = "0";
+  overlayDaftar.style.display = "block";
+});
+
+/* tutup popup */
+overlayDaftar.addEventListener("click", closeDaftar);
+function closeDaftar(){
+  popupDaftar.style.right = "-420px";
+  overlayDaftar.style.display = "none";
+}
+
+/* submit daftar */
+submitDaftar.addEventListener("click", () => {
+  const inputs = popupDaftar.querySelectorAll("input");
+  let kosong = false;
+
+  inputs.forEach(i => {
+    if(i.value.trim() === "") kosong = true;
+  });
+
+  if(kosong){
+    Swal.fire({
+      icon:"warning",
+      title:"Data belum lengkap",
+      text:"Silakan isi seluruh data pendaftaran"
+    });
+    return;
+  }
+
+  Swal.fire({
+    icon:"success",
+    title:"Permintaan Dicatat",
+    text:"Tunggu informasi selanjutnya dari pihak sekolah"
+  }).then(() => {
+    inputs.forEach(i => i.value = "");
+    closeDaftar();
+  });
+});
 </script>
 </body>
 </html>
