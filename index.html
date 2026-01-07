@@ -1014,34 +1014,6 @@ button, .class-item, .announce, .info-item{
   color:#fff;
 }
 
-  /* ===== POPUP HEADER DECOR ===== */
-#popup-daftar::after{
-  content:"";
-  position:absolute;
-  inset:auto -40% -40% auto;
-  width:300px;
-  height:300px;
-  background:radial-gradient(circle,#6ee7b7,transparent 60%);
-  opacity:.25;
-  pointer-events:none;
-}
-
-.popup-step{
-  display:flex;
-  gap:8px;
-  margin-bottom:6px;
-}
-
-.popup-step span{
-  flex:1;
-  height:6px;
-  border-radius:6px;
-  background:#d1fae5;
-}
-
-.popup-step span.active{
-  background:linear-gradient(90deg,#10b981,#34d399);
-}
 /* ================= SCROLL REVEAL ================= */
 .reveal {
   opacity: 0;
@@ -1598,11 +1570,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   <div class="close"><i class="fa-solid fa-xmark"></i></div>
 
   <h3>Daftar Siswa Baru</h3>
-  <div class="popup-step">
-  <span class="active"></span>
-  <span></span>
-  <span></span>
-</div>
   <p>Silakan lengkapi data berikut</p>
 
   <input placeholder="Nama Lengkap">
@@ -1727,27 +1694,17 @@ btnLogin.onclick = () => {
     }));
 
     Swal.fire({
-  icon: "success",
-  title: "Login Berhasil",
-  text: "Silakan pilih kelas",
-  confirmButtonColor: "#34d399"
-}).then(()=>{
-  updateNavbarUser();
-
-  const target = document.querySelector(".class-grid");
-  const navHeight = document.querySelector("nav").offsetHeight;
-
-  const y =
-    target.getBoundingClientRect().top +
-    window.pageYOffset -
-    navHeight -
-    16;
-
-  window.scrollTo({
-    top: y,
-    behavior: "smooth"
-  });
-});
+      icon: "success",
+      title: "Login Berhasil",
+      text: "Silakan pilih kelas",
+      confirmButtonColor: "#34d399"
+    }).then(()=>{
+      updateNavbarUser();
+      document.querySelector(".class-grid").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
 
   } else {
     Swal.fire({
@@ -1858,7 +1815,7 @@ const kelasData={
 };
 
 document.querySelectorAll(".class-btn").forEach(btn=>{
-  btn.onclick = ()=>{
+  btn.onclick = () => {
     if(!isLoggedIn()){
       Swal.fire({
         icon:"warning",
@@ -1869,104 +1826,39 @@ document.querySelectorAll(".class-btn").forEach(btn=>{
       return;
     }
 
-    const kelas = btn.dataset.class;
-
-    // hanya kelas XI yang aktif
-    if(kelas !== "XI"){
-      Swal.fire({
-        icon:"info",
-        title:"Coming Soon",
-        text:"Kelas ini belum tersedia",
-        confirmButtonColor:"#34d399"
-      });
-      return;
-    }
-
-    sessionStorage.setItem("kelas", kelas);
-    sectionSemester.style.display = "block";
-
-    scrollToSection("#section-semester");
+    document.getElementById("section-semester").style.display = "block";
+    document.getElementById("section-semester")
+      .scrollIntoView({behavior:"smooth"});
   };
 });
-  
+
 document.querySelectorAll(".semester-btn").forEach(btn=>{
-  btn.onclick = ()=>{
-    const isOpen = btn.dataset.open === "true";
-    const semester = btn.dataset.semester;
-
-    if(!isOpen){
-      Swal.fire({
-        icon:"info",
-        title:"Coming Soon",
-        text:"Semester ini belum tersedia",
-        confirmButtonColor:"#34d399"
-      });
-      return;
-    }
-
-    sessionStorage.setItem("semester", semester);
-    mapelGrid.innerHTML = "";
-
-    kelasData.XI[semester].forEach(m=>{
-      const div = document.createElement("div");
-      div.className = "class-item mapel-btn";
-      div.innerHTML = `<h3>${m.name}</h3>`;
-
-      div.onclick = m.open
-        ? () => showPertemuan()
-        : () => Swal.fire("Mapel Terkunci","","info");
-
-      div.style.opacity = m.open ? "1" : ".5";
-
-      mapelGrid.appendChild(div);
+  btn.onclick=()=>{
+    sectionMapel.style.display="block";
+    mapelGrid.innerHTML="";
+    kelasData.XI[1].forEach(mp=>{
+      const d=document.createElement("div");
+      d.className="class-item";
+      d.textContent=mp.open?mp.name:`🔒 ${mp.name}`;
+      d.style.opacity=mp.open?1:.5;
+      d.onclick=mp.open?()=>showPertemuan():()=>Swal.fire("Terkunci","","info");
+      mapelGrid.appendChild(d);
     });
-
-    sectionMapel.style.display = "block";
-    scrollToSection("#section-mapel");
   };
 });
 
 function showPertemuan(){
-  // 1️⃣ Tampilkan section
-  sectionPertemuan.style.display = "block";
-  pertemuanGrid.innerHTML = "";
-
-  // 2️⃣ Ambil progress terakhir (default = 1)
-  const unlockedPertemuan = parseInt(
-    sessionStorage.getItem("pertemuanUnlocked") || 1
-  );
-
-  // 3️⃣ Generate pertemuan
-  for(let i = 1; i <= 16; i++){
-    const item = document.createElement("div");
-    const open = i <= unlockedPertemuan;
-
-    item.className = "class-item";
-    item.textContent = open
-      ? `Pertemuan ${i}`
-      : `🔒 Pertemuan ${i}`;
-
-    item.style.opacity = open ? "1" : ".5";
-
-    item.onclick = open
-      ? () => {
-          sessionStorage.setItem("pertemuanAktif", i);
-          loadingKeAbsensi();
-        }
-      : () => {
-          Swal.fire({
-            icon: "info",
-            title: "Pertemuan Terkunci",
-            text: "Selesaikan pertemuan sebelumnya terlebih dahulu",
-            confirmButtonColor: "#34d399"
-          });
-        };
-
-    pertemuanGrid.appendChild(item);
+  sectionPertemuan.style.display="block";
+  pertemuanGrid.innerHTML="";
+  for(let i=1;i<=16;i++){
+    const d=document.createElement("div");
+    const open=i===1;
+    d.className="class-item";
+    d.textContent=open?`Pertemuan ${i}`:`🔒 Pertemuan ${i}`;
+    d.style.opacity=open?1:.5;
+    d.onclick=open?()=>loadingKeAbsensi():()=>Swal.fire("Terkunci","","info");
+    pertemuanGrid.appendChild(d);
   }
-
-  // 4️⃣ Scroll PAS ke pertemuan
-  scrollToSection("#section-pertemuan");
 }
 
 function loadingKeAbsensi(){
@@ -1981,47 +1873,22 @@ function loadingKeAbsensi(){
   const user = getAuthUser();
 
   if(user){
-    // tampilkan nama siswa
     text.textContent = user.username;
-    btn.innerHTML = `<i class="fa-solid fa-user"></i>`;
-
-    btn.onclick = () => {
-      Swal.fire({
-        icon: "question",
-        title: "Keluar Akun?",
-        text: "Apakah Anda yakin ingin logout?",
-        showCancelButton: true,
-        confirmButtonText: "Ya, Logout",
-        cancelButtonText: "Batal",
-        confirmButtonColor: "#ef4444",
-        cancelButtonColor: "#9ca3af"
-      }).then(result=>{
-        if(result.isConfirmed){
-          logout();
-        }
-      });
-    };
-
+    btn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Logout`;
+    btn.onclick = logout;
   } else {
     text.textContent = "Daftar Siswa";
-    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i>`;
+    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
     btn.onclick = () => {
       popupDaftar.style.right = "0";
       overlayDaftar.style.display = "block";
     };
   }
 }
-  function scrollToSection(selector){
-  const el = document.querySelector(selector);
-  const navHeight = document.querySelector("nav").offsetHeight;
-  const y = el.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
-
-  window.scrollTo({
-    top: y,
-    behavior: "smooth"
-  });
-}
+  document.querySelector("#popup-daftar .close").onclick = () => {
+  popupDaftar.style.right = "-420px";
+  overlayDaftar.style.display = "none";
+};
 </script>
-  
 </body>
 </html>
