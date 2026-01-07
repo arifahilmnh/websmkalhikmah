@@ -1620,38 +1620,114 @@ window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
 // ======================================================
 const popupDaftar = document.getElementById("popup-daftar");
 const overlayDaftar = document.getElementById("overlay-daftar");
+const btnLogin = document.getElementById("btnLogin");
+const btnGoogle = document.getElementById("btnGoogle");
 
 // ======================================================
-// NAVBAR USER
+// NAVBAR BUTTON
 // ======================================================
-function updateNavbarUser(){
-  const btn = document.getElementById("navUserBtn");
-  if(!btn) return;
+document.getElementById("navUserBtn").onclick = () => {
+  popupDaftar.style.right = "0";
+  overlayDaftar.style.display = "block";
+};
 
-  if(window.isUserLoggedIn && window.currentUser){
-    btn.innerHTML = `
-      <i class="fa-solid fa-circle-check"></i>
-      <span>${window.currentUser.nama}</span>
-    `;
-    btn.onclick = () => {
-      Swal.fire({
-        icon: "info",
-        title: "Pendaftaran Selesai",
-        text: "Permintaan telah dicatat, Silakan tunggu informasi selanjutnya.",
-        confirmButtonColor: "#34d399"
-      });
-    };
-  } else {
-    btn.innerHTML = `
-      <i class="fa-solid fa-user-plus"></i>
-      <span>Daftar Siswa</span>
-    `;
-    btn.onclick = () => {
-      popupDaftar.style.right = "0";
-      overlayDaftar.style.display = "block";
-    };
+// ======================================================
+// DAFTAR SISWA
+// ======================================================
+document.getElementById("submit-daftar").onclick = () => {
+  const inputs = popupDaftar.querySelectorAll("input, select");
+  let lengkap = true;
+
+  inputs.forEach(i => {
+    if (!i.value.trim()) lengkap = false;
+  });
+
+  if (!lengkap) {
+    Swal.fire({
+      icon: "warning",
+      title: "Data belum lengkap",
+      text: "Silakan lengkapi seluruh data pendaftaran",
+      confirmButtonColor: "#34d399"
+    });
+    return;
   }
-}
+
+  popupDaftar.style.right = "-420px";
+  overlayDaftar.style.display = "none";
+
+  Swal.fire({
+    icon: "success",
+    title: "Permintaan Dicatat",
+    text: "Permintaan telah dicatat, tunggu informasi selanjutnya!",
+    confirmButtonColor: "#34d399"
+  }).then(() => {
+    document.querySelector(".hero").scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+};
+
+// ======================================================
+// LOGIN MANUAL
+// ======================================================
+btnLogin.onclick = () => {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!email || !password) {
+    Swal.fire({
+      icon: "warning",
+      title: "Login Gagal",
+      text: "Isi data terlebih dahulu untuk login",
+      confirmButtonColor: "#34d399"
+    });
+    return;
+  }
+
+  // akun valid
+  if (email === "siswa01" && password === "siswa123") {
+    Swal.fire({
+      icon: "success",
+      title: "Login Berhasil",
+      text: "Terima kasih sudah login, silakan pilih kelas terlebih dahulu",
+      confirmButtonColor: "#34d399"
+    }).then(() => {
+      document.querySelector(".class-grid").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Login Gagal",
+      text: "Username atau password salah",
+      confirmButtonColor: "#ef4444"
+    });
+  }
+};
+
+// ======================================================
+// LOGIN GOOGLE (BELUM AKTIF)
+// ======================================================
+btnGoogle.onclick = () => {
+  Swal.fire({
+    icon: "info",
+    title: "Fitur Belum Aktif",
+    text: "Fitur login Google akan segera aktif",
+    confirmButtonColor: "#34d399"
+  });
+};
+
+// ======================================================
+// CLOSE POPUP VIA OVERLAY
+// ======================================================
+overlayDaftar.onclick = () => {
+  popupDaftar.style.right = "-420px";
+  overlayDaftar.style.display = "none";
+};
+  
 // ======================================================
 // DOM READY
 // ======================================================
@@ -1777,6 +1853,5 @@ function loadingKeAbsensi(){
   setTimeout(()=>location.href="absensi.html",1500);
 }
 </script>
-<script type="module" src="js/login-siswa.js"></script>
 </body>
 </html>
