@@ -1759,30 +1759,50 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ======================================================
-// HERO SLIDER
+// HERO SLIDER (FIXED)
 // ======================================================
 const slides = document.querySelectorAll(".hero-bg img");
 const dotsWrap = document.getElementById("sliderDots");
 let slideIndex = 0;
+let slideInterval;
 
-slides.forEach((_,i)=>{
+// BUAT DOTS
+slides.forEach((_, i) => {
   const dot = document.createElement("span");
-  if(i===0) dot.classList.add("active");
-  dot.onclick=()=>showSlide(i);
+  if (i === 0) dot.classList.add("active");
+  dot.addEventListener("click", () => {
+    showSlide(i);
+    resetAutoSlide();
+  });
   dotsWrap.appendChild(dot);
 });
 
-function showSlide(i){
-  slides.forEach(s=>s.classList.remove("active"));
-  dotsWrap.querySelectorAll("span").forEach(d=>d.classList.remove("active"));
-  slides[i].classList.add("active");
-  dotsWrap.children[i].classList.add("active");
-  slideIndex=i;
+const dots = dotsWrap.querySelectorAll("span");
+
+function showSlide(index) {
+  slides.forEach((img, i) => {
+    img.classList.toggle("active", i === index);
+    dots[i].classList.toggle("active", i === index);
+  });
+  slideIndex = index;
 }
 
-setInterval(()=>{
-  showSlide((slideIndex+1)%slides.length);
-},6000);
+function nextSlide() {
+  slideIndex = (slideIndex + 1) % slides.length;
+  showSlide(slideIndex);
+}
+
+function startAutoSlide() {
+  slideInterval = setInterval(nextSlide, 5000);
+}
+
+function resetAutoSlide() {
+  clearInterval(slideInterval);
+  startAutoSlide();
+}
+
+// START
+startAutoSlide();
 
 // ======================================================
 // MAPEL & PERTEMUAN
