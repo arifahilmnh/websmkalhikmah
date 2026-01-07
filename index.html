@@ -1566,33 +1566,22 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   <button style="width:100%;padding:14px;border-radius:22px;border:0;font-weight:700;background:linear-gradient(135deg,#6BCF9B,#34d399);cursor:pointer">Login</button>
 </div>
 
-<!-- Daftar Popup -->
-<div id="popup-daftar" style="
-  position:fixed;top:0;right:-420px;
-  width:420px;height:100%;
-  padding:36px 28px;
-  background:rgba(255,255,255,0.95);
-  backdrop-filter:blur(20px);
-  border-radius:0 0 0 28px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  color:#0f2f1f;
-  z-index:1000;
-  box-shadow:0 40px 120px rgba(0,0,0,.35);
-  transition: right 0.5s ease;
-  overflow-y:auto;
-">
-  <h3 style="text-align:center;font-weight:800;margin-bottom:20px">Daftar Siswa Baru</h3>
-  <input placeholder="Nama Lengkap" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <input placeholder="Email / NIS" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <input placeholder="Nomor Telepon" style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb">
-  <select style="width:100%;padding:14px;border-radius:18px;border:1px solid #e5e7eb;color:#0f2f1f">
+<div id="popup-daftar">
+  <div class="close"><i class="fa-solid fa-xmark"></i></div>
+
+  <h3>Daftar Siswa Baru</h3>
+  <p>Silakan lengkapi data berikut</p>
+
+  <input placeholder="Nama Lengkap">
+  <input placeholder="Email / NIS">
+  <input placeholder="Nomor Telepon">
+  <select>
     <option value="">Pilih Kelas</option>
-    <option value="X">Kelas X</option>
-    <option value="XI">Kelas XI</option>
-    <option value="XII">Kelas XII</option>
+    <option>X</option>
+    <option>XI</option>
+    <option>XII</option>
   </select>
+
   <button id="submit-daftar">Daftar</button>
 </div>
 
@@ -1609,11 +1598,23 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </footer>
 
 <script>
-// ======================================================
-// GLOBAL LOGIN STATE
-// ======================================================
-window.isUserLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
-window.currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || null;
+// ================= AUTH SYSTEM =================
+function getAuthUser(){
+  return JSON.parse(sessionStorage.getItem("authUser"));
+}
+
+function isLoggedIn(){
+  return !!getAuthUser();
+}
+
+function logout(){
+  sessionStorage.removeItem("authUser");
+  Swal.fire({
+    icon: "success",
+    title: "Logout berhasil",
+    confirmButtonColor: "#34d399"
+  }).then(()=>location.reload());
+}
 
 // ======================================================
 // ELEMENT
@@ -1668,9 +1669,6 @@ document.getElementById("submit-daftar").onclick = () => {
   });
 };
 
-// ======================================================
-// LOGIN MANUAL
-// ======================================================
 btnLogin.onclick = () => {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
@@ -1679,33 +1677,35 @@ btnLogin.onclick = () => {
     Swal.fire({
       icon: "warning",
       title: "Login Gagal",
-      text: "Isi data terlebih dahulu untuk login",
+      text: "Email dan password wajib diisi",
       confirmButtonColor: "#34d399"
     });
     return;
   }
 
+  // === SIMULASI DATABASE ===
   if (email === "siswa01" && password === "siswa123") {
 
-  // SIMPAN STATUS LOGIN
-  localStorage.setItem("loginSiswa", JSON.stringify({
-    username: "siswa01",
-    nis: "2025001",
-    role: "siswa",
-    loginAt: new Date().toISOString()
-  }));
+    sessionStorage.setItem("authUser", JSON.stringify({
+      username: "siswa01",
+      nis: "2025001",
+      role: "siswa",
+      loginAt: new Date().toISOString()
+    }));
 
-  Swal.fire({
-    icon: "success",
-    title: "Login Berhasil",
-    text: "Terima kasih sudah login, silakan pilih kelas terlebih dahulu",
-    confirmButtonColor: "#34d399"
-  }).then(() => {
-    document.querySelector(".class-grid").scrollIntoView({
-      behavior: "smooth",
-      block: "start"
+    Swal.fire({
+      icon: "success",
+      title: "Login Berhasil",
+      text: "Silakan pilih kelas",
+      confirmButtonColor: "#34d399"
+    }).then(()=>{
+      updateNavbarUser();
+      document.querySelector(".class-grid").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     });
-  });
+
   } else {
     Swal.fire({
       icon: "error",
@@ -1815,13 +1815,20 @@ const kelasData={
 };
 
 document.querySelectorAll(".class-btn").forEach(btn=>{
-  btn.onclick=()=>{
-    if(!window.isUserLoggedIn){
-      Swal.fire("Login dulu","Silakan login terlebih dahulu","info");
+  btn.onclick = () => {
+    if(!isLoggedIn()){
+      Swal.fire({
+        icon:"warning",
+        title:"Harus Login",
+        text:"Silakan login terlebih dahulu",
+        confirmButtonColor:"#34d399"
+      });
       return;
     }
-    sectionSemester.style.display="block";
-    sectionSemester.scrollIntoView({behavior:"smooth"});
+
+    document.getElementById("section-semester").style.display = "block";
+    document.getElementById("section-semester")
+      .scrollIntoView({behavior:"smooth"});
   };
 });
 
@@ -1859,6 +1866,29 @@ function loadingKeAbsensi(){
   loading.classList.add("active");
   setTimeout(()=>location.href="absensi.html",1500);
 }
+
+  function updateNavbarUser(){
+  const btn = document.getElementById("navUserBtn");
+  const text = document.getElementById("navUserText");
+  const user = getAuthUser();
+
+  if(user){
+    text.textContent = user.username;
+    btn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Logout`;
+    btn.onclick = logout;
+  } else {
+    text.textContent = "Daftar Siswa";
+    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
+    btn.onclick = () => {
+      popupDaftar.style.right = "0";
+      overlayDaftar.style.display = "block";
+    };
+  }
+}
+  document.querySelector("#popup-daftar .close").onclick = () => {
+  popupDaftar.style.right = "-420px";
+  overlayDaftar.style.display = "none";
+};
 </script>
 </body>
 </html>
