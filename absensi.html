@@ -333,13 +333,21 @@ footer{
 
 <script>
 const REDIRECT_TIME="pertemuan1.html";
-const REDIRECT_HOME="BERANDA.html";
+const REDIRECT_HOME="index.html";
 
-const siswa=JSON.parse(localStorage.getItem("loginSiswa"));
-if(!siswa){
- Swal.fire("Akses Ditolak","Silakan login terlebih dahulu","error")
- .then(()=>location.href="BERANDA.html");
+const siswaRaw = localStorage.getItem("loginSiswa");
+
+if(!siswaRaw){
+ Swal.fire({
+  icon:"error",
+  title:"Akses Ditolak",
+  text:"Silakan login terlebih dahulu"
+ }).then(()=>{
+  location.href="index.html";
+ });
 }
+
+const siswa = JSON.parse(siswaRaw);
 
 const nama=document.getElementById("nama");
 const nis=document.getElementById("nis");
