@@ -1622,13 +1622,35 @@ const popupDaftar = document.getElementById("popup-daftar");
 const overlayDaftar = document.getElementById("overlay-daftar");
 const btnLogin = document.getElementById("btnLogin");
 const btnGoogle = document.getElementById("btnGoogle");
+const navUserBtn = document.getElementById("navUserBtn");
+
+// ======================================================
+// UPDATE NAVBAR USER
+// ======================================================
+function updateNavbarUser() {
+  if (window.isUserLoggedIn && window.currentUser) {
+    navUserBtn.innerHTML = `
+      <i class="fa-solid fa-user"></i>
+      <span>${window.currentUser.username}</span>
+    `;
+    navUserBtn.classList.add("logged-in");
+  } else {
+    navUserBtn.innerHTML = `
+      <i class="fa-solid fa-user"></i>
+      <span>Daftar Siswa</span>
+    `;
+    navUserBtn.classList.remove("logged-in");
+  }
+}
 
 // ======================================================
 // NAVBAR BUTTON
 // ======================================================
-document.getElementById("navUserBtn").onclick = () => {
-  popupDaftar.style.right = "0";
-  overlayDaftar.style.display = "block";
+navUserBtn.onclick = () => {
+  if (!window.isUserLoggedIn) {
+    popupDaftar.style.right = "0";
+    overlayDaftar.style.display = "block";
+  }
 };
 
 // ======================================================
@@ -1663,7 +1685,7 @@ document.getElementById("submit-daftar").onclick = () => {
   }).then(() => {
     document.querySelector(".hero").scrollIntoView({
       behavior: "smooth",
-      block: "start"
+      block: "center"
     });
   });
 };
@@ -1685,27 +1707,35 @@ btnLogin.onclick = () => {
     return;
   }
 
+  // LOGIN VALID
   if (email === "siswa01" && password === "siswa123") {
+    const userData = {
+      username: "Siswa 01",
+      email,
+      role: "siswa",
+      loginAt: new Date().toISOString()
+    };
 
-  // SIMPAN STATUS LOGIN
-  localStorage.setItem("loginSiswa", JSON.stringify({
-    username: "siswa01",
-    nis: "2025001",
-    role: "siswa",
-    loginAt: new Date().toISOString()
-  }));
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("currentUser", JSON.stringify(userData));
+    localStorage.setItem("loginSiswa", JSON.stringify(userData));
 
-  Swal.fire({
-    icon: "success",
-    title: "Login Berhasil",
-    text: "Terima kasih sudah login, silakan pilih kelas terlebih dahulu",
-    confirmButtonColor: "#34d399"
-  }).then(() => {
-    document.querySelector(".class-grid").scrollIntoView({
-      behavior: "smooth",
-      block: "start"
+    window.isUserLoggedIn = true;
+    window.currentUser = userData;
+
+    updateNavbarUser();
+
+    Swal.fire({
+      icon: "success",
+      title: "Login Berhasil",
+      text: "Silakan pilih kelas",
+      confirmButtonColor: "#34d399"
+    }).then(() => {
+      document.querySelector(".class-grid").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
     });
-  });
   } else {
     Swal.fire({
       icon: "error",
@@ -1715,6 +1745,7 @@ btnLogin.onclick = () => {
     });
   }
 };
+
 // ======================================================
 // LOGIN GOOGLE (BELUM AKTIF)
 // ======================================================
@@ -1722,142 +1753,132 @@ btnGoogle.onclick = () => {
   Swal.fire({
     icon: "info",
     title: "Fitur Belum Aktif",
-    text: "Fitur login Google akan segera aktif",
+    text: "Login Google akan segera tersedia",
     confirmButtonColor: "#34d399"
   });
 };
 
 // ======================================================
-// CLOSE POPUP VIA OVERLAY
+// CLOSE POPUP
 // ======================================================
 overlayDaftar.onclick = () => {
   popupDaftar.style.right = "-420px";
   overlayDaftar.style.display = "none";
 };
-  
+
 // ======================================================
 // DOM READY
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
-
-  const preloader = document.getElementById("preloader");
-
-  // PRELOADER
-  if(preloader){
-    setTimeout(()=>{
-      preloader.classList.add("hidden");
-    },800);
-  }
-
-  document.body.classList.add("page-enter");
   updateNavbarUser();
 
-  if(window.isUserLoggedIn){
+  if (window.isUserLoggedIn) {
     const heroLogin = document.querySelector(".hero-login");
-    if(heroLogin) heroLogin.style.display="none";
+    if (heroLogin) heroLogin.style.display = "none";
   }
 });
 
 // ======================================================
-// HERO SLIDER
+// PILIH KELAS
 // ======================================================
-const slides = document.querySelectorAll(".hero-bg img");
-const dotsWrap = document.getElementById("sliderDots");
-let slideIndex = 0;
-
-slides.forEach((_,i)=>{
-  const dot = document.createElement("span");
-  if(i===0) dot.classList.add("active");
-  dot.onclick=()=>showSlide(i);
-  dotsWrap.appendChild(dot);
-});
-
-function showSlide(i){
-  slides.forEach(s=>s.classList.remove("active"));
-  dotsWrap.querySelectorAll("span").forEach(d=>d.classList.remove("active"));
-  slides[i].classList.add("active");
-  dotsWrap.children[i].classList.add("active");
-  slideIndex=i;
-}
-
-setInterval(()=>{
-  showSlide((slideIndex+1)%slides.length);
-},6000);
-
-// ======================================================
-// MAPEL & PERTEMUAN
-// ======================================================
-const sectionSemester=document.getElementById("section-semester");
-const sectionMapel=document.getElementById("section-mapel");
-const sectionPertemuan=document.getElementById("section-pertemuan");
-const mapelGrid=document.getElementById("mapel-grid");
-const pertemuanGrid=document.getElementById("pertemuan-grid");
-
-const kelasData={
-  XI:{
-    1:[
-      {name:"Konsentrasi keahlian 2 (Web)",open:true},
-      {name:"Mapel pilihan (framework)",open:false},
-      {name:"Matematika",open:false},
-      {name:"Pendidikan Pancasila dan kewarganegaraan",open:false},
-      {name:"Bahasa Indonesia",open:false},
-      {name:"Projek kreatif dan kewirausahaan",open:false},
-      {name:"Pjok",open:false},
-      {name:"Sejarah",open:false},
-      {name:"Pendidikan agama Islam dan Budi pekerti",open:false},
-      {name:"Bahasa inggris",open:false},
-      {name:"BK",open:false},
-      {name:"Konsentrasi keahlian 1 (PBO)",open:false},
-      {name:"Konsentrasi keahlian 4 (Android)",open:false},
-      {name:"Konsentrasi keahlian 3 (Basis data)",open:false}
-    ]
-  }
-};
-
-document.querySelectorAll(".class-btn").forEach(btn=>{
-  btn.onclick=()=>{
-    if(!window.isUserLoggedIn){
-      Swal.fire("Login dulu","Silakan login terlebih dahulu","info");
+document.querySelectorAll(".class-btn").forEach(btn => {
+  btn.onclick = () => {
+    if (!window.isUserLoggedIn) {
+      Swal.fire({
+        icon: "info",
+        title: "Login Diperlukan",
+        text: "Silakan login terlebih dahulu",
+        confirmButtonColor: "#34d399"
+      }).then(() => {
+        document.querySelector(".hero").scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      });
       return;
     }
-    sectionSemester.style.display="block";
-    sectionSemester.scrollIntoView({behavior:"smooth"});
-  };
-});
 
-document.querySelectorAll(".semester-btn").forEach(btn=>{
-  btn.onclick=()=>{
-    sectionMapel.style.display="block";
-    mapelGrid.innerHTML="";
-    kelasData.XI[1].forEach(mp=>{
-      const d=document.createElement("div");
-      d.className="class-item";
-      d.textContent=mp.open?mp.name:`🔒 ${mp.name}`;
-      d.style.opacity=mp.open?1:.5;
-      d.onclick=mp.open?()=>showPertemuan():()=>Swal.fire("Terkunci","","info");
-      mapelGrid.appendChild(d);
+    sectionSemester.style.display = "block";
+    sectionSemester.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
     });
   };
 });
 
-function showPertemuan(){
-  sectionPertemuan.style.display="block";
-  pertemuanGrid.innerHTML="";
-  for(let i=1;i<=16;i++){
-    const d=document.createElement("div");
-    const open=i===1;
-    d.className="class-item";
-    d.textContent=open?`Pertemuan ${i}`:`🔒 Pertemuan ${i}`;
-    d.style.opacity=open?1:.5;
-    d.onclick=open?()=>loadingKeAbsensi():()=>Swal.fire("Terkunci","","info");
+// ======================================================
+// MAPEL & PERTEMUAN (TETAP)
+// ======================================================
+const sectionSemester = document.getElementById("section-semester");
+const sectionMapel = document.getElementById("section-mapel");
+const sectionPertemuan = document.getElementById("section-pertemuan");
+const mapelGrid = document.getElementById("mapel-grid");
+const pertemuanGrid = document.getElementById("pertemuan-grid");
+
+const kelasData = {
+  XI: {
+    1: [
+      { name: "Konsentrasi keahlian 2 (Web)", open: true },
+      { name: "Mapel pilihan (framework)", open: false },
+      { name: "Matematika", open: false },
+      { name: "Pendidikan Pancasila dan kewarganegaraan", open: false },
+      { name: "Bahasa Indonesia", open: false },
+      { name: "Projek kreatif dan kewirausahaan", open: false },
+      { name: "Pjok", open: false },
+      { name: "Sejarah", open: false },
+      { name: "Pendidikan agama Islam dan Budi pekerti", open: false },
+      { name: "Bahasa inggris", open: false },
+      { name: "BK", open: false },
+      { name: "Konsentrasi keahlian 1 (PBO)", open: false },
+      { name: "Konsentrasi keahlian 4 (Android)", open: false },
+      { name: "Konsentrasi keahlian 3 (Basis data)", open: false }
+    ]
+  }
+};
+
+document.querySelectorAll(".semester-btn").forEach(btn => {
+  btn.onclick = () => {
+    sectionMapel.style.display = "block";
+    mapelGrid.innerHTML = "";
+
+    kelasData.XI[1].forEach(mp => {
+      const d = document.createElement("div");
+      d.className = "class-item";
+      d.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
+      d.style.opacity = mp.open ? 1 : 0.5;
+      d.onclick = mp.open
+        ? () => showPertemuan()
+        : () => Swal.fire("Terkunci", "", "info");
+      mapelGrid.appendChild(d);
+    });
+
+    sectionMapel.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+});
+
+function showPertemuan() {
+  sectionPertemuan.style.display = "block";
+  pertemuanGrid.innerHTML = "";
+
+  for (let i = 1; i <= 16; i++) {
+    const d = document.createElement("div");
+    const open = i === 1;
+    d.className = "class-item";
+    d.textContent = open ? `Pertemuan ${i}` : `🔒 Pertemuan ${i}`;
+    d.style.opacity = open ? 1 : 0.5;
+    d.onclick = open
+      ? () => loadingKeAbsensi()
+      : () => Swal.fire("Terkunci", "", "info");
     pertemuanGrid.appendChild(d);
   }
+
+  sectionPertemuan.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-function loadingKeAbsensi(){
-  const loading=document.getElementById("loadingAbsensi");
+function loadingKeAbsensi() {
+  const loading = document.getElementById("loadingAbsensi");
   loading.classList.add("active");
-  setTimeout(()=>location.href="absensi.html",1500);
+  setTimeout(() => (location.href = "absensi.html"), 1500);
 }
 </script>
 </body>
