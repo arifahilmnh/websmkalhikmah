@@ -1885,20 +1885,38 @@ document.querySelectorAll(".class-btn").forEach(btn=>{
   
 document.querySelectorAll(".semester-btn").forEach(btn=>{
   btn.onclick = ()=>{
+    const isOpen = btn.dataset.open === "true";
     const semester = btn.dataset.semester;
+
+    // ❌ Semester terkunci
+    if(!isOpen){
+      Swal.fire({
+        icon: "info",
+        title: "Coming Soon",
+        text: "Semester ini belum tersedia",
+        confirmButtonColor: "#34d399"
+      });
+      return;
+    }
+
+    // ✅ Semester 1 terbuka
     sessionStorage.setItem("semester", semester);
 
     const kelas = sessionStorage.getItem("kelas");
-    const mapelGrid = document.getElementById("mapel-grid");
-
     mapelGrid.innerHTML = "";
-    mapelData[kelas].forEach(m=>{
-      mapelGrid.innerHTML += `
-        <div class="class-item mapel-btn"><h3>${m}</h3></div>
-      `;
+
+    // ambil data mapel sesuai kelas & semester
+    kelasData[kelas][semester].forEach(m=>{
+      const div = document.createElement("div");
+      div.className = "class-item mapel-btn";
+      div.innerHTML = `<h3>${m.name}</h3>`;
+      div.onclick = () => showPertemuan();
+      mapelGrid.appendChild(div);
     });
 
-    document.getElementById("section-mapel").style.display="block";
+    sectionMapel.style.display = "block";
+
+    // ⬇️ Scroll PAS ke pilih mapel
     scrollToSection("#section-mapel");
   };
 });
