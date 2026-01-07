@@ -1685,19 +1685,27 @@ btnLogin.onclick = () => {
     return;
   }
 
-  // akun valid
   if (email === "siswa01" && password === "siswa123") {
-    Swal.fire({
-      icon: "success",
-      title: "Login Berhasil",
-      text: "Terima kasih sudah login, silakan pilih kelas terlebih dahulu",
-      confirmButtonColor: "#34d399"
-    }).then(() => {
-      document.querySelector(".class-grid").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+
+  // SIMPAN STATUS LOGIN
+  localStorage.setItem("loginSiswa", JSON.stringify({
+    username: "siswa01",
+    nis: "2025001",
+    role: "siswa",
+    loginAt: new Date().toISOString()
+  }));
+
+  Swal.fire({
+    icon: "success",
+    title: "Login Berhasil",
+    text: "Terima kasih sudah login, silakan pilih kelas terlebih dahulu",
+    confirmButtonColor: "#34d399"
+  }).then(() => {
+    document.querySelector(".class-grid").scrollIntoView({
+      behavior: "smooth",
+      block: "start"
     });
+  });
   } else {
     Swal.fire({
       icon: "error",
@@ -1707,7 +1715,6 @@ btnLogin.onclick = () => {
     });
   }
 };
-
 // ======================================================
 // LOGIN GOOGLE (BELUM AKTIF)
 // ======================================================
