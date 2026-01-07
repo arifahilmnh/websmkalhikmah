@@ -1691,34 +1691,42 @@ document.getElementById("submit-daftar").onclick = () => {
 };
 
 // ======================================================
-// LOGIN MANUAL
+// LOGIN MANUAL (FIXED)
 // ======================================================
 btnLogin.onclick = () => {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
 
+  // VALIDASI KOSONG
   if (!email || !password) {
     Swal.fire({
       icon: "warning",
       title: "Login Gagal",
-      text: "Isi data terlebih dahulu untuk login",
+      text: "Email dan password wajib diisi",
       confirmButtonColor: "#34d399"
     });
     return;
   }
 
-  // LOGIN VALID
-  if (email === "siswa01" && password === "siswa123") {
+  // AKUN DUMMY (SIMULASI)
+  const akunValid = {
+    email: "siswa01@elearning.com",
+    password: "siswa123",
+    username: "Siswa 01",
+    role: "siswa"
+  };
+
+  // CEK LOGIN
+  if (email === akunValid.email && password === akunValid.password) {
     const userData = {
-      username: "Siswa 01",
-      email,
-      role: "siswa",
+      username: akunValid.username,
+      email: akunValid.email,
+      role: akunValid.role,
       loginAt: new Date().toISOString()
     };
 
     sessionStorage.setItem("isLoggedIn", "true");
     sessionStorage.setItem("currentUser", JSON.stringify(userData));
-    localStorage.setItem("loginSiswa", JSON.stringify(userData));
 
     window.isUserLoggedIn = true;
     window.currentUser = userData;
@@ -1728,24 +1736,19 @@ btnLogin.onclick = () => {
     Swal.fire({
       icon: "success",
       title: "Login Berhasil",
-      text: "Silakan pilih kelas",
+      text: "Selamat datang di E-Learning RPL",
       confirmButtonColor: "#34d399"
-    }).then(() => {
-      document.querySelector(".class-grid").scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
     });
   } else {
     Swal.fire({
       icon: "error",
       title: "Login Gagal",
-      text: "Username atau password salah",
+      text: "Email atau password salah",
       confirmButtonColor: "#ef4444"
     });
   }
 };
-
+  
 // ======================================================
 // LOGIN GOOGLE (BELUM AKTIF)
 // ======================================================
