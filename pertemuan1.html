@@ -1410,12 +1410,13 @@ let userInteracting = false;
 document.addEventListener("mousemove", () => userInteracting = true);
 document.addEventListener("keydown", () => userInteracting = true);
 document.addEventListener("click", () => userInteracting = true);
-document.addEventListener("scroll", () => userInteracting = true); // Tambahkan event scroll untuk interaksi
+document.addEventListener("scroll", () => userInteracting = true);
+document.addEventListener("touchstart", () => userInteracting = true); // Tambahkan untuk mobile
 setInterval(() => userInteracting = false, 1500);
 
 /* ======================= GLOBAL PROGRESS ======================= */
 let globalProgress = 0;
-let interactionProgress = 0; // Tambahkan variabel untuk progress berdasarkan interaksi
+let interactionProgress = 0;
 const bar = document.getElementById("bar");
 const progressText = document.getElementById("progressText");
 
@@ -1433,7 +1434,7 @@ function setGlobalProgressSafe(value) {
 // Interval untuk meningkatkan progress global berdasarkan interaksi (dari 0 ke 5 saat masuk halaman awal)
 setInterval(() => {
   if (userInteracting) {
-    interactionProgress += 0.05; // Naik 0.05% per detik saat interaksi (dapat disesuaikan)
+    interactionProgress += 0.05; // Naik 0.05% per detik saat interaksi
     setGlobalProgressSafe(Math.min(5, interactionProgress));
   }
 }, 1000);
@@ -1509,6 +1510,16 @@ function go(step) {
 
   if (step === 5) {
     setGlobalProgressSafe(progressMap.halaman.rangkuman);
+    // Hapus underline di judul rangkuman
+    const judulRangkuman = next?.querySelector("h2");
+    if (judulRangkuman) judulRangkuman.style.textDecoration = "none";
+    // Sembunyikan status dan progress video rangkuman
+    const videoStatus = document.getElementById("videoStatusrangkuman");
+    const videoBar = document.getElementById("videoBarrangkuman");
+    const videoPercent = document.getElementById("videoPercentrangkuman");
+    if (videoStatus) videoStatus.style.display = "none";
+    if (videoBar) videoBar.style.display = "none";
+    if (videoPercent) videoPercent.style.display = "none";
   }
 
   setTimeout(() => {
@@ -1797,7 +1808,7 @@ function selesaiLatihan() {
       </div>
     `;
     document.querySelector('.final-result').innerHTML += buttons;
-  }, 2000);
+}, 2000);
 }
 
 const videoState = {};
@@ -1806,24 +1817,10 @@ let pageVisible = true;
 /* === VISIBILITY === */
 document.addEventListener("visibilitychange", () => {
   pageVisible = !document.hidden;
-  Object.keys(videoState).forEach(pauseVideo);
+  Object.keys(videoState).forEach(ind => pauseVideo(ind));
 });
 
 /* === INIT === */
-function initVideo(ind) {
-  if (videoState[ind]) return;
-
-  const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
-  const durasi = Number(box.dataset.durasi || 0);
-
-  videoState[ind] = {
-    watched: 0,
-    duration: durasi,
-    playing: false,
-    done: false,
-    timer: null
-  };
-
 function initVideo(ind) {
   if (videoState[ind]) return;
 
@@ -1855,6 +1852,9 @@ function playVideo(ind) {
   }
 
   v.playing = true;
+
+  // Update UI segera ke "sedang diputar" saat play
+  updateVideoUI(ind, Math.min(Math.round((v.watched / v.duration) * 100), 100));
 
   v.timer = setInterval(() => {
     if (!pageVisible) return;
@@ -1956,40 +1956,10 @@ function unlockButton(id, text) {
   btn.innerHTML = text;
 }
 
-// Untuk rangkuman, hapus underline di judul dan sembunyikan status/progress video
-function go(step) {
-  const prev = document.getElementById("s" + current);
-  const next = document.getElementById("s" + step);
-
-  prev?.classList.remove("active");
-  next?.classList.add("active");
-  current = step;
-
-  if (step === 5) {
-    setGlobalProgressSafe(progressMap.halaman.rangkuman);
-    // Hapus underline di judul rangkuman
-    const judulRangkuman = next?.querySelector("h2");
-    if (judulRangkuman) judulRangkuman.style.textDecoration = "none";
-    // Sembunyikan status dan progress video rangkuman
-    const videoStatus = document.getElementById("videoStatusrangkuman");
-    const videoBar = document.getElementById("videoBarrangkuman");
-    const videoPercent = document.getElementById("videoPercentrangkuman");
-    if (videoStatus) videoStatus.style.display = "none";
-    if (videoBar) videoBar.style.display = "none";
-    if (videoPercent) videoPercent.style.display = "none";
-  }
-
-  setTimeout(() => {
-    const judul = next?.querySelector(".title, h2");
-    if (judul) scrollToEl(judul);
-    else window.scrollTo({top: 0, behavior: "smooth"});
-  }, 300);
-}
-
 document.getElementById("btnMulai").onclick = () => go(2);
 
 // Tombol mulai latihan
-document.getElementById("btnMulaiLatihan").onclick = mulaiLatihan; // Asumsikan ada tombol dengan id btnMulaiLatihan
+document.getElementById("btnMulaiLatihan").onclick = mulaiLatihan;
 </script>
 </body>
 </html>
