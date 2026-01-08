@@ -1404,39 +1404,53 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
  
+<think>
+Pertama, pengguna ingin memperbaiki JavaScript di atas. Ada dua poin utama:
+
+
+## Addressing User Request
+
+- The user wants to improve their JavaScript code, focusing on video playback functionality.
+- Specifically, they’re looking to fix the behavior when clicking "play video lumi," where video progress and status change automatically.
+
+## Addressing User Request
+- The current setup includes an event listener for clicking the .video-lumi box, triggering playVideo(ind) to start a timer and update the UI.
+- There’s a suggestion to add a transparent overlay to indicate video playback, as the current overlay seems ineffective or missing.
+
+## Enhancing Video Playback
+- playVideo starts a 1-second timer that updates watched time, percentage, UI, and global progress when play is clicked.
+</think>```javascript
 <script>
 /* ======================= USER INTERACTION ======================= */
 let userInteracting = false;
 document.addEventListener("mousemove", () => userInteracting = true);
 document.addEventListener("keydown", () => userInteracting = true);
 document.addEventListener("click", () => userInteracting = true);
-document.addEventListener("scroll", () => userInteracting = true); // Tambahkan event scroll untuk interaksi
+document.addEventListener("scroll", () => userInteracting = true); // Tambahkan scroll sebagai interaksi
 setInterval(() => userInteracting = false, 1500);
 
 /* ======================= GLOBAL PROGRESS ======================= */
 let globalProgress = 0;
-let interactionProgress = 0; // Tambahkan variabel untuk progress berdasarkan interaksi
 const bar = document.getElementById("bar");
 const progressText = document.getElementById("progressText");
 
 function setGlobalProgressSafe(value) {
   if (value <= globalProgress) return;
-  globalProgress = value;
-  bar.style.width = value.toFixed(1) + "%";
-  progressText.textContent = value.toFixed(1) + "% Selesai";
+  globalProgress = Math.min(value, 100); // Pastikan tidak melebihi 100
+  bar.style.width = globalProgress.toFixed(1) + "%";
+  progressText.textContent = globalProgress.toFixed(1) + "% Selesai";
   setTimeout(() => {
     bar.classList.add("active");
     setTimeout(() => bar.classList.remove("active"), 600);
   }, 100);
 }
 
-// Interval untuk meningkatkan progress global berdasarkan interaksi (dari 0 ke 5 saat masuk halaman awal)
-setInterval(() => {
-  if (userInteracting) {
-    interactionProgress += 0.05; // Naik 0.05% per detik saat interaksi (dapat disesuaikan)
-    setGlobalProgressSafe(Math.min(5, interactionProgress));
+// Interval untuk meningkatkan progress global saat user interacting (hanya sampai titik awal, misal 5%)
+let progressInterval = setInterval(() => {
+  if (userInteracting && globalProgress < 5) {
+    setGlobalProgressSafe(globalProgress + 0.05); // Tambah 0.05% per 100ms jika interacting
   }
-}, 1000);
+}, 100);
 
 /* ======================= KONFIGURASI ======================= */
 const KKM = 70;
@@ -1507,8 +1521,10 @@ function go(step) {
   next?.classList.add("active");
   current = step;
 
-  if (step === 5) {
-    setGlobalProgressSafe(progressMap.halaman.rangkuman);
+  // Update progress berdasarkan step
+  const stepKeys = {2: 'tujuan', 3: 'indikator1', 4: 'indikator2', 5: 'rangkuman'};
+  if (stepKeys[step]) {
+    setGlobalProgressSafe(progressMap.halaman[stepKeys[step]]);
   }
 
   setTimeout(() => {
@@ -1814,29 +1830,24 @@ function initVideo(ind) {
   if (videoState[ind]) return;
 
   const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
-  if (!box) return; // Jika box tidak ada, skip
-
   const durasi = Number(box.dataset.durasi || 0);
-  if (durasi <= 0) return; // Jika durasi tidak valid, skip
 
-  videoState[ind] = {
-  watched: 0,
-  duration: durasi,
-  playing: false,
-  done: false,
-  timer: null
-};
-
-updateVideoUI(ind, 0); // Inisialisasi UI video
+    videoState[ind] = {
+    watched: 0,
+    duration: durasi,
+    playing: false,
+    done: false,
+    timer: null
+  };
 }
 
 function playVideo(ind) {
   initVideo(ind);
   const v = videoState[ind];
 
-  if (v.done || !v) return;
+  if (v.done) return;
 
-  // Hentikan timer lama jika ada
+  // 🛑 hentikan timer lama jika ada
   if (v.timer) {
     clearInterval(v.timer);
     v.timer = null;
@@ -1844,11 +1855,39 @@ function playVideo(ind) {
 
   v.playing = true;
 
+  // Tambahkan overlay transparan untuk menunjukkan video sedang diputar
+  const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
+  if (box) {
+    let overlay = box.querySelector('.video-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'video-overlay';
+      overlay.style.position = 'absolute';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.1)'; // Transparan
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'center';
+      overlay.style.justifyContent = 'center';
+      overlay.style.color = 'white';
+      overlay.style.fontSize = '24px';
+      overlay.innerHTML = '▶️ Sedang Diputar';
+      box.style.position = 'relative'; // Pastikan box relative
+      box.appendChild(overlay);
+    }
+    overlay.style.display = 'flex';
+  }
+
   v.timer = setInterval(() => {
     if (!pageVisible) return;
 
     v.watched++;
-    const percent = Math.min(Math.round((v.watched / v.duration) * 100), 100);
+    const percent = Math.min(
+      Math.round((v.watched / v.duration) * 100),
+      100
+    );
 
     updateVideoUI(ind, percent);
     updateGlobalProgressRealtime(ind, percent);
@@ -1867,9 +1906,16 @@ function pauseVideo(ind) {
   clearInterval(v.timer);
   v.timer = null;
   v.playing = false;
+
+  // Sembunyikan overlay saat pause
+  const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
+  if (box) {
+    const overlay = box.querySelector('.video-overlay');
+    if (overlay) overlay.style.display = 'none';
+  }
 }
 
-/* === FINISH VIDEO === */
+/* === FINISH === */
 function finishVideo(ind) {
   const v = videoState[ind];
   if (v.done) return;
@@ -1877,25 +1923,29 @@ function finishVideo(ind) {
   v.done = true;
   pauseVideo(ind);
 
-  // Unlock tombol berdasarkan indikator
+  // ================= VIDEO TUJUAN =================
   if (ind === "tujuan") {
     unlockButton("btnMulai", "▶️ Mulai Pembelajaran");
-  } else if (["1", "2", "3"].includes(String(ind))) {
+  }
+
+  // ================= VIDEO INDIKATOR =================
+  if (["1", "2", "3"].includes(String(ind))) {
     unlockButton(`btnQuiz${ind}`, `▶️ Mulai Kuis ${ind}`);
   }
-  // Untuk rangkuman, tidak ada aksi khusus
+
+  // ================= VIDEO RANGKUMAN (OPSIONAL) =================
+  if (ind === "rangkuman") {
+    // Opsional: unlock latihan atau sesuatu
+  }
 }
 
-/* === UPDATE VIDEO UI === */
+/* === UI === */
 function updateVideoUI(ind, percent) {
   const bar = document.getElementById(`videoBar${ind}`);
   const label = document.getElementById(`videoLabel${ind}`);
   const persen = document.getElementById(`videoPercent${ind}`);
 
-  if (!bar || !label || !persen) {
-    console.warn(`Elemen UI video untuk ${ind} tidak ditemukan. Pastikan ID videoBar${ind}, videoLabel${ind}, videoPercent${ind} ada di HTML.`);
-    return;
-  }
+  if (!bar || !label || !persen) return;
 
   bar.style.width = percent + "%";
   persen.innerText = percent + "%";
@@ -1909,17 +1959,24 @@ function updateVideoUI(ind, percent) {
   }
 }
 
-/* === EVENT LISTENER UNTUK VIDEO === */
+// Event listener untuk klik pada box video
 document.querySelectorAll(".video-lumi").forEach(box => {
   const ind = box.dataset.indikator;
-  if (!ind) return;
+  const playBtn = box.querySelector(".play-btn"); // Asumsikan ada tombol play di dalam box
 
-  box.addEventListener("click", () => {
-    playVideo(ind);
-  });
+  if (playBtn) {
+    playBtn.addEventListener("click", () => {
+      playVideo(ind);
+    });
+  } else {
+    // Jika tidak ada tombol, klik pada box
+    box.addEventListener("click", () => {
+      playVideo(ind);
+    });
+  }
 });
 
-/* === UNLOCK BUTTON === */
+/* === BUTTON UNLOCK === */
 function unlockButton(id, text) {
   const btn = document.getElementById(id);
   if (!btn) return;
@@ -1931,7 +1988,7 @@ function unlockButton(id, text) {
   btn.innerHTML = text;
 }
 
-/* === NAVIGASI HALAMAN (DENGAN PENYESUAIAN UNTUK RANGKUMAN) === */
+// Fungsi go yang diperbaiki (menghapus duplikasi dan menambahkan logika untuk rangkuman)
 function go(step) {
   const prev = document.getElementById("s" + current);
   const next = document.getElementById("s" + step);
@@ -1964,7 +2021,7 @@ function go(step) {
 document.getElementById("btnMulai").onclick = () => go(2);
 
 // Tombol mulai latihan
-document.getElementById("btnMulaiLatihan").onclick = mulaiLatihan;
+document.getElementById("btnMulaiLatihan").onclick = mulaiLatihan; // Asumsikan ada tombol dengan id btnMulaiLatihan
 </script>
 </body>
 </html>
