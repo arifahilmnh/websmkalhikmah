@@ -103,19 +103,14 @@ body{
  color:var(--text)
 }
 section{
-  padding:60px 20px;
-}
-  .section-head h2{
-  font-size:34px;
-}
-  .section-head p{
-  font-size:15px;
+ padding: 70px 24px;
 }
 .container{
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
   padding-inline:20px;
 }
+
 @media(min-width:1400px){
   .container{
     max-width:1140px; /* biar nggak kepanjangan di layar besar */
@@ -503,13 +498,13 @@ section.announce-section {
 }
 
 .class-item {
-  padding: 36px 16px;
+  padding: 46px 20px;
   border-radius: 26px;
    background:linear-gradient(180deg,#6BCF9B,#34d399);
   color: #fff;
   text-align: center;
   font-weight: 800;
-  font-size: 22px;
+  font-size: 26px;
   letter-spacing: 1px;
   cursor: pointer;
   box-shadow: 0 15px 50px rgba(0,0,0,0.15);
@@ -813,15 +808,6 @@ section.announce-section {
 .info-item:hover i {
   transform:scale(1.15);
   color: #059669;
-}
-
-  .info-item a{
-  color:#064e3b;
-  font-weight:600;
-  text-decoration:none;
-}
-.info-item a:hover{
-  text-decoration:underline;
 }
 
 /* RESPONSIVE */
@@ -1350,7 +1336,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </section>
 
 <section style="background:#f0fdf4">
-   <section id="section-kelas" style="background:#f0fdf4">
  <div class="container">
   <div class="section-head">
    <span>Kelas</span>
@@ -1529,37 +1514,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 </section>
 
-  <section style="background:#ecfdf5">
-  <div class="container">
-    <div class="section-head">
-      <span>Pengembang</span>
-      <h2>Web Developer</h2>
-    </div>
-
-    <div style="
-      max-width:420px;
-      margin:auto;
-      background:white;
-      border-radius:30px;
-      padding:30px;
-      text-align:center;
-      box-shadow:0 20px 60px rgba(0,0,0,.15)
-    ">
-      <img src="developer.jpg" style="
-        width:140px;
-        height:140px;
-        object-fit:cover;
-        border-radius:50%;
-        margin-bottom:16px
-      ">
-      <h3 style="margin:6px 0">Siti Arifah Ilmaniah</h3>
-      <p style="margin:0;color:#065f46;font-weight:600">
-        Mahasiswa PTI IPI Garut
-      </p>
-    </div>
-  </div>
-</section>
-  
 <section class="contact-section">
   <div class="container contact-container">
     <h2>Hubungi Kami</h2>
@@ -1577,18 +1531,18 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
           <p>Jalan Prof. H. Aam Hamdani No. 42.a, Tarogong Kaler, 44151, Kabupaten Garut</p>
         </div>
 
-                <div class="info-item">
+        <div class="info-item">
           <i class="fa-solid fa-phone"></i>
-          <p><a href="tel:02625000000">0262-5000000</a></p>
+          <p>0262-5000000</p>
         </div>
-        
+
         <div class="info-item">
           <i class="fa-solid fa-envelope"></i>
-          <p><a href="mailto:sekolahalhikmah@ymail.com">sekolahalhikmah@ymail.com</a></p>
-        </div>
+          <p>sekolahalhikmah@ymail.com</p>
         </div>
       </div>
     </div>
+  </div>
 </section>
 
 <div id="overlay-daftar" style="
@@ -1907,25 +1861,6 @@ function showPertemuan(){
   }
 }
 
-  document.querySelectorAll(".class-btn").forEach(btn=>{
-  btn.onclick = ()=>{
-    document.getElementById("section-semester").style.display="block";
-    scrollToSection("section-semester");
-  }
-});
-
-document.querySelectorAll(".semester-btn").forEach(btn=>{
-  btn.onclick = ()=>{
-    document.getElementById("section-mapel").style.display="block";
-    scrollToSection("section-mapel");
-  }
-});
-
-// contoh mapel klik
-function pilihMapel(){
-  document.getElementById("section-pertemuan").style.display="block";
-  scrollToSection("section-pertemuan");
-}
 function loadingKeAbsensi(){
   const loading=document.getElementById("loadingAbsensi");
   loading.classList.add("active");
@@ -1954,90 +1889,6 @@ function loadingKeAbsensi(){
   popupDaftar.style.right = "-420px";
   overlayDaftar.style.display = "none";
 };
-
-  function resetLoginInput(){
-  document.getElementById("email").value = "";
-  document.getElementById("password").value = "";
-}
-
-// saat logout
-function logout(){
-  sessionStorage.removeItem("authUser");
-  resetLoginInput();
-  Swal.fire({
-    icon: "success",
-    title: "Logout berhasil",
-    confirmButtonColor: "#34d399"
-  }).then(()=>location.reload());
-}
-
-// saat page reload
-window.addEventListener("load", resetLoginInput);
-
-  function scrollToSection(id){
-  document.getElementById(id).scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-}
-
-// contoh login berhasil
-btnLogin.onclick = () => {
-  sessionStorage.setItem("authUser", JSON.stringify({role:"siswa"}));
-
-  Swal.fire({
-    icon:"success",
-    title:"Login berhasil"
-  }).then(()=>{
-    scrollToSection("section-kelas");
-  });
-};
-
-  const revealElements = document.querySelectorAll(".reveal");
-
-function revealOnScroll(){
-  revealElements.forEach(el=>{
-    const top = el.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100){
-      el.classList.add("active");
-    }
-  });
-}
-window.addEventListener("scroll", revealOnScroll);
-revealOnScroll();
-
-  const counters = document.querySelectorAll(".count");
-let counted = false;
-
-function runCounter(){
-  if(counted) return;
-
-  counters.forEach(counter=>{
-    let target = +counter.dataset.target;
-    let i = 0;
-    let step = Math.ceil(target / 60);
-
-    let interval = setInterval(()=>{
-      i += step;
-      if(i >= target){
-        counter.innerText = target;
-        clearInterval(interval);
-      } else {
-        counter.innerText = i;
-      }
-    }, 30);
-  });
-
-  counted = true;
-}
-
-window.addEventListener("scroll", ()=>{
-  const section = document.querySelector(".numbers");
-  if(section.getBoundingClientRect().top < window.innerHeight - 100){
-    runCounter();
-  }
-});
-
 </script>
 </body>
 </html>
