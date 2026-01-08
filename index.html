@@ -1650,7 +1650,9 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 </footer>
 
 <script>
-// ================= AUTH SYSTEM =================
+// ======================================================
+// AUTH SYSTEM (FINAL – SATU SISTEM)
+// ======================================================
 function getAuthUser(){
   return JSON.parse(sessionStorage.getItem("authUser"));
 }
@@ -1660,9 +1662,8 @@ function isLoggedIn(){
 }
 
 function logout(){
-  sessionStorage.clear();
+  sessionStorage.removeItem("authUser");
 
-  // reset input login
   document.getElementById("email").value = "";
   document.getElementById("password").value = "";
 
@@ -1670,17 +1671,22 @@ function logout(){
     icon: "success",
     title: "Logout berhasil",
     confirmButtonColor: "#34d399"
-  }).then(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  }).then(()=>{
+    updateNavbarUser();
+    window.scrollTo({ top:0, behavior:"smooth" });
   });
 }
 
-  function scrollToSection(id){
+// ======================================================
+// HELPER
+// ======================================================
+function scrollToSection(id){
   document.getElementById(id).scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+    behavior:"smooth",
+    block:"start"
   });
 }
+
 // ======================================================
 // ELEMENT
 // ======================================================
@@ -1690,7 +1696,7 @@ const btnLogin = document.getElementById("btnLogin");
 const btnGoogle = document.getElementById("btnGoogle");
 
 // ======================================================
-// NAVBAR BUTTON
+// NAVBAR
 // ======================================================
 document.getElementById("navUserBtn").onclick = () => {
   popupDaftar.style.right = "0";
@@ -1704,132 +1710,81 @@ document.getElementById("submit-daftar").onclick = () => {
   const inputs = popupDaftar.querySelectorAll("input, select");
   let lengkap = true;
 
-  inputs.forEach(i => {
-    if (!i.value.trim()) lengkap = false;
+  inputs.forEach(i=>{
+    if(!i.value.trim()) lengkap = false;
   });
 
-  if (!lengkap) {
-    Swal.fire({
-      icon: "warning",
-      title: "Data belum lengkap",
-      text: "Silakan lengkapi seluruh data pendaftaran",
-      confirmButtonColor: "#34d399"
-    });
+  if(!lengkap){
+    Swal.fire("Peringatan","Lengkapi seluruh data","warning");
     return;
   }
 
-  popupDaftar.style.right = "-420px";
-  overlayDaftar.style.display = "none";
+  popupDaftar.style.right="-420px";
+  overlayDaftar.style.display="none";
 
-  Swal.fire({
-    icon: "success",
-    title: "Permintaan Dicatat",
-    text: "Permintaan telah dicatat, tunggu informasi selanjutnya!",
-    confirmButtonColor: "#34d399"
-  }).then(() => {
-    document.querySelector(".hero").scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  });
+  Swal.fire("Berhasil","Permintaan dicatat","success")
+    .then(()=>scrollToSection("hero"));
 };
 
-btnLogin.onclick = () => {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+// ======================================================
+// LOGIN (SATU-SATUNYA HANDLER)
+// ======================================================
+btnLogin.addEventListener("click",()=>{
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value.trim();
 
-  if (!email || !password) {
-    Swal.fire({
-      icon: "warning",
-      title: "Login Gagal",
-      text: "Email dan password wajib diisi",
-      confirmButtonColor: "#34d399"
-    });
+  if(!email || !password){
+    Swal.fire("Login gagal","Email & password wajib diisi","warning");
     return;
   }
 
-  btnLogin.onclick = () => {
-  sessionStorage.setItem("authUser", JSON.stringify({ role:"siswa" }));
-
-  Swal.fire({
-    icon: "success",
-    title: "Login berhasil",
-    confirmButtonColor: "#34d399"
-  }).then(() => {
-    scrollToSection("section-kelas");
-  });
-};
-  // === SIMULASI DATABASE ===
-  if (email === "siswa01" && password === "siswa123") {
-
-    sessionStorage.setItem("authUser", JSON.stringify({
-      username: "siswa01",
-      nis: "2025001",
-      role: "siswa",
-      loginAt: new Date().toISOString()
+  // SIMULASI DATABASE
+  if(email==="siswa01" && password==="siswa123"){
+    sessionStorage.setItem("authUser",JSON.stringify({
+      username:"siswa01",
+      nis:"2025001",
+      role:"siswa",
+      loginAt:new Date().toISOString()
     }));
 
-    Swal.fire({
-      icon: "success",
-      title: "Login Berhasil",
-      text: "Silakan pilih kelas",
-      confirmButtonColor: "#34d399"
-    }).then(()=>{
-      updateNavbarUser();
-      document.querySelector(".class-grid").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+    Swal.fire("Login berhasil","Silakan pilih kelas","success")
+      .then(()=>{
+        updateNavbarUser();
+        scrollToSection("section-kelas");
       });
-    });
-
-  } else {
-    Swal.fire({
-      icon: "error",
-      title: "Login Gagal",
-      text: "Username atau password salah",
-      confirmButtonColor: "#ef4444"
-    });
+  }else{
+    Swal.fire("Login gagal","Username atau password salah","error");
   }
-};
+});
+
 // ======================================================
-// LOGIN GOOGLE (BELUM AKTIF)
+// GOOGLE LOGIN
 // ======================================================
-btnGoogle.onclick = () => {
-  Swal.fire({
-    icon: "info",
-    title: "Fitur Belum Aktif",
-    text: "Fitur login Google akan segera aktif",
-    confirmButtonColor: "#34d399"
-  });
+btnGoogle.onclick=()=>{
+  Swal.fire("Info","Login Google belum aktif","info");
 };
 
 // ======================================================
-// CLOSE POPUP VIA OVERLAY
+// CLOSE POPUP
 // ======================================================
-overlayDaftar.onclick = () => {
-  popupDaftar.style.right = "-420px";
-  overlayDaftar.style.display = "none";
+overlayDaftar.onclick=()=>{
+  popupDaftar.style.right="-420px";
+  overlayDaftar.style.display="none";
 };
-  
+
+document.querySelector("#popup-daftar .close").onclick=()=>{
+  popupDaftar.style.right="-420px";
+  overlayDaftar.style.display="none";
+};
+
 // ======================================================
 // DOM READY
 // ======================================================
-document.addEventListener("DOMContentLoaded", () => {
-
-  const preloader = document.getElementById("preloader");
-
-  // PRELOADER
-  if(preloader){
-    setTimeout(()=>{
-      preloader.classList.add("hidden");
-    },800);
-  }
-
-  document.body.classList.add("page-enter");
+document.addEventListener("DOMContentLoaded",()=>{
   updateNavbarUser();
 
-  if(window.isUserLoggedIn){
-    const heroLogin = document.querySelector(".hero-login");
+  if(isLoggedIn()){
+    const heroLogin=document.querySelector(".hero-login");
     if(heroLogin) heroLogin.style.display="none";
   }
 });
@@ -1837,12 +1792,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // ======================================================
 // HERO SLIDER
 // ======================================================
-const slides = document.querySelectorAll(".hero-bg img");
-const dotsWrap = document.getElementById("sliderDots");
-let slideIndex = 0;
+const slides=document.querySelectorAll(".hero-bg img");
+const dotsWrap=document.getElementById("sliderDots");
+let slideIndex=0;
 
 slides.forEach((_,i)=>{
-  const dot = document.createElement("span");
+  const dot=document.createElement("span");
   if(i===0) dot.classList.add("active");
   dot.onclick=()=>showSlide(i);
   dotsWrap.appendChild(dot);
@@ -1856,126 +1811,91 @@ function showSlide(i){
   slideIndex=i;
 }
 
-setInterval(()=>{
-  showSlide((slideIndex+1)%slides.length);
-},6000);
+setInterval(()=>showSlide((slideIndex+1)%slides.length),6000);
 
-const sectionSemester = document.getElementById("section-semester");
-const sectionMapel = document.getElementById("section-mapel");
-const sectionPertemuan = document.getElementById("section-pertemuan");
-const mapelGrid = document.getElementById("mapel-grid");
-const pertemuanGrid = document.getElementById("pertemuan-grid");
+// ======================================================
+// MAPEL & PERTEMUAN
+// ======================================================
+const sectionSemester=document.getElementById("section-semester");
+const sectionMapel=document.getElementById("section-mapel");
+const sectionPertemuan=document.getElementById("section-pertemuan");
+const mapelGrid=document.getElementById("mapel-grid");
+const pertemuanGrid=document.getElementById("pertemuan-grid");
 
-let selectedKelas = null;
-let selectedSemester = null;
+let selectedKelas=null;
+let selectedSemester=null;
 
-// ===== DATA MAPEL =====
-const dataMapel = {
-  XI: {
-    1: [
-      { name: "Konsentrasi Keahlian 2 (Web)", open: true },
-      { name: "Mapel Pilihan (Framework)", open: false },
-      { name: "Matematika", open: false },
-      { name: "Pendidikan Pancasila dan Kewarganegaraan", open: false },
-      { name: "Bahasa Indonesia", open: false },
-      { name: "Projek Kreatif dan Kewirausahaan", open: false },
-      { name: "PJOK", open: false },
-      { name: "Sejarah", open: false },
-      { name: "Pendidikan Agama Islam dan Budi Pekerti", open: false },
-      { name: "Bahasa Inggris", open: false },
-      { name: "BK", open: false },
-      { name: "Konsentrasi Keahlian 1 (PBO)", open: false },
-      { name: "Konsentrasi Keahlian 4 (Android)", open: false },
-      { name: "Konsentrasi Keahlian 3 (Basis Data)", open: false }
+const dataMapel={
+  XI:{
+    1:[
+      {name:"Konsentrasi Keahlian 2 (Web)",open:true},
+      {name:"Mapel Pilihan (Framework)",open:false},
+      {name:"Matematika",open:false},
+      {name:"PPKn",open:false},
+      {name:"Bahasa Indonesia",open:false},
+      {name:"PKK",open:false},
+      {name:"PJOK",open:false},
+      {name:"Sejarah",open:false},
+      {name:"PAI",open:false},
+      {name:"Bahasa Inggris",open:false},
+      {name:"BK",open:false},
+      {name:"PBO",open:false},
+      {name:"Android",open:false},
+      {name:"Basis Data",open:false}
     ]
   }
 };
 
-// ======================================================
-// PILIH KELAS
-// ======================================================
-document.querySelectorAll(".class-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (!isLoggedIn()) {
-      Swal.fire({
-        icon: "warning",
-        title: "Harus Login",
-        text: "Silakan login terlebih dahulu",
-        confirmButtonColor: "#34d399"
-      });
+// ================= PILIH KELAS =================
+document.querySelectorAll(".class-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    if(!isLoggedIn()){
+      Swal.fire("Harus login","Silakan login dahulu","warning");
       return;
     }
-
-    selectedKelas = btn.dataset.kelas;
-
-    sectionSemester.style.display = "block";
-    sectionSemester.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+    selectedKelas=btn.dataset.kelas;
+    sectionSemester.style.display="block";
+    scrollToSection("section-semester");
+  };
 });
 
-// ======================================================
-// PILIH SEMESTER
-// ======================================================
-document.querySelectorAll(".semester-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    selectedSemester = btn.dataset.semester;
-
-    renderMapel(selectedKelas, selectedSemester);
-
-    sectionMapel.style.display = "block";
-    sectionMapel.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+// ================= PILIH SEMESTER =================
+document.querySelectorAll(".semester-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    selectedSemester=btn.dataset.semester;
+    renderMapel(selectedKelas,selectedSemester);
+    sectionMapel.style.display="block";
+    scrollToSection("section-mapel");
+  };
 });
 
-// ======================================================
-// RENDER MAPEL
-// ======================================================
-function renderMapel(kelas, semester) {
-  mapelGrid.innerHTML = "";
-
-  const mapelList = dataMapel[kelas][semester];
-
-  mapelList.forEach(mapel => {
-    const div = document.createElement("div");
-    div.className = "class-item";
-    div.innerHTML = `
-      <h3>${mapel.name}</h3>
-      <p>${mapel.open ? "Tersedia" : "🔒 Belum Dibuka"}</p>
-    `;
-
-    if (!mapel.open) {
-      div.style.opacity = 0.5;
-      div.onclick = () => Swal.fire("Terkunci", "Mapel ini belum dibuka", "info");
-    } else {
-      div.onclick = () => showPertemuan();
-    }
-
-    mapelGrid.appendChild(div);
+// ================= RENDER MAPEL =================
+function renderMapel(kelas,semester){
+  mapelGrid.innerHTML="";
+  dataMapel[kelas][semester].forEach(mp=>{
+    const d=document.createElement("div");
+    d.className="class-item";
+    d.innerHTML=`<h3>${mp.name}</h3><p>${mp.open?"Tersedia":"🔒 Terkunci"}</p>`;
+    d.style.opacity=mp.open?1:.5;
+    d.onclick=mp.open?showPertemuan:()=>Swal.fire("Terkunci","","info");
+    mapelGrid.appendChild(d);
   });
 }
 
-// ======================================================
-// PERTEMUAN
-// ======================================================
-function showPertemuan() {
-  sectionPertemuan.style.display = "block";
-  sectionPertemuan.scrollIntoView({ behavior: "smooth", block: "start" });
+// ================= PERTEMUAN =================
+function showPertemuan(){
+  sectionPertemuan.style.display="block";
+  scrollToSection("section-pertemuan");
+  pertemuanGrid.innerHTML="";
 
-  pertemuanGrid.innerHTML = "";
-
-  for (let i = 1; i <= 16; i++) {
-    const open = i === 1;
-    const div = document.createElement("div");
-
-    div.className = "class-item";
-    div.textContent = open ? `Pertemuan ${i}` : `🔒 Pertemuan ${i}`;
-    div.style.opacity = open ? 1 : 0.5;
-
-    div.onclick = open
-      ? () => loadingKeAbsensi()
-      : () => Swal.fire("Terkunci", "Pertemuan ini belum dibuka", "info");
-
-    pertemuanGrid.appendChild(div);
+  for(let i=1;i<=16;i++){
+    const open=i===1;
+    const d=document.createElement("div");
+    d.className="class-item";
+    d.textContent=open?`Pertemuan ${i}`:`🔒 Pertemuan ${i}`;
+    d.style.opacity=open?1:.5;
+    d.onclick=open?loadingKeAbsensi:()=>Swal.fire("Terkunci","","info");
+    pertemuanGrid.appendChild(d);
   }
 }
 
@@ -1985,99 +1905,47 @@ function loadingKeAbsensi(){
   setTimeout(()=>location.href="absensi.html",1500);
 }
 
-  function updateNavbarUser(){
-  const btn = document.getElementById("navUserBtn");
-  const text = document.getElementById("navUserText");
-  const user = getAuthUser();
+// ======================================================
+// NAVBAR UPDATE
+// ======================================================
+function updateNavbarUser(){
+  const btn=document.getElementById("navUserBtn");
+  const text=document.getElementById("navUserText");
+  const user=getAuthUser();
 
   if(user){
-    text.textContent = user.username;
-    btn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Logout`;
-    btn.onclick = logout;
-  } else {
-    text.textContent = "Daftar Siswa";
-    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
-    btn.onclick = () => {
-      popupDaftar.style.right = "0";
-      overlayDaftar.style.display = "block";
-    };
+    text.textContent=user.username;
+    btn.innerHTML=`<i class="fa-solid fa-right-from-bracket"></i> Logout`;
+    btn.onclick=logout;
+  }else{
+    text.textContent="Daftar Siswa";
+    btn.innerHTML=`<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
+    btn.onclick=()=>{popupDaftar.style.right="0";overlayDaftar.style.display="block";}
   }
 }
-  document.querySelector("#popup-daftar .close").onclick = () => {
-  popupDaftar.style.right = "-420px";
-  overlayDaftar.style.display = "none";
-};
 
-const reveals = document.querySelectorAll(".reveal");
-
-function revealOnScroll() {
-  reveals.forEach(el => {
-    const top = el.getBoundingClientRect().top;
-    if (top < window.innerHeight - 80) {
+// ======================================================
+// REVEAL & COUNTER
+// ======================================================
+const reveals=document.querySelectorAll(".reveal");
+window.addEventListener("scroll",()=>{
+  reveals.forEach(el=>{
+    if(el.getBoundingClientRect().top<window.innerHeight-80)
       el.classList.add("active");
-    }
   });
-}
-
-window.addEventListener("scroll", revealOnScroll);
-revealOnScroll();
-
-  const counters = document.querySelectorAll(".count");
-
-function runCounter(){
-  counters.forEach(counter=>{
-    const target = +counter.dataset.target;
-    let current = 0;
-    const step = target / 60;
-
-    const update = ()=>{
-      current += step;
-      if(current < target){
-        counter.innerText = Math.floor(current);
-        requestAnimationFrame(update);
-      }else{
-        counter.innerText = target;
-      }
-    };
-    update();
-  });
-}
-
-window.addEventListener("load", runCounter);
-
-  const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const btnLogin = document.getElementById("btnLogin");
-
-btnLogin.addEventListener("click", () => {
-  if (!emailInput.value || !passwordInput.value) {
-    Swal.fire("Oops", "Email dan password wajib diisi", "warning");
-    return;
-  }
-
-  sessionStorage.setItem("isLogin", "true");
-
-  Swal.fire({
-    icon: "success",
-    title: "Login Berhasil",
-    timer: 1500,
-    showConfirmButton: false
-  });
-
-  setTimeout(() => {
-    document
-      .getElementById("section-kelas")
-      .scrollIntoView({ behavior: "smooth" });
-  }, 1600);
 });
 
-function logout() {
-  sessionStorage.clear();
-  emailInput.value = "";
-  passwordInput.value = "";
-
-  Swal.fire("Logout", "Anda berhasil logout", "success");
-}
+const counters=document.querySelectorAll(".count");
+window.addEventListener("load",()=>{
+  counters.forEach(c=>{
+    let cur=0,target=+c.dataset.target,step=target/60;
+    (function anim(){
+      cur+=step;
+      if(cur<target){c.innerText=Math.floor(cur);requestAnimationFrame(anim);}
+      else c.innerText=target;
+    })();
+  });
+});
 </script>
 </body>
 </html>
