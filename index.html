@@ -1732,12 +1732,11 @@ document.getElementById("submit-daftar").onclick = () => {
   confirmButtonColor: "#34d399"
 }).then(() => {
   closeDaftar();
-});
-    document.querySelector(".hero").scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+  document.querySelector(".hero").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
   });
+});
   
 btnLogin.onclick = () => {
   const email = document.getElementById("email").value.trim();
@@ -1823,10 +1822,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("page-enter");
   updateNavbarUser();
 
-  if(window.isUserLoggedIn){
-    const heroLogin = document.querySelector(".hero-login");
-    if(heroLogin) heroLogin.style.display="none";
-  }
+  if(isLoggedIn()){
+  const heroLogin = document.querySelector(".hero-login");
+  if(heroLogin) heroLogin.style.display = "none";
+}
 });
 
 // ======================================================
@@ -1922,9 +1921,12 @@ document.querySelectorAll(".class-btn").forEach(btn => {
   };
 });
 
-  document.getElementById("mapel-grid").onclick = ()=>{
-  document.getElementById("section-pertemuan").style.display = "block";
-  scrollToSection("section-pertemuan");
+  document.getElementById("mapel-grid").onclick = () => {
+  sectionPertemuan.style.display = "block";
+  sectionPertemuan.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 };
   
 document.querySelectorAll(".semester-btn").forEach(btn=>{
@@ -2033,6 +2035,23 @@ function runCounter(){
 }
 
 window.addEventListener("load", runCounter);
+  
+  function updateNavbarUser(){
+  const btn = document.getElementById("navUserBtn");
+  const text = document.getElementById("navUserText");
+  const user = getAuthUser();
+
+  if(!btn || !text) return;
+
+  if(user){
+    text.textContent = user.username;
+    btn.innerHTML = `<i class="fa-solid fa-user"></i> ${user.username}`;
+  } else {
+    text.textContent = "Daftar Siswa";
+    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
+  }
+}
+
   document.addEventListener("DOMContentLoaded", () => {
   updateNavbarUser();
 });
