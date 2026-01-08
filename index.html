@@ -63,27 +63,14 @@
 html{
   scroll-behavior:smooth;
   overflow-x: hidden; /* Prevent horizontal scroll */
-  height: 100%;
 }
 
 body {
   overflow-x: hidden; /* Additional prevention */
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  font-family:'Poppins',sans-serif;
-  background:#f4fbf7;
-  color:var(--text);
 }
 
 section{
   position:relative;
-  flex: 1; /* Allow sections to grow */
-}
-
-footer {
-  margin-top: auto; /* Push footer to bottom */
 }
 
 h1,h2,h3{
@@ -117,22 +104,40 @@ p{
 
 /* ===== RESET ===== */
 *{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:'Poppins',sans-serif;
+ background:#f4fbf7;
+ color:var(--text)
+}
+section{
+ padding: 70px 0; /* Slightly increased for better spacing */
+}
+.container{
+  max-width:1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
 
+@media(min-width:1400px){
+  .container{
+    max-width:1140px; /* biar nggak kepanjangan di layar besar */
+  }
+}
 /* ================= NAVBAR ================= */
 nav{
  position:fixed;
  top:0;left:0;width:100%;
  z-index:99;
- background:rgba(255,255,255,.95);
+ background:rgba(255,255,255,.85);
  backdrop-filter:blur(16px);
  padding:16px 48px; /* Slightly increased */
  display:flex;
  justify-content:space-between;
  align-items:center;
- box-shadow:0 10px 30px rgba(0,0,0,.06);
- transition: all 0.3s ease;
+ box-shadow:0 10px 30px rgba(0,0,0,.06)
 }
-
 .brand{
  display:flex;
  align-items:center;
@@ -154,13 +159,11 @@ nav{
  cursor:pointer;
  color:#0f2f1f;
  background:linear-gradient(135deg,var(--primary),#34d399);
- transition: transform 0.3s, box-shadow 0.3s;
- position: relative;
+ transition: transform 0.3s;
 }
 
 .nav-action button:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(107, 207, 155, 0.3);
 }
 
 /* ================= HERO ================= */
@@ -168,10 +171,8 @@ nav{
  position:relative;
  padding:220px 0 180px; /* Slightly increased */
  border-radius:0 0 60px 60px; /* Smaller radius */
- overflow:hidden;
- background: linear-gradient(135deg, rgba(0,0,0,.4), rgba(0,0,0,.6));
+ overflow:hidden
 }
-
 .hero::after{
  content:"";
  position:absolute;
@@ -209,7 +210,6 @@ nav{
  color:#fff;
  line-height:1.12;
  text-shadow:0 10px 40px rgba(0,0,0,.35);
- animation: textGlow 2s ease-in-out infinite alternate;
 }
 
 @keyframes textGlow{
@@ -234,13 +234,6 @@ nav{
  box-shadow:0 40px 120px rgba(0,0,0,.35);
  animation:fadeUp 1s ease forwards;
  animation-delay:.3s;
- border: 1px solid rgba(255,255,255,0.2);
- transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hero-login:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 50px 140px rgba(0,0,0,.4);
 }
 
 .hero-login h3{
@@ -256,14 +249,7 @@ nav{
  border:1px solid #e5e7eb;
  margin-bottom:14px; /* Slightly larger */
  font-size:16px; /* Slightly larger */
- transition: border-color 0.3s, box-shadow 0.3s;
 }
-
-.hero-login input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(107, 207, 155, 0.2);
-}
-
 .hero-login button{
  width:100%;
  padding:14px; /* Slightly larger */
@@ -273,12 +259,6 @@ nav{
  background:linear-gradient(135deg,var(--primary),#34d399);
  cursor:pointer;
  font-size:16px; /* Slightly larger */
- transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.hero-login button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 25px rgba(107, 207, 155, 0.3);
 }
 
 .announce{
@@ -306,15 +286,9 @@ nav{
  align-items:center;
  font-weight:600;
  font-size:16px; /* Slightly larger */
- transition: background 0.3s, transform 0.3s;
 }
 
-.btn-google:hover {
-  background: #f9f9f9;
-  transform: scale(1.02);
-}
-
-/* ================= HERO SLIDER DOTS ===== */
+/* ===== HERO SLIDER DOTS ===== */
 .slider-dots{
  position:absolute;
  bottom:30px; /* Adjusted */
@@ -906,9 +880,6 @@ footer{
  text-align:center;
  padding:18px 0; /* Slightly larger */
  font-size: 16px; /* Slightly larger */
- position: relative;
- bottom: 0;
- width: 100%;
 }
 
 /* ================= RESPONSIVE ================= */
@@ -947,10 +918,10 @@ button, .class-item, .announce, .info-item{
 /* ================= POPUP DAFTAR SISWA ================= */
 #popup-daftar{
   position:fixed;
-  top: 80px; /* Below navbar */
-  right: 48px; /* Align with navbar padding */
+  top:0;
+  right:-420px;
   width:420px;
-  height:auto; /* Auto height */
+  height:100%;
   padding:45px 36px; /* Slightly larger */
 
   /* Background lebih hidup */
@@ -964,7 +935,7 @@ button, .class-item, .announce, .info-item{
   backdrop-filter: blur(22px) saturate(1.2);
   -webkit-backdrop-filter: blur(22px) saturate(1.2);
 
-  border-radius:36px; /* Slightly larger */
+  border-radius:36px 0 0 36px; /* Slightly larger */
 
   display:flex;
   flex-direction:column;
@@ -974,22 +945,14 @@ button, .class-item, .announce, .info-item{
   z-index:1000;
 
   box-shadow:
-    0 20px 60px rgba(0,0,0,.18),
-    0 2px 0 rgba(16,185,129,.15);
+    -20px 0 60px rgba(0,0,0,.18),
+    -2px 0 0 rgba(16,185,129,.15);
 
   transition:
-    opacity .55s cubic-bezier(.4,0,.2,1),
-    transform .55s cubic-bezier(.4,0,.2,1);
+    right .55s cubic-bezier(.4,0,.2,1),
+    box-shadow .3s ease;
 
-  opacity: 0;
-  transform: translateY(-20px) scale(0.95);
-  pointer-events: none;
-}
-
-#popup-daftar.show {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
+  overflow-y:auto;
 }
 
 /* scroll halus */
@@ -1248,7 +1211,7 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 
 .flow-content h4{
   margin:0 0 6px; /* Slightly larger */
-  font-size:20;
+  font-size:20px; /* Slightly larger */
   font-weight:800;
 }
 
@@ -1293,13 +1256,13 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 /* ================= PENGEMBANG WEB ================= */
 .developer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Larger for bigger photos */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly larger */
   gap: 45px; /* Slightly larger */
   margin-top: 22px; /* Slightly larger */
 }
 
 .developer-item {
-  padding: 55px 32px; /* Larger padding for bigger content */
+  padding: 45px 22px; /* Slightly larger */
   border-radius: 28px; /* Slightly larger */
   background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 50%, #d1fae5 100%);
   color: #0f2f1f;
@@ -1330,32 +1293,20 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 }
 
 .developer-item:hover {
-  transform: translateY(-15px) scale(1.08); /* More dramatic hover */
-  box-shadow: 0 35px 90px rgba(0,0,0,0.3);
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
   border-color: #34d399; /* Border hijau saat hover */
-  animation: pulseGlow 1.5s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 35px 90px rgba(0,0,0,0.3); }
-  50% { box-shadow: 0 35px 90px rgba(107, 207, 155, 0.5); }
 }
 
 .photo-carousel {
   position: relative;
-  width: 120px; /* Larger photo */
-  height: 120px; /* Larger photo */
-  margin: 0 auto 32px; /* Larger margin */
+  width: 85px; /* Slightly larger */
+  height: 85px; /* Slightly larger */
+  margin: 0 auto 22px; /* Slightly larger */
   border-radius: 50%;
   overflow: hidden;
-  border: 6px solid #34d399; /* Thicker border */
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  animation: rotateBorder 4s linear infinite;
-}
-
-@keyframes rotateBorder {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  border: 4px solid #34d399;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .photo-carousel img {
@@ -1366,16 +1317,16 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  animation: photoSlide 12s infinite; /* Slower for better view */
+  animation: photoSlide 9s infinite; /* 3 foto x 3 detik */
 }
 
 .photo-carousel img:nth-child(1) { animation-delay: 0s; }
-.photo-carousel img:nth-child(2) { animation-delay: 4s; }
-.photo-carousel img:nth-child(3) { animation-delay: 8s; }
+.photo-carousel img:nth-child(2) { animation-delay: 3s; }
+.photo-carousel img:nth-child(3) { animation-delay: 6s; }
 
 @keyframes photoSlide {
-  0%, 33% { opacity: 1; transform: scale(1); }
-  33.01%, 100% { opacity: 0; transform: scale(0.9); }
+  0%, 33% { opacity: 1; }
+  33.01%, 100% { opacity: 0; }
 }
 
 .developer-item:hover .photo-carousel img {
@@ -1383,22 +1334,16 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 }
 
 .developer-item h3 {
-  margin: 0 0 16px; /* Larger margin */
-  font-size: 28px; /* Larger font */
+  margin: 0 0 12px; /* Slightly larger */
+  font-size: 22px; /* Slightly larger */
   font-weight: 800;
   position: relative;
   z-index: 2;
-  animation: textShimmer 3s ease-in-out infinite;
-}
-
-@keyframes textShimmer {
-  0%, 100% { color: #0f2f1f; }
-  50% { color: #34d399; }
 }
 
 .developer-item p {
   margin: 0;
-  font-size: 18px; /* Larger font */
+  font-size: 16px; /* Slightly larger */
   color: #6b7280;
   position: relative;
   z-index: 2;
@@ -1410,8 +1355,8 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 280px; /* Larger */
-  height: 280px; /* Larger */
+  width: 220px; /* Slightly larger */
+  height: 220px; /* Slightly larger */
   background: radial-gradient(circle, rgba(107, 207, 155, 0.1) 0%, transparent 70%);
   transform: translate(-50%, -50%);
   opacity: 0;
@@ -1421,26 +1366,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 
 .developer-item:hover::after {
   opacity: 1;
-}
-
-/* Additional aesthetic animations */
-.developer-item:nth-child(1) { animation: slideInLeft 1s ease-out; }
-.developer-item:nth-child(2) { animation: slideInUp 1s ease-out 0.2s both; }
-.developer-item:nth-child(3) { animation: slideInRight 1s ease-out 0.4s both; }
-
-@keyframes slideInLeft {
-  from { transform: translateX(-100px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes slideInUp {
-  from { transform: translateY(100px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes slideInRight {
-  from { transform: translateX(100px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
 }
 </style>
 </head>
@@ -1756,7 +1681,7 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 <section>
   <div class="container map-glass">
     <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1f0!2f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68b0b01cd0da59%3A0xfad23ef07dfa98d4!2sSMK%20Al-hikmah%20Tarogong%20Kaler!5e0!3m2!1sen!2sid!4v0000000000000"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68b0b01cd0da59%3A0xfad23ef07dfa98d4!2sSMK%20Al-hikmah%20Tarogong%20Kaler!5e0!3m2!1sen!2sid!4v0000000000000"
       width="100%"
       height="480"
       style="border:0; border-radius:28px;"
@@ -1999,10 +1924,10 @@ function updateNavbarUser(){
     text.textContent = "Daftar Siswa";
     btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
     btn.onclick = () => {
-      popupDaftar.classList.add("show");
+      popupDaftar.style.right = "0";
       overlayDaftar.style.display = "block";
-      // Scroll ke hero jika perlu
-      scrollToSection("hero");
+      // Tambahkan scroll ke hero bar untuk popup sejajar
+      scrollToSection("hero"); // Asumsikan id hero adalah "hero", sesuaikan jika berbeda
     };
   }
 }
@@ -2057,10 +1982,10 @@ document.getElementById("navUserBtn").onclick = () => {
   if (isLoggedIn()) {
     logout();
   } else {
-    popupDaftar.classList.add("show");
+    popupDaftar.style.right = "0";
     overlayDaftar.style.display = "block";
-    // Scroll ke hero jika perlu
-    scrollToSection("hero");
+    // Tambahkan scroll ke hero bar untuk popup sejajar
+    scrollToSection("hero"); // Asumsikan id hero adalah "hero", sesuaikan jika berbeda
   }
 };
 
@@ -2083,7 +2008,7 @@ document.getElementById("submit-daftar").onclick = () => {
     return;
   }
 
-  popupDaftar.classList.remove("show");
+  popupDaftar.style.right = "-420px";
   overlayDaftar.style.display = "none";
 
   Swal.fire({
@@ -2151,12 +2076,12 @@ btnGoogle.onclick = () => {
 
 // CLOSE POPUP VIA OVERLAY
 overlayDaftar.onclick = () => {
-  popupDaftar.classList.remove("show");
+  popupDaftar.style.right = "-420px";
   overlayDaftar.style.display = "none";
 };
 
 document.querySelector("#popup-daftar .close").onclick = () => {
-  popupDaftar.classList.remove("show");
+  popupDaftar.style.right = "-420px";
   overlayDaftar.style.display = "none";
 };
 
