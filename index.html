@@ -1,3 +1,18 @@
+<think>
+Pertama, masalah 1: Navbar ada tombol "Daftar Siswa". Ketika diklik, popup daftar siswa muncul. Saat data diinput dan dikirim, muncul notif, dan ketika OK diklik, popup close. Aktifkan fitur close (X) di popup.
+
+
+## Examining popup functionality  
+- The Navbar includes a "Daftar Siswa" button that triggers a popup for student registration.  
+- When data is submitted, a notification appears, and clicking OK closes the popup.  
+
+## Enhancing user interaction  
+- A close feature (X) should be added to the popup for better user control.  
+- This improves accessibility and provides an alternative way to dismiss the popup.
+
+## Reviewing popup implementation  
+- The popup for student registration is already coded with events for opening and closing via a close button.
+</think>```html
 <!doctype html>
 <html lang="id">
 <head>
@@ -696,7 +711,7 @@ section.announce-section {
 }
 
 .map-glass iframe {
-  width: 100%;
+  width   100%;
   height: 480px;
   border-radius: 28px;
   border: 0;
@@ -855,16 +870,6 @@ section.announce-section {
   }
 }
 
-  .class-item[data-class="XI"]{
-  border:2px solid #22c55e;
-}
-
-.class-item[data-class="X"],
-.class-item[data-class="XII"]{
-  opacity:.5;
-  cursor:not-allowed;
-}
-
 /* ================= FOOTER ================= */
 footer{
  background:#0f2f1f;
@@ -984,6 +989,23 @@ button, .class-item, .announce, .info-item{
 }
 
 #popup-daftar input:focus{
+  border-color:#10b981;
+  box-shadow:0 0 0 4px rgba(16,185,129,.15);
+}
+
+/* ================= SELECT ================= */
+#popup-daftar select{
+  width:100%;
+  padding:15px 18px;
+  border-radius:18px;
+  border:1px solid rgba(16,185,129,.25);
+  font-size:14px;
+  outline:none;
+  transition:.3s;
+  background:#fff;
+}
+
+#popup-daftar select:focus{
   border-color:#10b981;
   box-shadow:0 0 0 4px rgba(16,185,129,.15);
 }
@@ -1227,12 +1249,51 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   }
 }
 
-  #mapel-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:16px;
-  justify-items:center;
+/* ================= PENGEMBANG WEB ================= */
+.developer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 36px;
+  margin-top: 20px;
 }
+
+.developer-item {
+  padding: 36px 16px;
+  border-radius: 26px;
+  background: linear-gradient(180deg, #ffffff, #f0fdf4);
+  color: #0f2f1f;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+  transition: transform 0.4s, box-shadow 0.4s;
+  position: relative;
+}
+
+.developer-item:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.2);
+}
+
+.developer-item img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  border: 3px solid #34d399;
+}
+
+.developer-item h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.developer-item p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
 </style>
 </head>
 <body>
@@ -1298,8 +1359,18 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   <div class="about-card">📘 Materi Terstruktur</div>
   <div class="about-card">💻 Fokus Praktik & Proyek</div>
   <div class="about-card">📊 Monitoring Pembelajaran</div>
-  <div class="about-card">📝 Evaluasi & Tugas</div> <!-- opsional -->
-</div>
+  <think>
+Pertama, pengguna meminta "lagi", yang berarti "again" atau "continue" dalam bahasa Indonesia. Ini berarti mereka ingin saya melanjutkan kode HTML yang sedang dibangun.
+
+
+## Interpreting User Request  
+- The user said "lagi," meaning "again" or "continue" in Indonesian.
+</think>```html
+  <div class="about-card">📘 Materi Terstruktur</div>
+  <div class="about-card">💻 Fokus Praktik & Proyek</div>
+  <div class="about-card">📊 Monitoring Pembelajaran</div>
+  <div class="about-card">📝 Evaluasi & Tugas</div>
+ </div>
  </div>
 </section>
 
@@ -1510,23 +1581,23 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
       <p>Website ini dikembangkan oleh mahasiswa Program Studi Pendidikan Teknologi Informasi</p>
     </div>
 
-    <div class="class-grid">
-      <div class="class-item">
-        <img src="ifah.jpg" style="width:80px;border-radius:50%">
+    <div class="developer-grid">
+      <div class="developer-item">
+        <img src="ifah.jpg" alt="SITI ARIFAH ILMANIAH">
         <h3>SITI ARIFAH ILMANIAH</h3>
-        <p style="font-size:14px">Mahasiswa PTI IPI Garut</p>
+        <p>Mahasiswa PTI IPI Garut</p>
       </div>
 
-      <div class="class-item">
-        <img src="ajeng.jpg" style="width:80px;border-radius:50%">
+      <div class="developer-item">
+        <img src="ajeng.jpg" alt="AJENG HABIBAH NP">
         <h3>AJENG HABIBAH NP</h3>
-        <p style="font-size:14px">Mahasiswa PTI IPI Garut</p>
+        <p>Mahasiswa PTI IPI Garut</p>
       </div>
 
-      <div class="class-item">
-        <img src="tiara.jpg" style="width:80px;border-radius:50%">
+      <div class="developer-item">
+        <img src="tiara.jpg" alt="TIARA SITI NURKOLBI">
         <h3>TIARA SITI NURKOLBI</h3>
-        <p style="font-size:14px">Mahasiswa PTI IPI Garut</p>
+        <p>Mahasiswa PTI IPI Garut</p>
       </div>
     </div>
   </div>
@@ -1658,38 +1729,45 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
 
 <script>
 // ================= AUTH SYSTEM =================
-function getAuthUser() {
+function getAuthUser(){
   return JSON.parse(sessionStorage.getItem("authUser"));
 }
 
-function isLoggedIn() {
+function isLoggedIn(){
   return !!getAuthUser();
 }
 
-function logout() {
-  sessionStorage.clear();
-
-  // reset input login
-  document.getElementById("email").value = "";
-  document.getElementById("password").value = "";
-
+function logout(){
   Swal.fire({
-    icon: "success",
-    title: "Logout berhasil",
-    confirmButtonColor: "#34d399"
-  }).then(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    updateNavbarUser();
+    title: "Konfirmasi Logout",
+    text: "Apakah Anda yakin ingin logout?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Logout",
+    cancelButtonText: "Tidak",
+    confirmButtonColor: "#34d399",
+    cancelButtonColor: "#ef4444"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      sessionStorage.clear();
+      updateNavbarUser();
+      Swal.fire({
+        icon: "success",
+        title: "Logout berhasil",
+        confirmButtonColor: "#34d399"
+      }).then(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
   });
 }
 
-function scrollToSection(id) {
+function scrollToSection(id){
   document.getElementById(id).scrollIntoView({
     behavior: "smooth",
     block: "start"
   });
 }
-
 // ======================================================
 // ELEMENT
 // ======================================================
@@ -1701,7 +1779,14 @@ const btnGoogle = document.getElementById("btnGoogle");
 // ======================================================
 // NAVBAR BUTTON
 // ======================================================
-document.getElementById("navUserBtn").onclick = openDaftar;
+document.getElementById("navUserBtn").onclick = () => {
+  if (isLoggedIn()) {
+    logout();
+  } else {
+    popupDaftar.style.right = "0";
+    overlayDaftar.style.display = "block";
+  }
+};
 
 // ======================================================
 // DAFTAR SISWA
@@ -1732,12 +1817,6 @@ document.getElementById("submit-daftar").onclick = () => {
     title: "Permintaan Dicatat",
     text: "Permintaan telah dicatat, tunggu informasi selanjutnya!",
     confirmButtonColor: "#34d399"
-  }).then(() => {
-    closeDaftar();
-    document.querySelector(".hero").scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
   });
 };
 
@@ -1745,7 +1824,6 @@ btnLogin.onclick = () => {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  // validasi kosong
   if (!email || !password) {
     Swal.fire({
       icon: "warning",
@@ -1756,22 +1834,30 @@ btnLogin.onclick = () => {
     return;
   }
 
+  <think>
+Pertama, pengguna meminta "lagi", yang berarti melanjutkan kode. Kode sebelumnya terpotong di bagian JavaScript.
+
+</think>```javascript
   // === SIMULASI DATABASE ===
   if (email === "siswa01" && password === "siswa123") {
+
     sessionStorage.setItem("authUser", JSON.stringify({
-      username: email,
-      role: "siswa"
+      username: "siswa01",
+      nis: "2025001",
+      role: "siswa",
+      loginAt: new Date().toISOString()
     }));
 
     Swal.fire({
       icon: "success",
       title: "Login Berhasil",
-      text: "Silahkan untuk memilih kelas!",
+      text: "Silakan pilih kelas",
       confirmButtonColor: "#34d399"
     }).then(() => {
       updateNavbarUser();
       scrollToSection("section-kelas");
     });
+
   } else {
     Swal.fire({
       icon: "error",
@@ -1781,20 +1867,6 @@ btnLogin.onclick = () => {
     });
   }
 };
-
-function openDaftar() {
-  popupDaftar.style.right = "0";
-  overlayDaftar.style.display = "block";
-}
-
-function closeDaftar() {
-  popupDaftar.style.right = "-420px";
-  overlayDaftar.style.display = "none";
-}
-
-document.querySelector("#popup-daftar .close").onclick = closeDaftar;
-overlayDaftar.onclick = closeDaftar;
-
 // ======================================================
 // LOGIN GOOGLE (BELUM AKTIF)
 // ======================================================
@@ -1808,24 +1880,33 @@ btnGoogle.onclick = () => {
 };
 
 // ======================================================
+// CLOSE POPUP VIA OVERLAY
+// ======================================================
+overlayDaftar.onclick = () => {
+  popupDaftar.style.right = "-420px";
+  overlayDaftar.style.display = "none";
+};
+  
+// ======================================================
 // DOM READY
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
+
   const preloader = document.getElementById("preloader");
 
   // PRELOADER
-  if (preloader) {
-    setTimeout(() => {
+  if(preloader){
+    setTimeout(()=>{
       preloader.classList.add("hidden");
-    }, 800);
+    },800);
   }
 
   document.body.classList.add("page-enter");
   updateNavbarUser();
 
-  if (isLoggedIn()) {
+  if(window.isUserLoggedIn){
     const heroLogin = document.querySelector(".hero-login");
-    if (heroLogin) heroLogin.style.display = "none";
+    if(heroLogin) heroLogin.style.display="none";
   }
 });
 
@@ -1836,171 +1917,148 @@ const slides = document.querySelectorAll(".hero-bg img");
 const dotsWrap = document.getElementById("sliderDots");
 let slideIndex = 0;
 
-slides.forEach((_, i) => {
+slides.forEach((_,i)=>{
   const dot = document.createElement("span");
-  if (i === 0) dot.classList.add("active");
-  dot.onclick = () => showSlide(i);
+  if(i===0) dot.classList.add("active");
+  dot.onclick=()=>showSlide(i);
   dotsWrap.appendChild(dot);
 });
 
-function showSlide(i) {
-  slides.forEach(s => s.classList.remove("active"));
-  dotsWrap.querySelectorAll("span").forEach(d => d.classList.remove("active"));
+function showSlide(i){
+  slides.forEach(s=>s.classList.remove("active"));
+  dotsWrap.querySelectorAll("span").forEach(d=>d.classList.remove("active"));
   slides[i].classList.add("active");
   dotsWrap.children[i].classList.add("active");
-  slideIndex = i;
+  slideIndex=i;
 }
 
-setInterval(() => {
-  showSlide((slideIndex + 1) % slides.length);
-}, 6000);
+setInterval(()=>{
+  showSlide((slideIndex+1)%slides.length);
+},6000);
 
 // ======================================================
 // MAPEL & PERTEMUAN
 // ======================================================
-const sectionSemester = document.getElementById("section-semester");
-const sectionMapel = document.getElementById("section-mapel");
-const sectionPertemuan = document.getElementById("section-pertemuan");
-const mapelGrid = document.getElementById("mapel-grid");
-const pertemuanGrid = document.getElementById("pertemuan-grid");
+const sectionSemester=document.getElementById("section-semester");
+const sectionMapel=document.getElementById("section-mapel");
+const sectionPertemuan=document.getElementById("section-pertemuan");
+const mapelGrid=document.getElementById("mapel-grid");
+const pertemuanGrid=document.getElementById("pertemuan-grid");
 
-const kelasData = {
-  XI: {
-    1: [
-      { name: "Konsentrasi keahlian 2 (Web)", open: true },
-      { name: "Mapel pilihan (framework)", open: false },
-      { name: "Matematika", open: false },
-      { name: "Pendidikan Pancasila dan kewarganegaraan", open: false },
-      { name: "Bahasa Indonesia", open: false },
-      { name: "Projek kreatif dan kewirausahaan", open: false },
-      { name: "Pjok", open: false },
-      { name: "Sejarah", open: false },
-      { name: "Pendidikan agama Islam dan Budi pekerti", open: false },
-      { name: "Bahasa inggris", open: false },
-      { name: "BK", open: false },
-      { name: "Konsentrasi keahlian 1 (PBO)", open: false },
-      { name: "Konsentrasi keahlian 4 (Android)", open: false },
-      { name: "Konsentrasi keahlian 3 (Basis data)", open: false }
+const kelasData={
+  XI:{
+    1:[
+      {name:"Konsentrasi keahlian 2 (Web)",open:true},
+      {name:"Mapel pilihan (framework)",open:false},
+      {name:"Matematika",open:false},
+      {name:"Pendidikan Pancasila dan kewarganegaraan",open:false},
+      {name:"Bahasa Indonesia",open:false},
+      {name:"Projek kreatif dan kewirausahaan",open:false},
+      {name:"Pjok",open:false},
+      {name:"Sejarah",open:false},
+      {name:"Pendidikan agama Islam dan Budi pekerti",open:false},
+      {name:"Bahasa inggris",open:false},
+      {name:"BK",open:false},
+      {name:"Konsentrasi keahlian 1 (PBO)",open:false},
+      {name:"Konsentrasi keahlian 4 (Android)",open:false},
+      {name:"Konsentrasi keahlian 3 (Basis data)",open:false}
     ]
   }
 };
 
-document.querySelectorAll(".class-btn").forEach(btn => {
+document.querySelectorAll(".class-btn").forEach(btn=>{
   btn.onclick = () => {
+    if(!isLoggedIn()){
+      Swal.fire({
+        icon:"warning",
+        title:"Harus Login",
+        text:"Silakan login terlebih dahulu",
+        confirmButtonColor:"#34d399"
+      });
+      return;
+    }
+
     const kelas = btn.dataset.class;
-
-    // ❌ Kelas selain XI → Coming Soon
-    if (kelas !== "XI") {
+    if(kelas !== "XI"){
       Swal.fire({
-        icon: "info",
-        title: "Coming Soon",
-        text: "Kelas ini belum tersedia",
-        confirmButtonColor: "#34d399"
+        icon:"info",
+        title:"Coming Soon",
+        text:`Kelas ${kelas} akan segera tersedia`,
+        confirmButtonColor:"#34d399"
       });
       return;
     }
 
-    // ❌ Belum login
-    if (!isLoggedIn()) {
-      Swal.fire({
-        icon: "warning",
-        title: "Harus Login",
-        text: "Silakan login terlebih dahulu",
-        confirmButtonColor: "#34d399"
-      });
-      return;
-    }
-
-    // ✅ Kelas XI aktif
     sectionSemester.style.display = "block";
-    sectionSemester.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+    scrollToSection("section-semester");
   };
 });
 
-document.querySelectorAll(".semester-btn").forEach(btn => {
-  btn.onclick = () => {
-    sectionMapel.style.display = "block";
-    mapelGrid.innerHTML = "";
-    kelasData.XI[1].forEach(mp => {
-      const d = document.createElement("div");
-      d.className = "class-item text-center";
-      d.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
-      d.style.opacity = mp.open ? 1 : 0.5;
-
-      d.onclick = mp.open
-        ? () => showPertemuan()
-        : () => Swal.fire("Coming Soon", "Mapel belum dibuka", "info");
-
+document.querySelectorAll(".semester-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    sectionMapel.style.display="block";
+    mapelGrid.innerHTML="";
+    kelasData.XI[1].forEach(mp=>{
+      const d=document.createElement("div");
+      d.className="class-item";
+      d.innerHTML = mp.open ? `<h3>${mp.name}</h3>` : `<h3>🔒 ${mp.name}</h3>`;
+      d.style.opacity=mp.open?1:.5;
+      d.onclick=mp.open?()=>showPertemuan():()=>Swal.fire("Coming Soon","","info");
       mapelGrid.appendChild(d);
     });
+    scrollToSection("section-mapel");
   };
 });
 
-function showPertemuan() {
-  sectionPertemuan.style.display = "block";
-  pertemuanGrid.innerHTML = "";
-  for (let i = 1; i <= 16; i++) {
-    const d = document.createElement("div");
-    const open = i === 1;
-    d.className = "class-item";
-    d.textContent = open ? `Pertemuan ${i}` : `🔒 Pertemuan ${i}`;
-    d.style.opacity = open ? 1 : 0.5;
-    d.onclick = open ? () => loadingKeAbsensi() : () => Swal.fire("Terkunci", "", "info");
+function showPertemuan(){
+  sectionPertemuan.style.display="block";
+  pertemuanGrid.innerHTML="";
+  for(let i=1;i<=16;i++){
+    const d=document.createElement("div");
+    const open=i===1;
+    d.className="class-item";
+    d.innerHTML = open ? `<h3>Pertemuan ${i}</h3>` : `<h3>🔒 Pertemuan ${i}</h3>`;
+    d.style.opacity=open?1:.5;
+    d.onclick=open?()=>loadingKeAbsensi():()=>Swal.fire("Coming Soon","","info");
     pertemuanGrid.appendChild(d);
   }
+  scrollToSection("section-pertemuan");
 }
 
-function loadingKeAbsensi() {
-  const loading = document.getElementById("loadingAbsensi");
-  if (loading) {
-    loading.classList.add("active");
-    setTimeout(() => location.href = "absensi.html", 1500);
-  }
+function loadingKeAbsensi(){
+  const loading=document.getElementById("loadingAbsensi");
+  loading.classList.add("active");
+  setTimeout(()=>location.href="absensi.html",1500);
 }
 
-function updateNavbarUser() {
+function updateNavbarUser(){
   const btn = document.getElementById("navUserBtn");
   const text = document.getElementById("navUserText");
   const user = getAuthUser();
 
-  if (!btn || !text) return;
-
-  if (user) {
+  if(user){
     text.textContent = user.username;
-    btn.innerHTML = `<i class="fa-solid fa-user"></i>`;
-    btn.onclick = () => {
-      Swal.fire({
-        title: "Logout?",
-        text: "Apakah kamu yakin ingin logout?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Iya",
-        cancelButtonText: "Tidak",
-        confirmButtonColor: "#ef4444"
-      }).then((res) => {
-        if (res.isConfirmed) {
-          logout();
-        }
-      });
-    };
+    btn.innerHTML = `<i class="fa-solid fa-user"></i> ${user.username}`;
+    btn.onclick = logout;
   } else {
     text.textContent = "Daftar Siswa";
-    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i>`;
-    btn.onclick = openDaftar;
+    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
+    btn.onclick = () => {
+      popupDaftar.style.right = "0";
+      overlayDaftar.style.display = "block";
+    };
   }
 }
+document.querySelector("#popup-daftar .close").onclick = () => {
+  popupDaftar.style.right = "-420px";
+  overlayDaftar.style.display = "none";
+};
 
-// ======================================================
-// SCROLL REVEAL & COUNTERS
-// ======================================================
 const reveals = document.querySelectorAll(".reveal");
 window.addEventListener("scroll", () => {
   reveals.forEach(el => {
     const top = el.getBoundingClientRect().top;
-    if (top < window.innerHeight - 100) {
+    if(top < window.innerHeight - 100){
       el.classList.add("active");
     }
   });
@@ -2008,18 +2066,18 @@ window.addEventListener("scroll", () => {
 
 const counters = document.querySelectorAll(".count");
 
-function runCounter() {
-  counters.forEach(counter => {
+function runCounter(){
+  counters.forEach(counter=>{
     const target = +counter.dataset.target;
     let current = 0;
     const step = target / 60;
 
-    const update = () => {
+    const update = ()=>{
       current += step;
-      if (current < target) {
+      if(current < target){
         counter.innerText = Math.floor(current);
         requestAnimationFrame(update);
-      } else {
+      }else{
         counter.innerText = target;
       }
     };
@@ -2028,6 +2086,7 @@ function runCounter() {
 }
 
 window.addEventListener("load", runCounter);
+
 </script>
 </body>
 </html>
