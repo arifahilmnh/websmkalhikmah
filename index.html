@@ -899,50 +899,30 @@ button, .class-item, .announce, .info-item{
 /* ================= POPUP DAFTAR SISWA ================= */
 #popup-daftar{
   position:fixed;
-  top:0;
-  right:-420px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(.9);
   width:420px;
-  height:100%;
+  max-height:90vh;
   padding:40px 32px;
-
-  /* Background lebih hidup */
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.96),
-      rgba(240,255,247,0.92)
-    );
-
-  backdrop-filter: blur(22px) saturate(1.2);
-  -webkit-backdrop-filter: blur(22px) saturate(1.2);
-
-  border-radius:32px 0 0 32px;
-
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(240,255,247,.92));
+  backdrop-filter: blur(22px);
+  border-radius:32px;
   display:flex;
   flex-direction:column;
   gap:18px;
-
   color:#0f2f1f;
   z-index:1000;
-
-  box-shadow:
-    -20px 0 60px rgba(0,0,0,.18),
-    -2px 0 0 rgba(16,185,129,.15);
-
-  transition:
-    right .55s cubic-bezier(.4,0,.2,1),
-    box-shadow .3s ease;
-
-  overflow-y:auto;
+  box-shadow:0 40px 120px rgba(0,0,0,.35);
+  opacity:0;
+  pointer-events:none;
+  transition:.4s ease;
 }
 
-/* scroll halus */
-#popup-daftar::-webkit-scrollbar{
-  width:6px;
-}
-#popup-daftar::-webkit-scrollbar-thumb{
-  background:linear-gradient(#10b981,#34d399);
-  border-radius:6px;
+#popup-daftar.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:translate(-50%,-50%) scale(1);
 }
 
 /* ================= JUDUL ================= */
@@ -1215,6 +1195,15 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   .flow-icon{
     margin-bottom:10px;
   }
+}
+
+  #popup-daftar select{
+  width:100%;
+  padding:15px 18px;
+  border-radius:18px;
+  border:1px solid rgba(16,185,129,.25);
+  font-size:14px;
+  background:#fff;
 }
 
 </style>
@@ -1739,17 +1728,29 @@ btnLogin.onclick = () => {
     return;
   }
 
-  btnLogin.onclick = () => {
-  sessionStorage.setItem("authUser", JSON.stringify({ role:"siswa" }));
+  if (email === "siswa01" && password === "siswa123") {
+    sessionStorage.setItem("authUser", JSON.stringify({
+      username: "siswa01",
+      role: "siswa"
+    }));
 
-  Swal.fire({
-    icon: "success",
-    title: "Login berhasil",
-    confirmButtonColor: "#34d399"
-  }).then(() => {
-    scrollToSection("section-kelas");
-  });
+    Swal.fire({
+      icon: "success",
+      title: "Login Berhasil",
+      confirmButtonColor: "#34d399"
+    }).then(()=>{
+      scrollToSection("section-kelas");
+    });
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Login Gagal",
+      text: "Username atau password salah",
+      confirmButtonColor: "#ef4444"
+    });
+  }
 };
+  
   // === SIMULASI DATABASE ===
   if (email === "siswa01" && password === "siswa123") {
 
@@ -1881,6 +1882,10 @@ const kelasData={
   }
 };
 
+let selectedKelas = null;
+let selectedSemester = null;
+
+// ================= PILIH KELAS =================
 document.querySelectorAll(".class-btn").forEach(btn=>{
   btn.onclick = () => {
     if(!isLoggedIn()){
@@ -1893,50 +1898,77 @@ document.querySelectorAll(".class-btn").forEach(btn=>{
       return;
     }
 
-    document.getElementById("section-semester").style.display = "block";
-    document.getElementById("section-semester")
-      .scrollIntoView({behavior:"smooth"});
+    selectedKelas = btn.dataset.class;
+
+    sectionSemester.style.display = "block";
+    scrollToSection("section-semester");
   };
 });
 
-  document.getElementById("mapel-grid").onclick = ()=>{
-  document.getElementById("section-pertemuan").style.display = "block";
-  scrollToSection("section-pertemuan");
-};
-  
+// ================= PILIH SEMESTER =================
 document.querySelectorAll(".semester-btn").forEach(btn=>{
-  btn.onclick=()=>{
-    sectionMapel.style.display="block";
-    mapelGrid.innerHTML="";
-    kelasData.XI[1].forEach(mp=>{
-      const d=document.createElement("div");
-      d.className="class-item";
-      d.textContent=mp.open?mp.name:`🔒 ${mp.name}`;
-      d.style.opacity=mp.open?1:.5;
-      d.onclick=mp.open?()=>showPertemuan():()=>Swal.fire("Terkunci","","info");
-      mapelGrid.appendChild(d);
+  btn.onclick = () => {
+    selectedSemester = btn.dataset.semester;
+
+    mapelGrid.innerHTML = "";
+
+    const mapelList = kelasData[selectedKelas]?.[selectedSemester] || [];
+
+    mapelList.forEach(mapel=>{
+      const div = document.createElement("div");
+      div.className = "class-item";
+      div.innerHTML = `<h3>${mapel.name}</h3>`;
+
+      if(!mapel.open){
+        div.style.opacity = ".5";
+        div.onclick = () => {
+          Swal.fire({
+            icon:"info",
+            title:"Belum Dibuka",
+            text:"Mapel ini belum tersedia",
+            confirmButtonColor:"#34d399"
+          });
+        };
+      }else{
+        div.onclick = () => {
+          showPertemuan(mapel.name);
+        };
+      }
+
+      mapelGrid.appendChild(div);
     });
+
+    sectionMapel.style.display = "block";
+    scrollToSection("section-mapel");
   };
 });
 
-function showPertemuan(){
-  sectionPertemuan.style.display="block";
-  pertemuanGrid.innerHTML="";
-  for(let i=1;i<=16;i++){
-    const d=document.createElement("div");
-    const open=i===1;
-    d.className="class-item";
-    d.textContent=open?`Pertemuan ${i}`:`🔒 Pertemuan ${i}`;
-    d.style.opacity=open?1:.5;
-    d.onclick=open?()=>loadingKeAbsensi():()=>Swal.fire("Terkunci","","info");
-    pertemuanGrid.appendChild(d);
-  }
-}
+// ================= PERTEMUAN =================
+function showPertemuan(mapel){
+  pertemuanGrid.innerHTML = "";
 
-function loadingKeAbsensi(){
-  const loading=document.getElementById("loadingAbsensi");
-  loading.classList.add("active");
-  setTimeout(()=>location.href="absensi.html",1500);
+  for(let i=1;i<=10;i++){
+    const div = document.createElement("div");
+    div.className = "class-item";
+    div.innerHTML = `<h3>Pertemuan ${i}</h3>`;
+    div.onclick = () => {
+      document.getElementById("loadingAbsensi").classList.add("active");
+
+      setTimeout(()=>{
+        document.getElementById("loadingAbsensi").classList.remove("active");
+        Swal.fire({
+          icon:"success",
+          title:"Absensi Berhasil",
+          text:`${mapel} - Pertemuan ${i}`,
+          confirmButtonColor:"#34d399"
+        });
+      },1500);
+    };
+    pertemuanGrid.appendChild(div);
+  }
+
+  sectionPertemuan.style.display = "block";
+  scrollToSection("section-pertemuan");
 }
 
   function updateNavbarUser(){
