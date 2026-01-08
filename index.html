@@ -855,6 +855,16 @@ section.announce-section {
   }
 }
 
+  .class-item[data-class="XI"]{
+  border:2px solid #22c55e;
+}
+
+.class-item[data-class="X"],
+.class-item[data-class="XII"]{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
 /* ================= FOOTER ================= */
 footer{
  background:#0f2f1f;
@@ -1217,6 +1227,12 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   }
 }
 
+  #mapel-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:16px;
+  justify-items:center;
+}
 </style>
 </head>
 <body>
@@ -1683,7 +1699,7 @@ const btnGoogle = document.getElementById("btnGoogle");
 // ======================================================
 // NAVBAR BUTTON
 // ======================================================
-document.getElementById("navUserBtn").onclick = () => {
+document.getElementById("navUserBtn").onclick = openDaftar;
   popupDaftar.style.right = "0";
   overlayDaftar.style.display = "block";
 };
@@ -1713,11 +1729,13 @@ document.getElementById("submit-daftar").onclick = () => {
   overlayDaftar.style.display = "none";
 
   Swal.fire({
-    icon: "success",
-    title: "Permintaan Dicatat",
-    text: "Permintaan telah dicatat, tunggu informasi selanjutnya!",
-    confirmButtonColor: "#34d399"
-  }).then(() => {
+  icon: "success",
+  title: "Permintaan Dicatat",
+  text: "Permintaan telah dicatat, tunggu informasi selanjutnya!",
+  confirmButtonColor: "#34d399"
+}).then(() => {
+  closeDaftar();
+});
     document.querySelector(".hero").scrollIntoView({
       behavior: "smooth",
       block: "start"
@@ -1739,9 +1757,6 @@ btnLogin.onclick = () => {
     return;
   }
 
-  btnLogin.onclick = () => {
-  sessionStorage.setItem("authUser", JSON.stringify({ role:"siswa" }));
-
   Swal.fire({
     icon: "success",
     title: "Login berhasil",
@@ -1750,29 +1765,39 @@ btnLogin.onclick = () => {
     scrollToSection("section-kelas");
   });
 };
+
+  function openDaftar(){
+  popupDaftar.style.right = "0";
+  overlayDaftar.style.display = "block";
+}
+
+function closeDaftar(){
+  popupDaftar.style.right = "-420px";
+  overlayDaftar.style.display = "none";
+}
+
+document.querySelector("#popup-daftar .close").onclick = closeDaftar;
+overlayDaftar.onclick = closeDaftar;
+
   // === SIMULASI DATABASE ===
-  if (email === "siswa01" && password === "siswa123") {
+ if (email === "siswa01" && password === "siswa123") {
 
-    sessionStorage.setItem("authUser", JSON.stringify({
-      username: "siswa01",
-      nis: "2025001",
-      role: "siswa",
-      loginAt: new Date().toISOString()
-    }));
+  sessionStorage.setItem("authUser", JSON.stringify({
+    username: email,
+    role: "siswa"
+  }));
 
-    Swal.fire({
-      icon: "success",
-      title: "Login Berhasil",
-      text: "Silakan pilih kelas",
-      confirmButtonColor: "#34d399"
-    }).then(()=>{
-      updateNavbarUser();
-      document.querySelector(".class-grid").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
+  Swal.fire({
+    icon: "success",
+    title: "Login Berhasil",
+    text: "Silahkan untuk memilih kelas!",
+    confirmButtonColor: "#34d399"
+  }).then(()=>{
+    updateNavbarUser();
+    scrollToSection("section-kelas");
+  });
 
+}
   } else {
     Swal.fire({
       icon: "error",
@@ -1881,8 +1906,23 @@ const kelasData={
   }
 };
 
-document.querySelectorAll(".class-btn").forEach(btn=>{
+document.querySelectorAll(".class-btn").forEach(btn => {
   btn.onclick = () => {
+
+    const kelas = btn.dataset.class;
+
+    // ❌ Kelas selain XI → Coming Soon
+    if(kelas !== "XI"){
+      Swal.fire({
+        icon: "info",
+        title: "Coming Soon",
+        text: "Kelas ini belum tersedia",
+        confirmButtonColor: "#34d399"
+      });
+      return;
+    }
+
+    // ❌ Belum login
     if(!isLoggedIn()){
       Swal.fire({
         icon:"warning",
@@ -1892,6 +1932,16 @@ document.querySelectorAll(".class-btn").forEach(btn=>{
       });
       return;
     }
+
+    // ✅ Kelas XI aktif
+    sectionSemester.style.display = "block";
+
+    sectionSemester.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  };
+});
 
     document.getElementById("section-semester").style.display = "block";
     document.getElementById("section-semester")
@@ -1909,13 +1959,17 @@ document.querySelectorAll(".semester-btn").forEach(btn=>{
     sectionMapel.style.display="block";
     mapelGrid.innerHTML="";
     kelasData.XI[1].forEach(mp=>{
-      const d=document.createElement("div");
-      d.className="class-item";
-      d.textContent=mp.open?mp.name:`🔒 ${mp.name}`;
-      d.style.opacity=mp.open?1:.5;
-      d.onclick=mp.open?()=>showPertemuan():()=>Swal.fire("Terkunci","","info");
-      mapelGrid.appendChild(d);
-    });
+  const d = document.createElement("div");
+  d.className = "class-item text-center";
+  d.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
+  d.style.opacity = mp.open ? 1 : .5;
+
+  d.onclick = mp.open
+    ? () => showPertemuan()
+    : () => Swal.fire("Coming Soon", "Mapel belum dibuka", "info");
+
+  mapelGrid.appendChild(d);
+});
   };
 });
 
@@ -1946,15 +2000,26 @@ function loadingKeAbsensi(){
 
   if(user){
     text.textContent = user.username;
-    btn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Logout`;
-    btn.onclick = logout;
+    btn.innerHTML = `<i class="fa-solid fa-user"></i>`;
+    btn.onclick = () => {
+      Swal.fire({
+        title: "Logout?",
+        text: "Apakah kamu yakin ingin logout?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Iya",
+        cancelButtonText: "Tidak",
+        confirmButtonColor: "#ef4444"
+      }).then((res)=>{
+        if(res.isConfirmed){
+          logout();
+        }
+      });
+    };
   } else {
     text.textContent = "Daftar Siswa";
-    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
-    btn.onclick = () => {
-      popupDaftar.style.right = "0";
-      overlayDaftar.style.display = "block";
-    };
+    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i>`;
+    btn.onclick = openDaftar;
   }
 }
   document.querySelector("#popup-daftar .close").onclick = () => {
