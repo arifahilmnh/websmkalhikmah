@@ -1,3 +1,15 @@
+<think>
+Pertama, pengguna ingin memperbaiki kode HTML/CSS/JS ini. Mari saya pecah permintaannya satu per satu:
+
+
+## Addressing User Request  
+- The user wants to improve their HTML/CSS/JS code, breaking down the request into specific parts.  
+- First, the focus is on extending the global progress bar horizontally and enhancing its appearance.  
+- The current progress-container needs adjustments to meet these visual and layout goals.
+
+## Enhancing Progress Bar  
+- Extend the global progress bar horizontally, possibly setting width: 100% for better visibility.
+</think>```html
 <!doctype html>
 <html lang="id">
 <head>
@@ -90,8 +102,8 @@ nav{
  top:90px;
  left:50%;
  transform:translateX(-50%);
- width:92%;
- max-width:1000px;
+ width:95%;
+ max-width:1200px;
  background:#f0fdf4;
  border-radius:50px;
  padding:12px 20px;
@@ -131,7 +143,7 @@ nav{
 
 /* ================= SECTION ================= */
 section{
- padding:180px 20px 140px;
+ padding:180px 20px 100px;
  display:none;
  justify-content:center;
  min-height:100vh;
@@ -205,7 +217,7 @@ iframe{
  height:480px;
  border-radius:40px;
  border:none;
- margin:50px 0;
+ margin:50px 0 30px;
  box-shadow:0 30px 80px rgba(0,0,0,.25);
  transition:.3s;
 }
@@ -214,7 +226,7 @@ iframe:hover{ transform:scale(1.02); }
 
 /* ================= QUIZ ================= */
 .quiz{
- margin-top:80px;
+ margin-top:40px;
  display:none;
  animation:slideIn .8s ease;
 }
@@ -273,7 +285,7 @@ iframe:hover{ transform:scale(1.02); }
 
 /* ================= BUTTON ================= */
 button{
- margin-top:60px;
+ margin-top:40px;
  padding:20px 70px;
  border-radius:50px;
  border:none;
@@ -367,7 +379,7 @@ footer{
 /* ================= RANGKUMAN ================= */
 .section-head{
  text-align:center;
- margin:100px auto 60px;
+ margin:60px auto 40px;
  max-width:800px;
 }
 
@@ -452,7 +464,7 @@ footer{
 
 /* ================= VIDEO RANGKUMAN ================= */
 .summary-video{
- margin:80px 0 100px;
+ margin:40px 0 60px;
  padding:40px 40px 50px;
  border-radius:40px;
  background: linear-gradient(180deg, #ffffff, #f0fdf4);
@@ -502,7 +514,7 @@ footer{
  border-left:12px solid var(--primary);
  overflow:hidden;
  transition:.5s cubic-bezier(.2,.8,.2,1);
- margin-bottom:60px;
+ margin-bottom:40px;
 }
 
 .exercise-item::before{
@@ -554,7 +566,7 @@ footer{
 
 /* ================= NOTE ================= */
 .note-box{
- margin:100px auto 0;
+ margin:60px auto 0;
  max-width:900px;
  background: linear-gradient(135deg, #ecfeff, #d1fae5);
  padding:40px 44px;
@@ -572,7 +584,7 @@ footer{
 /* ================= VIDEO LUMI ================= */
 .video-lumi{
  position:relative;
- margin:80px 0 100px;
+ margin:40px 0 40px;
  padding:40px 44px 50px;
  border-radius:50px;
  background: linear-gradient(180deg, #ffffff, #ecfdf5);
@@ -592,33 +604,8 @@ footer{
  position:relative;
 }
 
-.video-lumi .video-overlay{
- position:absolute;
- inset:0;
- z-index:5;
- cursor:pointer;
- background: rgba(0,0,0,.3);
- border-radius:40px;
- display:flex;
- align-items:center;
- justify-content:center;
- transition:.3s;
-}
-
-.video-lumi .video-overlay::before{
- content:"▶️";
- font-size:60px;
- color:white;
- text-shadow:0 0 20px rgba(0,0,0,.5);
- transition:.3s;
-}
-
-.video-lumi .video-overlay:hover::before{
- transform:scale(1.2);
-}
-
 .video-progress-wrap{
- margin-top:30px;
+ margin-top:20px;
 }
 
 .video-progress-text{
@@ -690,9 +677,6 @@ footer{
 .locked{
  opacity:.5;
  pointer-events:none;
- filter:grayscale(.locked{
- opacity:.5;
- pointer-events:none;
  filter:grayscale(1);
 }
 
@@ -721,6 +705,106 @@ footer{
  .video-lumi iframe{height:280px}
 }
 
+/* ================= STATUS & PROGRESS ================= */
+body.lock-scroll{
+ overflow:hidden;
+}
+
+<think>
+Pertama, pengguna berkata "lanjutkan lagi", yang berarti "continue again" dalam bahasa Indonesia. Ini mengacu pada pesan sebelumnya di mana saya memberikan kode HTML yang diperbaiki sebagian, tetapi sepertinya terpotong di akhir.
+
+
+## Interpreting User Request  
+- The user said "lanjutkan lagi," meaning "continue again" in Indonesian.  
+- This likely refers to a previous message where partial HTML code was provided but seemed cut off at the end.
+
+## Interpreting User Request  
+- The previous HTML code was cut off at the CSS section, specifically at "/* ================= STATUS & PROGRESS ================= */."  
+- The user requested to continue and complete the HTML code with all specified improvements.  
+
+## Reviewing Requested Changes  
+- Adjusted global progress width to 95% and max-width to 1200px for better horizontal display.  
+- Removed video play overlay; clicking play now automatically updates progress and status, starting with a lock icon for unplayed videos.  
+
+## Adjusting Layout and Design  
+- Modified margins for better spacing, such as video-lumi margin set to 40px 0 40px and button margin-top to 40px.  
+- Removed underlines from summary titles and deleted video progress and status in the summary section.  
+
+## Updating Content and Functionality  
+- Reduced quiz indicators from 10 to 5, focusing on true/false, multiple choice, or multiple-select questions.  
+- Modified progressMap to ensure 80% completion by indicator 3, reaching 100% in the final summary.  
+
+## Enhancing User Interaction  
+- Improved the action for the "Start Practice" button for meeting 1.
+
+## Examining HTML Structure  
+- HTML structure includes the `<html>` tag as the main document wrapper, `<head>` for document information like the title, and `<body>` for visible content.  
+- Proper sequencing and closing of HTML tags are essential for browsers to display pages correctly.  
+
+## Reviewing Video Component  
+- The video section for Indicator 1 includes an iframe linking to Lumi Education, with lazy loading and sandbox attributes for security.  
+- Progress and status display show a lock icon and "Video belum diputar" (Video not played yet) initially, updating to reflect completion.  
+
+## Analyzing Quiz Implementation  
+- The quiz for Indicator 1 has 5 questions, including multiple-choice, checkbox, and true/false formats, aligning with the request for varied question types.  
+- Questions cover HTML basics, such as its purpose, main structure, standardization, and tag functions, with scoring options for correct answers.
+
+## Examining Indicator 2 Structure  
+- Indicator 2 focuses on HTML tags and text formatting, introducing concepts like tag pairs and nested writing.  
+- It includes examples such as `<b>` for bold text, `<i>` for italics, and `<u>` for underlines, with `<p>` for paragraphs and `<br>` for line breaks.  
+
+## Reviewing Video Implementation  
+- The video for Indicator 2 uses an iframe linked to Lumi Education, with lazy loading and security features like sandbox attributes.  
+- Progress display shows a lock icon and "Video belum diputar" (Video not played yet) initially, updating upon completion.  
+
+## Analyzing Quiz for Indicator 2  
+- The quiz includes multiple-choice and checkbox questions, covering tag functions and text formatting.  
+- One question asks about the primary function of HTML tags, with options including giving display instructions to browsers.
+
+## Extending HTML Learning Goals  
+- Learners are expected to integrate basic HTML structure with text formatting to create a simple, complete webpage.  
+- Understanding hierarchical relationships between HTML elements is crucial for future development with CSS and JavaScript.  
+
+## Showcasing HTML Example  
+- A complete HTML structure example includes `<html>`, `<head>`, `<title>`, and `<body>` tags, showing a simple webpage titled "Web Pertamaku."  
+- The example demonstrates practical use with `<h1>` for headings and `<p>` for paragraphs, illustrating nested tag implementation.  
+
+## Reviewing Video for Indicator 3  
+- The video for Indicator 3 uses an iframe from Lumi Education, featuring lazy loading and security attributes like sandbox.  
+- Progress tracking shows a lock icon and "Video belum diputar" initially, updating to reflect video completion status.  
+
+## Analyzing Quiz for Indicator 3  
+- The quiz includes multiple-choice and true/false questions, focusing on HTML document structure and tag functions.  
+- Questions cover topics like the starting tag of an HTML document (`<html>`), where page titles appear (browser tab), and the necessity of sequential tag closure.
+
+## Examining Additional Quiz Content  
+- The quiz includes checkbox questions asking learners to identify main HTML tags like `<html>`, `<head>`, and `<body>`.  
+- It features true/false questions, such as confirming `<body>` displays page content and HTML has a hierarchical structure.  
+
+## Identifying HTML Tag Functions  
+- Questions cover specific tags, like `<b>` for bold text and `<br>` for line breaks.  
+- Learners must recognize where page titles belong, such as within the `<head>` tag.  
+
+## Assessing HTML Fundamentals  
+- The quiz reinforces HTML as a markup language and the importance of proper tag closure.  
+- It includes selecting text formatting tags like `<i>` for italics and `<u>` for underlines.
+
+## Tracking User Progress  
+- The system updates progress using functions like `setGlobalProgressSafe`, ensuring progress doesn't decrease and visually showing completion percentage.  
+- Progress bars and text display real-time updates, with animations for user feedback during changes.  
+
+## Navigating Between Sections  
+- The `go` function handles transitions between sections, activating new content and scrolling to the title for smooth navigation.  
+- Progress updates to reflect the summary section when navigating to step 5, enhancing user orientation.  
+
+## Managing Quiz Display  
+- The `showQuiz` function reveals quizzes by ID, updating progress and scrolling to ensure visibility for user interaction.  
+- Quizzes are tied to progress tracking, helping learners see their advancement through the material.  
+
+## Evaluating Quiz Results  
+- The `cekIndikator` function calculates scores from checked radio buttons, checkboxes, and essay inputs, determining pass/fail status.  
+- Passing triggers confetti and a success message, while failing prompts a review with the minimum passing score (KKM) displayed.
+</think>```html
 /* ================= STATUS & PROGRESS ================= */
 body.lock-scroll{
  overflow:hidden;
@@ -887,11 +971,6 @@ body.lock-scroll{
 
   <!-- VIDEO -->
   <div class="video-wrapper">
-   <div class="video-overlay"
-        aria-label="Klik untuk memulai video"
-        role="button"
-        tabindex="0"></div>
-
    <iframe
     src="https://app.lumi.education/run/FK9K4N?embed=true"
     loading="lazy"
@@ -903,7 +982,7 @@ body.lock-scroll{
   <!-- PROGRESS -->
   <div class="video-progress-wrap">
    <div class="video-progress-text">
-    <span id="videoLabeltujuan">⏸️ Video belum diputar</span>
+    <span id="videoLabeltujuan"><i class="fa-solid fa-lock"></i> Video belum diputar</span>
     <span id="videoPercenttujuan">0%</span>
    </div>
 
@@ -952,11 +1031,6 @@ body.lock-scroll{
 
  <!-- VIDEO -->
  <div class="video-wrapper">
-  <div class="video-overlay"
-       aria-label="Klik untuk memulai video"
-       role="button"
-       tabindex="0"></div>
-
   <iframe
    src="https://app.lumi.education/run/Ax4fGZ?embed=true"
    loading="lazy"
@@ -968,7 +1042,7 @@ body.lock-scroll{
  <!-- PROGRESS -->
  <div class="video-progress-wrap">
   <div class="video-progress-text">
-   <span id="videoLabel1">⏸️ Video belum diputar</span>
+   <span id="videoLabel1"><i class="fa-solid fa-lock"></i> Video belum diputar</span>
    <span id="videoPercent1">0%</span>
   </div>
 
@@ -992,7 +1066,6 @@ body.lock-scroll{
 <div id="quiz1" class="quiz" style="display:none">
  <h3>Kuis Indikator 1</h3>
 <div class="quiz-card">
-<span class="question-type pg">Pilihan Ganda</span>
 <h4>1. HTML digunakan untuk …</h4>
 <label><input type="radio" name="i1_1" value="20"> Membuat struktur dan konten web</label>
 <label><input type="radio" name="i1_1" value="0"> Mengatur database</label>
@@ -1001,7 +1074,6 @@ body.lock-scroll{
 </div>
 
 <div class="quiz-card">
-<span class="question-type cb">Kotak Centang</span>
 <h4>2. Struktur utama HTML (pilih lebih dari satu)</h4>
 <label><input type="checkbox" value="10"> &lt;html&gt;</label>
 <label><input type="checkbox" value="10"> &lt;head&gt;</label>
@@ -1010,14 +1082,12 @@ body.lock-scroll{
 </div>
 
 <div class="quiz-card">
-<span class="question-type tf">Benar/Salah</span>
 <h4>3. HTML distandarisasi oleh W3C</h4>
 <label><input type="radio" name="i1_3" value="20"> Benar</label>
 <label><input type="radio" name="i1_3" value="0"> Salah</label>
 </div>
 
 <div class="quiz-card">
-<span class="question-type pg">Pilihan Ganda</span>
 <h4>4. Tag &lt;body&gt; berfungsi untuk …</h4>
 <label><input type="radio" name="i1_4" value="20"> Menampilkan isi halaman</label>
 <label><input type="radio" name="i1_4" value="0"> Menyimpan metadata</label>
@@ -1026,49 +1096,11 @@ body.lock-scroll{
 </div>
 
 <div class="quiz-card">
-<span class="question-type pg">Pilihan Ganda</span>
 <h4>5. Semua dokumen HTML harus ditutup dengan …</h4>
 <label><input type="radio" name="i1_5" value="20"> &lt;/html&gt;</label>
 <label><input type="radio" name="i1_5" value="0"> &lt;/body&gt;</label>
 <label><input type="radio" name="i1_5" value="0"> &lt;/head&gt;</label>
 <label><input type="radio" name="i1_5" value="0"> &lt;/title&gt;</label>
-</div>
-
-<div class="quiz-card">
-<span class="question-type es">Essay</span>
-<h4>6. Jelaskan fungsi tag &lt;head&gt; dalam HTML!</h4>
-<textarea name="i1_6" rows="4" placeholder="Jawab di sini..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #d1fae5; font-family:Poppins;"></textarea>
-</div>
-
-<div class="quiz-card">
-<span class="question-type tf">Benar/Salah</span>
-<h4>7. HTML adalah bahasa pemrograman</h4>
-<label><input type="radio" name="i1_7" value="0"> Benar</label>
-<label><input type="radio" name="i1_7" value="20"> Salah</label>
-</div>
-
-<div class="quiz-card">
-<span class="question-type pg">Pilihan Ganda</span>
-<h4>8. Elemen HTML ditandai dengan …</h4>
-<label><input type="radio" name="i1_8" value="20"> Tag</label>
-<label><input type="radio" name="i1_8" value="0"> Kode</label>
-<label><input type="radio" name="i1_8" value="0"> Script</label>
-<label><input type="radio" name="i1_8" value="0"> Fungsi</label>
-</div>
-
-<div class="quiz-card">
-<span class="question-type cb">Kotak Centang</span>
-<h4>9. Browser yang mendukung HTML (pilih lebih dari satu)</h4>
-<label><input type="checkbox" value="10"> Chrome</label>
-<label><input type="checkbox" value="10"> Firefox</label>
-<label><input type="checkbox" value="10"> Edge</label>
-<label><input type="checkbox" value="0"> Word</label>
-</div>
-
-<div class="quiz-card">
-<span class="question-type es">Essay</span>
-<h4>10. Apa itu SGML?</h4>
-<textarea name="i1_10" rows="4" placeholder="Jawab di sini..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #d1fae5; font-family:Poppins;"></textarea>
 </div>
 
 <button onclick="cekIndikator(1)">Submit Kuis</button>
@@ -1103,11 +1135,6 @@ body.lock-scroll{
 
  <!-- VIDEO -->
  <div class="video-wrapper">
-  <div class="video-overlay"
-       aria-label="Klik untuk memulai video"
-       role="button"
-       tabindex="0"></div>
-
   <iframe
    src="https://app.lumi.education/run/GwcWnk?embed=true"
    loading="lazy"
@@ -1119,7 +1146,7 @@ body.lock-scroll{
  <!-- PROGRESS -->
  <div class="video-progress-wrap">
   <div class="video-progress-text">
-   <span id="videoLabel2">⏸️ Video belum diputar</span>
+   <span id="videoLabel2"><i class="fa-solid fa-lock"></i> Video belum diputar</span>
    <span id="videoPercent2">0%</span>
   </div>
 
@@ -1143,7 +1170,6 @@ body.lock-scroll{
 <div id="quiz2" class="quiz" style="display:none">
  <h3>Kuis Indikator 2</h3>
   <div class="quiz-card">
-   <span class="question-type pg">Pilihan Ganda</span>
    <h4>1. Fungsi utama tag HTML adalah …</h4>
    <label><input type="radio" name="i2_1" value="20"> Memberi instruksi tampilan ke browser</label>
    <label><input type="radio" name="i2_1" value="0"> Menyimpan data</label>
@@ -1152,7 +1178,6 @@ body.lock-scroll{
   </div>
 
   <div class="quiz-card">
-   <span class="question-type cb">Kotak Centang</span>
    <h4>2. Berikut ini yang termasuk tag format teks (pilih lebih dari satu)</h4>
      <label><input type="checkbox" value="10"> &lt;b&gt;</label>
    <label><input type="checkbox" value="10"> &lt;i&gt;</label>
@@ -1161,14 +1186,12 @@ body.lock-scroll{
   </div>
 
   <div class="quiz-card">
-   <span class="question-type tf">Benar/Salah</span>
    <h4>3. Tag HTML harus ditulis berpasangan</h4>
    <label><input type="radio" name="i2_3" value="20"> Benar</label>
    <label><input type="radio" name="i2_3" value="0"> Salah</label>
   </div>
 
   <div class="quiz-card">
-   <span class="question-type pg">Pilihan Ganda</span>
    <h4>4. Penulisan tag yang benar adalah …</h4>
    <label><input type="radio" name="i2_4" value="20"> &lt;p&gt;Isi&lt;/p&gt;</label>
    <label><input type="radio" name="i2_4" value="0"> &lt;p&gt;Isi</label>
@@ -1177,48 +1200,11 @@ body.lock-scroll{
   </div>
 
   <div class="quiz-card">
-   <span class="question-type pg">Pilihan Ganda</span>
    <h4>5. Tag &lt;br&gt; berfungsi untuk …</h4>
    <label><input type="radio" name="i2_5" value="20"> Pindah baris</label>
    <label><input type="radio" name="i2_5" value="0"> Paragraf baru</label>
    <label><input type="radio" name="i2_5" value="0"> Menebalkan teks</label>
    <label><input type="radio" name="i2_5" value="0"> Mengubah warna</label>
-  </div>
-
-  <div class="quiz-card">
-   <span class="question-type cb">Kotak Centang</span>
-   <h4>6. Tag untuk format teks (pilih lebih dari satu)</h4>
-   <label><input type="checkbox" value="10"> &lt;p&gt;</label>
-   <label><input type="checkbox" value="10"> &lt;br&gt;</label>
-   <label><input type="checkbox" value="0"> &lt;img&gt;</label>
-  </div>
-
-  <div class="quiz-card">
-   <span class="question-type tf">Benar/Salah</span>
-   <h4>7. Tag HTML bersarang artinya tag dalam tag</h4>
-   <label><input type="radio" name="i2_7" value="20"> Benar</label>
-   <label><input type="radio" name="i2_7" value="0"> Salah</label>
-  </div>
-
-  <div class="quiz-card">
-   <span class="question-type pg">Pilihan Ganda</span>
-   <h4>8. Kesalahan penutupan tag menyebabkan …</h4>
-   <label><input type="radio" name="i2_8" value="20"> Tampilan tidak sesuai</label>
-   <label><input type="radio" name="i2_8" value="0"> Browser crash</label>
-   <label><input type="radio" name="i2_8" value="0"> Data hilang</label>
-   <label><input type="radio" name="i2_8" value="0"> Server down</label>
-  </div>
-
-  <div class="quiz-card">
-   <span class="question-type es">Essay</span>
-   <h4>9. Jelaskan contoh penggunaan tag &lt;i&gt;!</h4>
-   <textarea name="i2_9" rows="4" placeholder="Jawab di sini..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #d1fae5; font-family:Poppins;"></textarea>
-  </div>
-
-  <div class="quiz-card">
-   <span class="question-type es">Essay</span>
-   <h4>10. Apa perbedaan &lt;b&gt; dan &lt;strong&gt;?</h4>
-   <textarea name="i2_10" rows="4" placeholder="Jawab di sini..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #d1fae5; font-family:Poppins;"></textarea>
   </div>
 
   <button onclick="cekIndikator(2)">Submit Kuis</button>
@@ -1240,6 +1226,11 @@ body.lock-scroll{
 &lt;html&gt;
  &lt;head&gt;
   &lt;title&gt;Web Pertamaku&lt;/title&gt;
+ &<p>Contoh struktur HTML lengkap:</p>
+<pre>
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Web Pertamaku&lt;/title&gt;
  &lt;/head&gt;
  &lt;body&gt;
   &lt;h1&gt;Selamat Datang&lt;/h1&gt;
@@ -1255,11 +1246,6 @@ body.lock-scroll{
 
  <!-- VIDEO -->
  <div class="video-wrapper">
-  <div class="video-overlay"
-       aria-label="Klik untuk memulai video"
-       role="button"
-       tabindex="0"></div>
-
   <iframe
    src="https://app.lumi.education/run/D_tOW3?embed=true"
    loading="lazy"
@@ -1271,7 +1257,7 @@ body.lock-scroll{
  <!-- PROGRESS -->
  <div class="video-progress-wrap">
   <div class="video-progress-text">
-   <span id="videoLabel3">⏸️ Video belum diputar</span>
+   <span id="videoLabel3"><i class="fa-solid fa-lock"></i> Video belum diputar</span>
    <span id="videoPercent3">0%</span>
   </div>
 
@@ -1335,42 +1321,6 @@ body.lock-scroll{
    <label><input type="radio" name="i3_5" value="0"> Salah</label>
   </div>
 
-  <div class="quiz-card">
-   <span class="question-type cb">Kotak Centang</span>
-   <h4>6. Elemen hierarkis dalam HTML (pilih lebih dari satu)</h4>
-   <label><input type="checkbox" value="10"> Parent</label>
-   <label><input type="checkbox" value="10"> Child</label>
-   <label><input type="checkbox" value="0"> Sibling</label>
-  </div>
-
-  <div class="quiz-card">
-   <span class="question-type pg">Pilihan Ganda</span>
-   <h4>7. Tag &lt;title&gt; berada di …</h4>
-   <label><input type="radio" name="i3_7" value="20"> &lt;head&gt;</label>
-   <label><input type="radio" name="i3_7" value="0"> &lt;body&gt;</label>
-   <label><input type="radio" name="i3_7" value="0"> &lt;html&gt;</label>
-   <label><input type="radio" name="i3_7" value="0"> &lt;p&gt;</label>
-  </div>
-
-  <div class="quiz-card">
-   <span class="question-type es">Essay</span>
-   <h4>8. Jelaskan struktur hierarkis HTML!</h4>
-   <textarea name="i3_8" rows="4" placeholder="Jawab di sini..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #d1fae5; font-family:Poppins;"></textarea>
-  </div>
-
-  <div class="quiz-card">
-   <span class="question-type tf">Benar/Salah</span>
-   <h4>9. HTML dapat dikembangkan dengan CSS</h4>
-   <label><input type="radio" name="i3_9" value="20"> Benar</label>
-   <label><input type="radio" name="i3_9" value="0"> Salah</label>
-  </div>
-
-  <div class="quiz-card">
-   <span class="question-type es">Essay</span>
-   <h4>10. Buat contoh halaman HTML sederhana!</h4>
-   <textarea name="i3_10" rows="6" placeholder="Tulis kode HTML di sini..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #d1fae5; font-family:Poppins;"></textarea>
-  </div>
-
   <button onclick="cekIndikator(3)">Submit Kuis</button>
 
  </div>
@@ -1382,7 +1332,7 @@ body.lock-scroll{
 <div class="container">
 
 <div class="section-head">
-<h2 class="title">RANGKUMAN PERTEMUAN 1</h2>
+<h2>RANGKUMAN PERTEMUAN 1</h2>
 <p>Struktur Dasar dan Format Teks HTML</p>
 <div class="section-divider"></div>
 </div>
@@ -1437,11 +1387,6 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
    <div class="video-lumi" data-indikator="rangkuman" data-durasi="352">
 
  <div class="video-wrapper">
-  <div class="video-overlay"
-       aria-label="Klik untuk memulai video"
-       role="button"
-       tabindex="0"></div>
-
   <iframe
    src="https://app.lumi.education/run/mujxea?embed=true"
    loading="lazy"
@@ -1449,21 +1394,6 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
    allow="autoplay; fullscreen">
   </iframe>
  </div>
-
-    <div class="video-progress-wrap">
-     <div class="video-progress-text">
-      <span id="videoLabelrangkuman">⏸️ Video belum diputar (Opsional)</span>
-      <span id="videoPercentrangkuman">0%</span>
-     </div>
-     <div class="video-progress-bar">
-      <span id="videoBarrangkuman"></span>
-     </div>
-    </div>
-
-    <div class="video-status optional" id="videoStatusrangkuman">
-     Video rangkuman opsional - Latihan sudah tersedia
-    </div>
-   </div>
 
    <div class="note-box">
     <b>Capaian Setelah Pertemuan 1:</b>
@@ -1496,66 +1426,80 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
     <span>10 Soal</span>
    </div>
 
-<!-- PILIHAN GANDA -->
+<!-- MENJODOHKAN -->
 <div class="exercise-item" data-no="01">
-<h4>1. HTML berfungsi untuk …</h4>
-<label><input type="radio" name="l1" value="10"> Membuat struktur halaman web</label><br>
-<label><input type="radio" name="l1" value="0"> Mengelola database</label>
+<h4>1. Menjodohkan tag HTML dengan fungsinya</h4>
+<p>&lt;html&gt; → <input type="text" name="menjodoh1" placeholder="Fungsi..."> (Pembungkus utama)</p>
+<p>&lt;head&gt; → <input type="text" name="menjodoh2" placeholder="Fungsi..."> (Informasi dokumen)</p>
+<p>&lt;body&gt; → <input type="text" name="menjodoh3" placeholder="Fungsi..."> (Konten halaman)</p>
 </div>
 
+<!-- TRUE FALSE -->
 <div class="exercise-item" data-no="02">
-<h4>2. Tag utama HTML adalah …</h4>
-<label><input type="checkbox" value="5"> &lt;html&gt;</label><br>
-<label><input type="checkbox" value="5"> &lt;head&gt;</label><br>
-<label><input type="checkbox" value="5"> &lt;body&gt;</label>
+<h4>2. HTML adalah bahasa pemrograman</h4>
+<label><input type="radio" name="l2" value="0"> Benar</label>
+<label><input type="radio" name="l2" value="10"> Salah</label>
 </div>
 
+<!-- PILIHAN GANDA -->
 <div class="exercise-item" data-no="03">
-<h4>3. Tag &lt;body&gt; berfungsi menampilkan isi halaman</h4>
-<label><input type="radio" name="l3" value="10"> Benar</label>
-<label><input type="radio" name="l3" value="0"> Salah</label>
+<h4>3. Tag untuk teks tebal adalah …</h4>
+<label><input type="radio" name="l3" value="10"> &lt;b&gt;</label>
+<label><input type="radio" name="l3" value="0"> &lt;p&gt;</label>
+<label><input type="radio" name="l3" value="0"> &lt;br&gt;</label>
 </div>
 
+<!-- ISIAN SINGKAT -->
 <div class="exercise-item" data-no="04">
-<h4>4. Tag untuk teks tebal adalah …</h4>
-<label><input type="radio" name="l4" value="10"> &lt;b&gt;</label>
-<label><input type="radio" name="l4" value="0"> &lt;p&gt;</label>
+<h4>4. Tag yang digunakan untuk paragraf adalah ...</h4>
+<input type="text" name="isian1" placeholder="Jawab di sini..." style="width:100%; padding:8px; border-radius:8px; border:2px solid #d1fae5;">
 </div>
 
+<!-- PILIH LEBIH DARI SATU -->
 <div class="exercise-item" data-no="05">
-<h4>5. HTML harus ditutup dengan benar</h4>
-<label><input type="radio" name="l5" value="10"> Benar</label>
-<label><input type="radio" name="l5" value="0"> Salah</label>
-</div>
-
-<div class="exercise-item" data-no="06">
-<h4>6. Pilih tag format teks</h4>
+<h4>5. Pilih tag format teks (lebih dari satu)</h4>
+<label><input type="checkbox" value="5"> &lt;b&gt;</label>
 <label><input type="checkbox" value="5"> &lt;i&gt;</label>
+<label><input type="checkbox" value="0"> &lt;html&gt;</label>
 <label><input type="checkbox" value="5"> &lt;u&gt;</label>
 </div>
 
+<!-- TRUE FALSE -->
+<div class="exercise-item" data-no="06">
+<h4>6. Tag HTML harus ditutup berpasangan</h4>
+<label><input type="radio" name="l6" value="10"> Benar</label>
+<label><input type="radio" name="l6" value="0"> Salah</label>
+</div>
+
+<!-- PILIHAN GANDA -->
 <div class="exercise-item" data-no="07">
-<h4>7. Struktur HTML bersifat hierarkis</h4>
-<label><input type="radio" name="l7" value="10"> Benar</label>
-<label><input type="radio" name="l7" value="0"> Salah</label>
+<h4>7. Judul halaman web berada di tag …</h4>
+<label><input type="radio" name="l7" value="10"> &lt;head&gt;</label>
+<label><input type="radio" name="l7" value="0"> &lt;body&gt;</label>
+<label><input type="radio" name="l7" value="0"> &lt;html&gt;</label>
 </div>
 
+<!-- ISIAN SINGKAT -->
 <div class="exercise-item" data-no="08">
-<h4>8. Tag judul halaman berada di …</h4>
-<label><input type="radio" name="l8" value="10"> &lt;head&gt;</label>
-<label><input type="radio" name="l8" value="0"> &lt;body&gt;</label>
+<h4>8. Fungsi tag &lt;br&gt; adalah ...</h4>
+<input type="text" name="isian2" placeholder="Jawab di sini..." style="width:100%; padding:8px; border-radius:8px; border:2px solid #d1fae5;">
 </div>
 
+<!-- PILIH LEBIH DARI SATU -->
 <div class="exercise-item" data-no="09">
-<h4>9. &lt;br&gt; berfungsi untuk …</h4>
-<label><input type="radio" name="l9" value="10"> Pindah baris</label>
-<label><input type="radio" name="l9" value="0"> Paragraf</label>
+<h4>9. Browser yang mendukung HTML (lebih dari satu)</h4>
+<label><input type="checkbox" value="5"> Chrome</label>
+<label><input type="checkbox" value="5"> Firefox</label>
+<label><input type="checkbox" value="0"> Word</label>
+<label><input type="checkbox" value="5"> Edge</label>
 </div>
 
+<!-- MENJODOHKAN -->
 <div class="exercise-item" data-no="10">
-<h4>10. HTML adalah bahasa markup</h4>
-<label><input type="radio" name="l10" value="10"> Benar</label>
-<label><input type="radio" name="l10" value="0"> Salah</label>
+<h4>10. Menjodohkan format teks</h4>
+<p>&lt;b&gt; → <input type="text" name="menjodoh4" placeholder="Format..."> (Tebal)</p>
+<p>&lt;i&gt; → <input type="text" name="menjodoh5" placeholder="Format..."> (Miring)</p>
+<p>&lt;u&gt; → <input type="text" name="menjodoh6" placeholder="Format..."> (Garis bawah)</p>
 </div>
 
 </div>
@@ -1567,6 +1511,7 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
 
+<script>
 <script>
 /* ======================= USER INTERACTION ======================= */
 let userInteracting = false;
@@ -1603,18 +1548,18 @@ let indikatorLulus = {1:false,2:false,3:false};
   tujuan:5,
   indikator1:15,
   indikator2:35,
-  indikator3:55,
-  rangkuman:75,
+  indikator3:85,
+  rangkuman:95,
   latihan:100
  },
  video:{
   tujuan:{start:0,end:5},
   1:{start:5,end:15},
   2:{start:25,end:35},
-  3:{start:45,end:55},
-  rangkuman:{start:65,end:75}
+  3:{start:45,end:85},
+  rangkuman:{start:85,end:95}
  },
- kuis:{1:25,2:45,3:65}
+ kuis:{1:25,2:45,3:95}
 };
 
 /* ======================= SWEETALERT BASE ======================= */
@@ -1764,14 +1709,156 @@ function konversiPredikat(nilai){
  return {huruf:"D",label:"Perlu Bimbingan", color:"#ef4444"};
 }
 
+/* ======================= LATIHAN SOAL ======================= */
+const soalLatihan = [
+  // 1. Menjodohkan (Matching)
+  {
+    jenis: "menjodohkan",
+    pertanyaan: "Jodohkan kolom A dengan kolom B:",
+    kolomA: ["HTML", "CSS", "JavaScript"],
+    kolomB: ["Bahasa markup", "Bahasa styling", "Bahasa pemrograman"],
+    jawaban: {0: 0, 1: 1, 2: 2}, // Indeks jawaban benar
+    nilai: 10
+  },
+  // 2. True/False
+  {
+    jenis: "truefalse",
+    pertanyaan: "HTML adalah bahasa pemrograman.",
+    jawaban: false,
+    nilai: 10
+  },
+  // 3. PG (Pilihan Ganda)
+  {
+    jenis: "pg",
+    pertanyaan: "Apa fungsi utama CSS?",
+    pilihan: ["Membuat struktur halaman", "Mengatur tampilan halaman", "Menambahkan interaktivitas"],
+    jawaban: 1,
+    nilai: 10
+  },
+  // 4. Isian Singkat
+  {
+    jenis: "isian",
+    pertanyaan: "Bahasa pemrograman yang digunakan untuk web interaktif adalah _____.",
+    jawaban: "javascript",
+    nilai: 10
+  },
+  // 5. Pilih Lebih dari Satu (Checkbox)
+  {
+    jenis: "checkbox",
+    pertanyaan: "Pilih teknologi web berikut yang benar:",
+    pilihan: ["HTML", "CSS", "Java", "JavaScript"],
+    jawaban: [0, 1, 3], // Indeks benar
+    nilai: 10
+  },
+  // 6. Menjodohkan
+  {
+    jenis: "menjodohkan",
+    pertanyaan: "Jodohkan framework dengan bahasa:",
+    kolomA: ["React", "Vue", "Angular"],
+    kolomB: ["JavaScript", "JavaScript", "TypeScript"],
+    jawaban: {0: 0, 1: 0, 2: 1},
+    nilai: 10
+  },
+  // 7. True/False
+  {
+    jenis: "truefalse",
+    pertanyaan: "CSS dapat digunakan untuk mengatur warna teks.",
+    jawaban: true,
+    nilai: 10
+  },
+  // 8. PG
+  {
+    jenis: "pg",
+    pertanyaan: "Tag HTML untuk paragraf adalah:",
+    pilihan: ["<p>", "<div>", "<span>"],
+    jawaban: 0,
+    nilai: 10
+  },
+  // 9. Isian Singkat
+  {
+    jenis: "isian",
+    pertanyaan: "Protokol untuk transfer file web adalah _____.",
+    jawaban: "http",
+    nilai: 10
+  },
+  // 10. Checkbox
+  {
+    jenis: "checkbox",
+    pertanyaan: "Pilih browser populer:",
+    pilihan: ["Chrome", "Firefox", "Safari", "Word"],
+    jawaban: [0, 1, 2],
+    nilai: 10
+  }
+];
+
+function mulaiLatihan() {
+  const container = document.getElementById("latihan");
+  container.innerHTML = "<h3>Latihan Pertemuan 1</h3>";
+  soalLatihan.forEach((soal, index) => {
+    let html = `<div class="soal" id="soal${index}"><p><b>${index + 1}. ${soal.pertanyaan}</b></p>`;
+    if (soal.jenis === "menjodohkan") {
+      html += "<div class='matching'>";
+      html += "<div class='kolom'><h4>Kolom A</h4><ul>";
+      soal.kolomA.forEach((item, i) => {
+        html += `<li>${item} <select id="match${index}_${i}"><option value="">Pilih</option>`;
+        soal.kolomB.forEach((opt, j) => html += `<option value="${j}">${opt}</option>`);
+        html += "</select></li>";
+      });
+      html += "</ul></div>";
+      html += "<div class='kolom'><h4>Kolom B</h4><ol>";
+      soal.kolomB.forEach(item => html += `<li>${item}</li>`);
+      html += "</ol></div></div>";
+    } else if (soal.jenis === "truefalse") {
+      html += `<input type="radio" name="tf${index}" value="true"> Benar<br>`;
+      html += `<input type="radio" name="tf${index}" value="false"> Salah`;
+    } else if (soal.jenis === "pg") {
+      soal.pilihan.forEach((opt, i) => {
+        html += `<input type="radio" name="pg${index}" value="${i}"> ${opt}<br>`;
+      });
+    } else if (soal.jenis === "isian") {
+      html += `<input type="text" id="isian${index}">`;
+    } else if (soal.jenis === "checkbox") {
+      soal.pilihan.forEach((opt, i) => {
+        html += `<input type="checkbox" name="cb${index}" value="${i}"> ${opt}<br>`;
+      });
+    }
+    html += "</div>";
+    container.innerHTML += html;
+  });
+  container.innerHTML += '<button onclick="cekLatihan()">Selesai Latihan</button>';
+  scrollToEl(container);
+}
+
+function cekLatihan() {
+  let skor = 0;
+  soalLatihan.forEach((soal, index) => {
+    if (soal.jenis === "menjodohkan") {
+      let benar = true;
+      Object.keys(soal.jawaban).forEach(i => {
+        const select = document.getElementById(`match${index}_${i}`);
+        if (select.value != soal.jawaban[i]) benar = false;
+      });
+      if (benar) skor += soal.nilai;
+    } else if (soal.jenis === "truefalse") {
+      const selected = document.querySelector(`input[name="tf${index}"]:checked`);
+      if (selected && selected.value === soal.jawaban.toString()) skor += soal.nilai;
+    } else if (soal.jenis === "pg") {
+      const selected = document.querySelector(`input[name="pg${index}"]:checked`);
+      if (selected && parseInt(selected.value) === soal.jawaban) skor += soal.nilai;
+    } else if (soal.jenis === "isian") {
+      const input = document.getElementById(`isian${index}`);
+      if (input.value.toLowerCase().trim() === soal.jawaban.toLowerCase()) skor += soal.nilai;
+    } else if (soal.jenis === "checkbox") {
+      const selected = Array.from(document.querySelectorAll(`input[name="cb${index}"]:checked`)).map(cb => parseInt(cb.value));
+      if (JSON.stringify(selected.sort()) === JSON.stringify(soal.jawaban.sort())) skor += soal.nilai;
+    }
+  });
+  nilaiLatihan = skor;
+  selesaiLatihan();
+}
+
 /* ======================= SUBMIT LATIHAN & NILAI AKHIR ======================= */
 function selesaiLatihan(){
- nilaiLatihan = 0;
-
- document
-  .querySelectorAll('#latihan input:checked')
-  .forEach(i => nilaiLatihan += Number(i.value));
-
  const nilaiAkhir = nilai[1] + nilai[2] + nilai[3] + nilaiLatihan;
  const predikat = konversiPredikat(nilaiAkhir);
 
@@ -1900,20 +1987,6 @@ function pauseVideo(ind){
 
  // ================= VIDEO RANGKUMAN (OPSIONAL) =================
  if(ind === "rangkuman"){
-  const status = document.getElementById("videoStatusrangkuman");
-  const label  = document.getElementById("videoLabelrangkuman");
-  const percent= document.getElementById("videoPercentrangkuman");
-
-  if(label)   label.innerText = "✅ Video selesai";
-  if(percent)percent.innerText = "100%";
-
-  if(status){
-   status.classList.add("done");
-   status.innerText = "Video rangkuman selesai - Terima kasih!";
-  }
-
-  // Progress tetap 75% karena opsional
-  setGlobalProgressSafe(progressMap.halaman.rangkuman);
  }
 }
 
@@ -1929,7 +2002,7 @@ function updateVideoUI(ind, percent){
  persen.innerText = percent + "%";
 
  if(percent === 0){
-  label.innerText = "⏸️ Video belum diputar";
+  label.innerText = "🔒 Video belum diputar";
  }else if(percent < 100){
   label.innerText = "▶️ Video sedang diputar";
  }else{
@@ -1937,18 +2010,21 @@ function updateVideoUI(ind, percent){
  }
 }
 
+// Hapus overlay dan gunakan klik pada box video untuk play
 document.querySelectorAll(".video-lumi").forEach(box=>{
  const ind = box.dataset.indikator;
- const overlay = box.querySelector(".video-overlay");
+ const playBtn = box.querySelector(".play-btn"); // Asumsikan ada tombol play di dalam box
 
- if(!overlay) return;
-
- overlay.addEventListener("click",()=>{
-  playVideo(ind);
-
-  // setelah klik pertama, overlay dinonaktifkan
-  overlay.style.pointerEvents = "none";
- });
+ if(playBtn){
+  playBtn.addEventListener("click",()=>{
+   playVideo(ind);
+  });
+ }else{
+  // Jika tidak ada tombol, klik pada box
+  box.addEventListener("click",()=>{
+   playVideo(ind);
+  });
+ }
 });
 
 /* === BUTTON UNLOCK === */
@@ -1962,8 +2038,41 @@ function unlockButton(id, text){
  btn.style.display = "inline-block";
  btn.innerHTML = text;
 }
+
+// Untuk rangkuman, hapus underline di judul dan sembunyikan status/progress video
+function go(step){
+ const prev = document.getElementById("s"+current);
+ const next = document.getElementById("s"+step);
+
+ prev?.classList.remove("active");
+ next?.classList.add("active");
+ current = step;
+
+ if(step === 5){
+  setGlobalProgressSafe(progressMap.halaman.rangkuman);
+  // Hapus underline di judul rangkuman
+  const judulRangkuman = next?.querySelector("h2");
+  if(judulRangkuman) judulRangkuman.style.textDecoration = "none";
+  // Sembunyikan status dan progress video rangkuman
+  const videoStatus = document.getElementById("videoStatusrangkuman");
+  const videoBar = document.getElementById("videoBarrangkuman");
+  const videoPercent = document.getElementById("videoPercentrangkuman");
+  if(videoStatus) videoStatus.style.display = "none";
+  if(videoBar) videoBar.style.display = "none";
+  if(videoPercent) videoPercent.style.display = "none";
+ }
+
+ setTimeout(()=>{
+  const judul = next?.querySelector(".title, h2");
+  if(judul) scrollToEl(judul);
+  else window.scrollTo({top:0,behavior:"smooth"});
+ },300);
+}
+
 document.getElementById("btnMulai").onclick = () => go(2);
 
+// Tombol mulai latihan
+document.getElementById("btnMulaiLatihan").onclick = mulaiLatihan; // Asumsikan ada tombol dengan id btnMulaiLatihan
 </script>
 </body>
 </html>
