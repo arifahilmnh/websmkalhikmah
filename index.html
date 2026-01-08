@@ -1728,7 +1728,7 @@ function logout(){
   }).then((result) => {
     if (result.isConfirmed) {
       sessionStorage.clear();
-      updateNavbarUser();
+      updateNavbarUser(); // Pastikan navbar kembali ke "Daftar Siswa"
       Swal.fire({
         icon: "success",
         title: "Logout berhasil",
@@ -1829,6 +1829,8 @@ function updateNavbarUser(){
     btn.onclick = () => {
       popupDaftar.style.right = "0";
       overlayDaftar.style.display = "block";
+      // Tambahkan scroll ke hero bar untuk popup sejajar
+      scrollToSection("hero"); // Asumsikan id hero adalah "hero", sesuaikan jika berbeda
     };
   }
 }
@@ -1885,6 +1887,8 @@ document.getElementById("navUserBtn").onclick = () => {
   } else {
     popupDaftar.style.right = "0";
     overlayDaftar.style.display = "block";
+    // Tambahkan scroll ke hero bar untuk popup sejajar
+    scrollToSection("hero"); // Asumsikan id hero adalah "hero", sesuaikan jika berbeda
   }
 };
 
@@ -1949,6 +1953,7 @@ btnLogin.onclick = () => {
       confirmButtonColor: "#34d399"
     }).then(() => {
       updateNavbarUser();
+      // Scroll tepat ke section-kelas setelah login
       scrollToSection("section-kelas");
     });
 
@@ -1986,6 +1991,8 @@ document.querySelector("#popup-daftar .close").onclick = () => {
 document.querySelectorAll(".class-btn").forEach(btn=>{
   btn.onclick = () => {
     if(!isLoggedIn()){
+      // Jika belum login, scroll ke section hero login
+      scrollToSection("hero-login"); // Asumsikan id section hero login adalah "hero-login", sesuaikan jika berbeda
       Swal.fire({
         icon:"warning",
         title:"Harus Login",
@@ -2056,12 +2063,17 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("page-enter");
   updateNavbarUser();
 
+  // Clear input login saat refresh
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  if(emailInput) emailInput.value = "";
+  if(passwordInput) passwordInput.value = "";
+
   if(window.isUserLoggedIn){
     const heroLogin = document.querySelector(".hero-login");
     if(heroLogin) heroLogin.style.display="none";
   }
 });
-  
 </script>
 </body>
 </html>
