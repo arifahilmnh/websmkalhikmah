@@ -698,101 +698,6 @@ body.lock-scroll{
  overflow:hidden;
 }
 
-<think>
-Pertama, pengguna berkata "lanjutkan lagi", yang berarti "continue again" dalam bahasa Indonesia. Ini mengacu pada pesan sebelumnya di mana saya memberikan kode HTML yang diperbaiki sebagian, tetapi sepertinya terpotong di akhir.
-
-
-## Interpreting User Request  
-- The user said "lanjutkan lagi," meaning "continue again" in Indonesian.  
-- This likely refers to a previous message where partial HTML code was provided but seemed cut off at the end.
-
-## Interpreting User Request  
-- The previous HTML code was cut off at the CSS section, specifically at "/* ================= STATUS & PROGRESS ================= */."  
-- The user requested to continue and complete the HTML code with all specified improvements.  
-
-## Reviewing Requested Changes  
-- Adjusted global progress width to 95% and max-width to 1200px for better horizontal display.  
-- Removed video play overlay; clicking play now automatically updates progress and status, starting with a lock icon for unplayed videos.  
-
-## Adjusting Layout and Design  
-- Modified margins for better spacing, such as video-lumi margin set to 40px 0 40px and button margin-top to 40px.  
-- Removed underlines from summary titles and deleted video progress and status in the summary section.  
-
-## Updating Content and Functionality  
-- Reduced quiz indicators from 10 to 5, focusing on true/false, multiple choice, or multiple-select questions.  
-- Modified progressMap to ensure 80% completion by indicator 3, reaching 100% in the final summary.  
-
-## Enhancing User Interaction  
-- Improved the action for the "Start Practice" button for meeting 1.
-
-## Examining HTML Structure  
-- HTML structure includes the `<html>` tag as the main document wrapper, `<head>` for document information like the title, and `<body>` for visible content.  
-- Proper sequencing and closing of HTML tags are essential for browsers to display pages correctly.  
-
-## Reviewing Video Component  
-- The video section for Indicator 1 includes an iframe linking to Lumi Education, with lazy loading and sandbox attributes for security.  
-- Progress and status display show a lock icon and "Video belum diputar" (Video not played yet) initially, updating to reflect completion.  
-
-## Analyzing Quiz Implementation  
-- The quiz for Indicator 1 has 5 questions, including multiple-choice, checkbox, and true/false formats, aligning with the request for varied question types.  
-- Questions cover HTML basics, such as its purpose, main structure, standardization, and tag functions, with scoring options for correct answers.
-
-## Examining Indicator 2 Structure  
-- Indicator 2 focuses on HTML tags and text formatting, introducing concepts like tag pairs and nested writing.  
-- It includes examples such as `<b>` for bold text, `<i>` for italics, and `<u>` for underlines, with `<p>` for paragraphs and `<br>` for line breaks.  
-
-## Reviewing Video Implementation  
-- The video for Indicator 2 uses an iframe linked to Lumi Education, with lazy loading and security features like sandbox attributes.  
-- Progress display shows a lock icon and "Video belum diputar" (Video not played yet) initially, updating upon completion.  
-
-## Analyzing Quiz for Indicator 2  
-- The quiz includes multiple-choice and checkbox questions, covering tag functions and text formatting.  
-- One question asks about the primary function of HTML tags, with options including giving display instructions to browsers.
-
-## Extending HTML Learning Goals  
-- Learners are expected to integrate basic HTML structure with text formatting to create a simple, complete webpage.  
-- Understanding hierarchical relationships between HTML elements is crucial for future development with CSS and JavaScript.  
-
-## Showcasing HTML Example  
-- A complete HTML structure example includes `<html>`, `<head>`, `<title>`, and `<body>` tags, showing a simple webpage titled "Web Pertamaku."  
-- The example demonstrates practical use with `<h1>` for headings and `<p>` for paragraphs, illustrating nested tag implementation.  
-
-## Reviewing Video for Indicator 3  
-- The video for Indicator 3 uses an iframe from Lumi Education, featuring lazy loading and security attributes like sandbox.  
-- Progress tracking shows a lock icon and "Video belum diputar" initially, updating to reflect video completion status.  
-
-## Analyzing Quiz for Indicator 3  
-- The quiz includes multiple-choice and true/false questions, focusing on HTML document structure and tag functions.  
-- Questions cover topics like the starting tag of an HTML document (`<html>`), where page titles appear (browser tab), and the necessity of sequential tag closure.
-
-## Examining Additional Quiz Content  
-- The quiz includes checkbox questions asking learners to identify main HTML tags like `<html>`, `<head>`, and `<body>`.  
-- It features true/false questions, such as confirming `<body>` displays page content and HTML has a hierarchical structure.  
-
-## Identifying HTML Tag Functions  
-- Questions cover specific tags, like `<b>` for bold text and `<br>` for line breaks.  
-- Learners must recognize where page titles belong, such as within the `<head>` tag.  
-
-## Assessing HTML Fundamentals  
-- The quiz reinforces HTML as a markup language and the importance of proper tag closure.  
-- It includes selecting text formatting tags like `<i>` for italics and `<u>` for underlines.
-
-## Tracking User Progress  
-- The system updates progress using functions like `setGlobalProgressSafe`, ensuring progress doesn't decrease and visually showing completion percentage.  
-- Progress bars and text display real-time updates, with animations for user feedback during changes.  
-
-## Navigating Between Sections  
-- The `go` function handles transitions between sections, activating new content and scrolling to the title for smooth navigation.  
-- Progress updates to reflect the summary section when navigating to step 5, enhancing user orientation.  
-
-## Managing Quiz Display  
-- The `showQuiz` function reveals quizzes by ID, updating progress and scrolling to ensure visibility for user interaction.  
-- Quizzes are tied to progress tracking, helping learners see their advancement through the material.  
-
-## Evaluating Quiz Results  
-- The `cekIndikator` function calculates scores from checked radio buttons, checkboxes, and essay inputs, determining pass/fail status.  
-- Passing triggers confetti and a success message, while failing prompts a review with the minimum passing score (KKM) displayed.
-</think>```html
 /* ================= STATUS & PROGRESS ================= */
 body.lock-scroll{
  overflow:hidden;
@@ -1499,118 +1404,142 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
 
+<think>
+Pertama, pengguna ingin memperbaiki JavaScript di atas dengan dua poin:
+
+
+## Addressing User Requests  
+- The user wants to improve a JavaScript code with two specific enhancements.  
+- First, clicking play on a "lumi" video should automatically update the video progress and status.  
+- Second, the global progress should remain active and running during video playback.
+
+## Addressing User Requests  
+- The user also wants the global progress to update automatically when entering the homepage and interacting via clicks, scrolls, and more.  
+- The code seems to track user interactions like mouse movements and key presses, resetting a "userInteracting" flag every 1.5 seconds.  
+- Currently, global progress updates via specific events like video completion or quiz finishes, not continuous interaction.  
+- To meet the request, consider adding an interval to increase progress based on active user interactions, like in a game or tutorial.
+</think>```javascript
 <script>
 /* ======================= USER INTERACTION ======================= */
 let userInteracting = false;
-document.addEventListener("mousemove",()=>userInteracting=true);
-document.addEventListener("keydown",()=>userInteracting=true);
-document.addEventListener("click",()=>userInteracting=true);
-setInterval(()=>userInteracting=false,1500);
+document.addEventListener("mousemove", () => userInteracting = true);
+document.addEventListener("keydown", () => userInteracting = true);
+document.addEventListener("click", () => userInteracting = true);
+document.addEventListener("scroll", () => userInteracting = true); // Tambahkan event scroll untuk interaksi
+setInterval(() => userInteracting = false, 1500);
 
 /* ======================= GLOBAL PROGRESS ======================= */
 let globalProgress = 0;
+let interactionProgress = 0; // Tambahkan variabel untuk progress berdasarkan interaksi
 const bar = document.getElementById("bar");
 const progressText = document.getElementById("progressText");
 
-function setGlobalProgressSafe(value){
- if(value <= globalProgress) return;
- globalProgress = value;
- bar.style.width = value.toFixed(1) + "%";
- progressText.textContent = value.toFixed(1) + "% Selesai";
- setTimeout(()=>{
-  bar.classList.add("active");
-  setTimeout(()=>bar.classList.remove("active"),600);
- },100);
+function setGlobalProgressSafe(value) {
+  if (value <= globalProgress) return;
+  globalProgress = value;
+  bar.style.width = value.toFixed(1) + "%";
+  progressText.textContent = value.toFixed(1) + "% Selesai";
+  setTimeout(() => {
+    bar.classList.add("active");
+    setTimeout(() => bar.classList.remove("active"), 600);
+  }, 100);
 }
+
+// Interval untuk meningkatkan progress global berdasarkan interaksi (dari 0 ke 5 saat masuk halaman awal)
+setInterval(() => {
+  if (userInteracting) {
+    interactionProgress += 0.05; // Naik 0.05% per detik saat interaksi (dapat disesuaikan)
+    setGlobalProgressSafe(Math.min(5, interactionProgress));
+  }
+}, 1000);
 
 /* ======================= KONFIGURASI ======================= */
 const KKM = 70;
 let current = 1;
-let nilai = {1:0,2:0,3:0};
+let nilai = {1: 0, 2: 0, 3: 0};
 let nilaiLatihan = 0;
-let indikatorLulus = {1:false,2:false,3:false};
+let indikatorLulus = {1: false, 2: false, 3: false};
 
- const progressMap = {
- halaman:{
-  tujuan:5,
-  indikator1:15,
-  indikator2:35,
-  indikator3:85,
-  rangkuman:95,
-  latihan:100
- },
- video:{
-  tujuan:{start:0,end:5},
-  1:{start:5,end:15},
-  2:{start:25,end:35},
-  3:{start:45,end:85},
-  rangkuman:{start:85,end:95}
- },
- kuis:{1:25,2:45,3:95}
+const progressMap = {
+  halaman: {
+    tujuan: 5,
+    indikator1: 15,
+    indikator2: 35,
+    indikator3: 85,
+    rangkuman: 95,
+    latihan: 100
+  },
+  video: {
+    tujuan: {start: 0, end: 5},
+    1: {start: 5, end: 15},
+    2: {start: 25, end: 35},
+    3: {start: 45, end: 85},
+    rangkuman: {start: 85, end: 95}
+  },
+  kuis: {1: 25, 2: 45, 3: 95}
 };
 
 /* ======================= SWEETALERT BASE ======================= */
 const swalBase = Swal.mixin({
- confirmButtonColor:"#10b981",
- denyButtonColor:"#064e3b",
- backdrop:`rgba(16,185,129,.15)`,
- buttonsStyling:true
+  confirmButtonColor: "#10b981",
+  denyButtonColor: "#064e3b",
+  backdrop: `rgba(16,185,129,.15)`,
+  buttonsStyling: true
 });
 
 /* ======================= SCROLL HELPER ======================= */
-function scrollToEl(el){
- const y = el.getBoundingClientRect().top + window.pageYOffset - 140;
- window.scrollTo({top:y,behavior:"smooth"});
+function scrollToEl(el) {
+  const y = el.getBoundingClientRect().top + window.pageYOffset - 140;
+  window.scrollTo({top: y, behavior: "smooth"});
 }
 
 /* ======================= CONFETTI ======================= */
-function launchConfetti(final=false){
- confetti({particleCount: final?220:120, spread: final?110:90, origin:{y:0.6}});
+function launchConfetti(final = false) {
+  confetti({particleCount: final ? 220 : 120, spread: final ? 110 : 90, origin: {y: 0.6}});
 }
 
 /* ======================= UPDATE PROGRESS ======================= */
-function updateProgress(type, indikator){
- if(!progressMap[type]) return;
- const target = progressMap[type][indikator];
- if(!target) return;
- setGlobalProgressSafe(target);
+function updateProgress(type, indikator) {
+  if (!progressMap[type]) return;
+  const target = progressMap[type][indikator];
+  if (!target) return;
+  setGlobalProgressSafe(target);
 }
 
-function updateGlobalProgressRealtime(indikator, percent){
- if(!progressMap.video[indikator]) return;
- const {start,end} = progressMap.video[indikator];
- const real = start + ((end-start)*(percent/100));
- setGlobalProgressSafe(real);
+function updateGlobalProgressRealtime(indikator, percent) {
+  if (!progressMap.video[indikator]) return;
+  const {start, end} = progressMap.video[indikator];
+  const real = start + ((end - start) * (percent / 100));
+  setGlobalProgressSafe(real);
 }
 
 /* ======================= NAVIGASI HALAMAN ======================= */
-function go(step){
- const prev = document.getElementById("s"+current);
- const next = document.getElementById("s"+step);
+function go(step) {
+  const prev = document.getElementById("s" + current);
+  const next = document.getElementById("s" + step);
 
- prev?.classList.remove("active");
- next?.classList.add("active");
- current = step;
+  prev?.classList.remove("active");
+  next?.classList.add("active");
+  current = step;
 
- if(step === 5){
-  setGlobalProgressSafe(progressMap.halaman.rangkuman);
- }
+  if (step === 5) {
+    setGlobalProgressSafe(progressMap.halaman.rangkuman);
+  }
 
- setTimeout(()=>{
-  const judul = next?.querySelector(".title, h2");
-  if(judul) scrollToEl(judul);
-  else window.scrollTo({top:0,behavior:"smooth"});
- },300);
+  setTimeout(() => {
+    const judul = next?.querySelector(".title, h2");
+    if (judul) scrollToEl(judul);
+    else window.scrollTo({top: 0, behavior: "smooth"});
+  }, 300);
 }
 
 /* ======================= TAMPILKAN KUIS ======================= */
-function showQuiz(n){
- const quiz = document.getElementById(`quiz${n}`);
- quiz.style.display = "block";
- setGlobalProgressSafe(progressMap.kuis[n]);
- scrollToEl(quiz);
+function showQuiz(n) {
+  const quiz = document.getElementById(`quiz${n}`);
+  quiz.style.display = "block";
+  setGlobalProgressSafe(progressMap.kuis[n]);
+  scrollToEl(quiz);
 }
-
 
 const indikatorToSection = {
   1: 3, // setelah indikator 1 → s3 (indikator 2)
@@ -1619,81 +1548,81 @@ const indikatorToSection = {
 };
 
 /* ======================= CEK INDIKATOR (FIX & VALID) ======================= */
-function cekIndikator(n){
- let skor = 0;
+function cekIndikator(n) {
+  let skor = 0;
 
- const container = document.getElementById(`quiz${n}`);
- if(!container){
-  console.error("Quiz container tidak ditemukan:", n);
-  return;
- }
+  const container = document.getElementById(`quiz${n}`);
+  if (!container) {
+    console.error("Quiz container tidak ditemukan:", n);
+    return;
+  }
 
- container
-  .querySelectorAll('input[type="radio"]:checked')
-  .forEach(r => skor += Number(r.value));
+  container
+    .querySelectorAll('input[type="radio"]:checked')
+    .forEach(r => skor += Number(r.value));
 
- container
-  .querySelectorAll('input[type="checkbox"]:checked')
-  .forEach(c => skor += Number(c.value));
+  container
+    .querySelectorAll('input[type="checkbox"]:checked')
+    .forEach(c => skor += Number(c.value));
 
- // Untuk essay, beri nilai manual atau otomatis sederhana (misal jika diisi, beri 20)
- container
-  .querySelectorAll('textarea')
-  .forEach(ta => {
-   if(ta.value.trim().length > 0) skor += 20; // Asumsi essay bernilai 20 jika diisi
-  });
+  // Untuk essay, beri nilai manual atau otomatis sederhana (misal jika diisi, beri 20)
+  container
+    .querySelectorAll('textarea')
+    .forEach(ta => {
+      if (ta.value.trim().length > 0) skor += 20; // Asumsi essay bernilai 20 jika diisi
+    });
 
- nilai[n] = skor;
- const lulus = skor >= KKM;
- indikatorLulus[n] = lulus;
+  nilai[n] = skor;
+  const lulus = skor >= KKM;
+  indikatorLulus[n] = lulus;
 
- updateProgress("kuis", n);
+  updateProgress("kuis", n);
 
- if(lulus){
-  launchConfetti();
-  swalBase.fire({
-   icon:"success",
-   title:`Indikator ${n} LULUS 🎉`,
-   html:`
-    <p><b>Nilai Indikator ${n}</b></p>
-    <h1 style="margin:14px 0">${skor}</h1>
-    <div class="badge">
-     <i class="fa-solid fa-award"></i>
-     Siap lanjut ke indikator berikutnya
-    </div>
-   `,
-   confirmButtonText:`Lanjut`,
-   allowOutsideClick:false
-  }).then(()=>{
- const target = indikatorToSection[n];
- if(target){
-  go(target);
- }
-});
+  if (lulus) {
+    launchConfetti();
+    swalBase.fire({
+      icon: "success",
+      title: `Indikator ${n} LULUS 🎉`,
+      html: `
+        <p><b>Nilai Indikator ${n}</b></p>
+        <h1 style="margin:14px 0">${skor}</h1>
+        <div class="badge">
+          <i class="fa-solid fa-award"></i>
+          Siap lanjut ke indikator berikutnya
+        </div>
+      `,
+      confirmButtonText: `Lanjut`,
+      allowOutsideClick: false
+    }).then(() => {
+      const target = indikatorToSection[n];
+      if (target) {
+        go(target);
+      }
+    });
 
- }else{
-  swalBase.fire({
-    icon: "warning",
-    title: `Indikator ${n} BELUM LULUS`,
-    html: `
-      <p>Nilai kamu:</p>
-      <h1 style="margin:14px 0">${skor}</h1>
-      <p>Nilai minimum kelulusan adalah <b>${KKM}</b>.</p>
-      <p>Silakan pelajari kembali materi dan ulangi kuis.</p>
-    `,
-    confirmButtonText: "Ulangi Kuis",
-    allowOutsideClick: false
-  }).then(() => {
-    scrollToEl(container);
-  });
+  } else {
+    swalBase.fire({
+      icon: "warning",
+      title: `Indikator ${n} BELUM LULUS`,
+      html: `
+        <p>Nilai kamu:</p>
+        <h1 style="margin:14px 0">${skor}</h1>
+        <p>Nilai minimum kelulusan adalah <b>${KKM}</b>.</p>
+        <p>Silakan pelajari kembali materi dan ulangi kuis.</p>
+      `,
+      confirmButtonText: "Ulangi Kuis",
+      allowOutsideClick: false
+    }).then(() => {
+      scrollToEl(container);
+    });
+  }
 }
-}
 
-function konversiPredikat(nilai){
- if(nilai >= 90) return {huruf:"A",label:"Sangat Baik", color:"var(--primary)"};
- if(nilai >= 80) return {huruf:"B",label:"Baik", color:"#3b82f6"};
- if(nilai >= 70) return {huruf:"C",label:"Cukup", color:"#f59e0b"};
- return {huruf:"D",label:"Perlu Bimbingan", color:"#ef4444"};
+function konversiPredikat(nilai) {
+  if (nilai >= 90) return {huruf: "A", label: "Sangat Baik", color: "var(--primary)"};
+  if (nilai >= 80) return {huruf: "B", label: "Baik", color: "#3b82f6"};
+  if (nilai >= 70) return {huruf: "C", label: "Cukup", color: "#f59e0b"};
+  return {huruf: "D", label: "Perlu Bimbingan", color: "#ef4444"};
 }
 
 /* ======================= LATIHAN SOAL ======================= */
@@ -1845,215 +1774,239 @@ function cekLatihan() {
 }
 
 /* ======================= SUBMIT LATIHAN & NILAI AKHIR ======================= */
-function selesaiLatihan(){
- const nilaiAkhir = nilai[1] + nilai[2] + nilai[3] + nilaiLatihan;
- const predikat = konversiPredikat(nilaiAkhir);
+function selesaiLatihan() {
+  const nilaiAkhir = nilai[1] + nilai[2] + nilai[3] + nilaiLatihan;
+  const predikat = konversiPredikat(nilaiAkhir);
 
- localStorage.setItem("nilai_pertemuan_1", nilaiAkhir);
+  localStorage.setItem("nilai_pertemuan_1", nilaiAkhir);
 
- launchConfetti(true);
+  launchConfetti(true);
 
- const finalResult = `
-  <div class="final-result">
-   <h2>🎓 Hasil Akhir Pertemuan 1</h2>
-   <div class="predikat" style="background: ${predikat.color};">Predikat: <b>${predikat.huruf}</b> — ${predikat.label}</div>
-   <div class="score">${nilaiAkhir}</div>
-   <table>
-    <tr><td>Indikator 1</td><td>: ${nilai[1]}</td></tr>
-    <tr><td>Indikator 2</td><td>: ${nilai[2]}</td></tr>
-    <tr><td>Indikator 3</td><td>: ${nilai[3]}</td></tr>
-    <tr><td>Latihan</td><td>: ${nilaiLatihan}</td></tr>
-    <tr><td><b>Total Nilai</b></td><td><b>: ${nilaiAkhir}</b></td></tr>
-   </table>
-  </div>
- `;
-
- document.body.innerHTML += finalResult;
-
- setTimeout(() => {
-  const finalEl = document.querySelector('.final-result');
-  if(finalEl) scrollToEl(finalEl);
- }, 500);
-
- setTimeout(() => {
-  const buttons = `
-   <div style="text-align:center; margin-top:30px;">
-    <button onclick="window.location.href='pertemuan2.html'" style="margin-right:20px;">Lanjut Pertemuan 2</button>
-    <button onclick="window.location.href='BERANDA.html'">Kembali ke Beranda</button>
-   </div>
+  const finalResult = `
+    <div class="final-result">
+      <h2>🎓 Hasil Akhir Pertemuan 1</h2>
+      <div class="predikat" style="background: ${predikat.color};">Predikat: <b>${predikat.huruf}</b> — ${predikat.label}</div>
+      <div class="score">${nilaiAkhir}</div>
+      <table>
+        <tr><td>Indikator 1</td><td>: ${nilai[1]}</td></tr>
+        <tr><td>Indikator 2</td><td>: ${nilai[2]}</td></tr>
+        <tr><td>Indikator 3</td><td>: ${nilai[3]}</td></tr>
+        <tr><td>Latihan</td><td>: ${nilaiLatihan}</td></tr>
+        <tr><td><b>Total Nilai</b></td><td><b>: ${nilaiAkhir}</b></td></tr>
+      </table>
+    </div>
   `;
-  document.querySelector('.final-result').innerHTML += buttons;
- }, 2000);
-}
 
+  document.body.innerHTML += finalResult;
+
+  setTimeout(() => {
+    const finalEl = document.querySelector('.final-result');
+    if (finalEl) scrollToEl(finalEl);
+  }, 500);
+
+  setTimeout(() => {
+    const buttons = `
+      <div style="text-align:center; margin-top:30px;">
+        <button onclick="window.location.href='pertemuan2.html'" style="margin-right:20px;">Lanjut Pertemuan 2</button>
+        <button onclick="window.location.href='BERANDA.html'">Kembali ke Beranda</button>
+      </div>
+    `;
+    document.querySelector('.final-result').innerHTML += buttons;
+  }, 2000);
+}
 
 const videoState = {};
 let pageVisible = true;
 
 /* === VISIBILITY === */
-document.addEventListener("visibilitychange",()=>{
- pageVisible = !document.hidden;
- Object.keys(videoState).forEach(pauseVideo);
+document.addEventListener("visibilitychange", () => {
+  pageVisible = !document.hidden;
+  Object.keys(videoState).forEach(pauseVideo);
 });
 
 /* === INIT === */
-function initVideo(ind){
- if(videoState[ind]) return;
+function initVideo(ind) {
+  if (videoState[ind]) return;
 
- const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
- const durasi = Number(box.dataset.durasi || 0);
+  const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
+  const durasi = Number(box.dataset.durasi || 0);
 
- videoState[ind] = {
-  watched:0,
-  duration:durasi,
-  playing:false,
-  done:false,
-  timer:null
- };
+  videoState[ind] = {
+    watched: 0,
+    duration: durasi,
+    playing: false,
+    done: false,
+    timer: null
+  };
+
+  <think>
+Pertama, pengguna mengatakan "lanjut lagi", yang berarti "continue again" dalam bahasa Indonesia. Ini menunjukkan bahwa respons sebelumnya saya terpotong atau tidak lengkap, dan mereka ingin saya melanjutkan.
+
+
+## Understanding User Intent
+- The user said "lanjut lagi," which translates to "continue again" in English.
+- This suggests the previous response was cut off or incomplete, and they want to proceed further.
+</think>```javascript
+function initVideo(ind) {
+  if (videoState[ind]) return;
+
+  const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
+  const durasi = Number(box.dataset.durasi || 0);
+
+  videoState[ind] = {
+    watched: 0,
+    duration: durasi,
+    playing: false,
+    done: false,
+    timer: null
+  };
+
+  // Inisialisasi UI video (pastikan bar dan label tersedia)
+  updateVideoUI(ind, 0);
 }
 
-function playVideo(ind){
- initVideo(ind);
- const v = videoState[ind];
+function playVideo(ind) {
+  initVideo(ind);
+  const v = videoState[ind];
 
- if(v.done) return;
+  if (v.done) return;
 
- // 🛑 hentikan timer lama jika ada
- if(v.timer){
-  clearInterval(v.timer);
-  v.timer = null;
- }
-
- v.playing = true;
-
- v.timer = setInterval(()=>{
-  if(!pageVisible) return;
-
-  v.watched++;
-  const percent = Math.min(
-   Math.round((v.watched / v.duration) * 100),
-   100
-  );
-
-  updateVideoUI(ind, percent);
-  updateGlobalProgressRealtime(ind, percent);
-
-  if(percent >= 100){
-   finishVideo(ind);
+  // 🛑 hentikan timer lama jika ada
+  if (v.timer) {
+    clearInterval(v.timer);
+    v.timer = null;
   }
- },1000);
+
+  v.playing = true;
+
+  v.timer = setInterval(() => {
+    if (!pageVisible) return;
+
+    v.watched++;
+    const percent = Math.min(
+      Math.round((v.watched / v.duration) * 100),
+      100
+    );
+
+    updateVideoUI(ind, percent);
+    updateGlobalProgressRealtime(ind, percent);
+
+    if (percent >= 100) {
+      finishVideo(ind);
+    }
+  }, 1000);
 }
 
 /* === PAUSE === */
-function pauseVideo(ind){
- const v = videoState[ind];
- if(!v?.timer) return;
+function pauseVideo(ind) {
+  const v = videoState[ind];
+  if (!v?.timer) return;
 
- clearInterval(v.timer);
- v.timer = null;
- v.playing = false;
+  clearInterval(v.timer);
+  v.timer = null;
+  v.playing = false;
 }
 
- // VIDEO INDIKATOR → BUKA TOMBOL KUIS
- function finishVideo(ind){
- const v = videoState[ind];
- if(v.done) return;
+// VIDEO INDIKATOR → BUKA TOMBOL KUIS
+function finishVideo(ind) {
+  const v = videoState[ind];
+  if (v.done) return;
 
- v.done = true;
- pauseVideo(ind);
+  v.done = true;
+  pauseVideo(ind);
 
- // ================= VIDEO TUJUAN =================
- if(ind === "tujuan"){
-  unlockButton("btnMulai","▶️ Mulai Pembelajaran");
- }
+  // ================= VIDEO TUJUAN =================
+  if (ind === "tujuan") {
+    unlockButton("btnMulai", "▶️ Mulai Pembelajaran");
+  }
 
- // ================= VIDEO INDIKATOR =================
- if(["1","2","3"].includes(String(ind))){
-  unlockButton(`btnQuiz${ind}`,`▶️ Mulai Kuis ${ind}`);
- }
+  // ================= VIDEO INDIKATOR =================
+  if (["1", "2", "3"].includes(String(ind))) {
+    unlockButton(`btnQuiz${ind}`, `▶️ Mulai Kuis ${ind}`);
+  }
 
- // ================= VIDEO RANGKUMAN (OPSIONAL) =================
- if(ind === "rangkuman"){
- }
+  // ================= VIDEO RANGKUMAN (OPSIONAL) =================
+  if (ind === "rangkuman") {
+  }
 }
 
 /* === UI === */
-function updateVideoUI(ind, percent){
- const bar = document.getElementById(`videoBar${ind}`);
- const label = document.getElementById(`videoLabel${ind}`);
- const persen = document.getElementById(`videoPercent${ind}`);
+function updateVideoUI(ind, percent) {
+  const bar = document.getElementById(`videoBar${ind}`);
+  const label = document.getElementById(`videoLabel${ind}`);
+  const persen = document.getElementById(`videoPercent${ind}`);
 
- if(!bar || !label || !persen) return;
+  if (!bar || !label || !persen) return;
 
- bar.style.width = percent + "%";
- persen.innerText = percent + "%";
+  bar.style.width = percent + "%";
+  persen.innerText = percent + "%";
 
- if(percent === 0){
-  label.innerText = "🔒 Video belum diputar";
- }else if(percent < 100){
-  label.innerText = "▶️ Video sedang diputar";
- }else{
-  label.innerText = "✅ Video selesai";
- }
+  if (percent === 0) {
+    label.innerText = "🔒 Video belum diputar";
+  } else if (percent < 100) {
+    label.innerText = "▶️ Video sedang diputar";
+  } else {
+    label.innerText = "✅ Video selesai";
+  }
 }
 
 // Hapus overlay dan gunakan klik pada box video untuk play
-document.querySelectorAll(".video-lumi").forEach(box=>{
- const ind = box.dataset.indikator;
- const playBtn = box.querySelector(".play-btn"); // Asumsikan ada tombol play di dalam box
+document.querySelectorAll(".video-lumi").forEach(box => {
+  const ind = box.dataset.indikator;
+  const playBtn = box.querySelector(".play-btn"); // Asumsikan ada tombol play di dalam box
 
- if(playBtn){
-  playBtn.addEventListener("click",()=>{
-   playVideo(ind);
-  });
- }else{
-  // Jika tidak ada tombol, klik pada box
-  box.addEventListener("click",()=>{
-   playVideo(ind);
-  });
- }
+  if (playBtn) {
+    playBtn.addEventListener("click", () => {
+      playVideo(ind);
+    });
+  } else {
+    // Jika tidak ada tombol, klik pada box
+    box.addEventListener("click", () => {
+      playVideo(ind);
+    });
+  }
 });
 
 /* === BUTTON UNLOCK === */
-function unlockButton(id, text){
- const btn = document.getElementById(id);
- if(!btn) return;
+function unlockButton(id, text) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
 
- btn.disabled = false;
- btn.classList.remove("locked-btn");
- btn.classList.add("unlocked");
- btn.style.display = "inline-block";
- btn.innerHTML = text;
+  btn.disabled = false;
+  btn.classList.remove("locked-btn");
+  btn.classList.add("unlocked");
+  btn.style.display = "inline-block";
+  btn.innerHTML = text;
 }
 
 // Untuk rangkuman, hapus underline di judul dan sembunyikan status/progress video
-function go(step){
- const prev = document.getElementById("s"+current);
- const next = document.getElementById("s"+step);
+function go(step) {
+  const prev = document.getElementById("s" + current);
+  const next = document.getElementById("s" + step);
 
- prev?.classList.remove("active");
- next?.classList.add("active");
- current = step;
+  prev?.classList.remove("active");
+  next?.classList.add("active");
+  current = step;
 
- if(step === 5){
-  setGlobalProgressSafe(progressMap.halaman.rangkuman);
-  // Hapus underline di judul rangkuman
-  const judulRangkuman = next?.querySelector("h2");
-  if(judulRangkuman) judulRangkuman.style.textDecoration = "none";
-  // Sembunyikan status dan progress video rangkuman
-  const videoStatus = document.getElementById("videoStatusrangkuman");
-  const videoBar = document.getElementById("videoBarrangkuman");
-  const videoPercent = document.getElementById("videoPercentrangkuman");
-  if(videoStatus) videoStatus.style.display = "none";
-  if(videoBar) videoBar.style.display = "none";
-  if(videoPercent) videoPercent.style.display = "none";
- }
+  if (step === 5) {
+    setGlobalProgressSafe(progressMap.halaman.rangkuman);
+    // Hapus underline di judul rangkuman
+    const judulRangkuman = next?.querySelector("h2");
+    if (judulRangkuman) judulRangkuman.style.textDecoration = "none";
+    // Sembunyikan status dan progress video rangkuman
+    const videoStatus = document.getElementById("videoStatusrangkuman");
+    const videoBar = document.getElementById("videoBarrangkuman");
+    const videoPercent = document.getElementById("videoPercentrangkuman");
+    if (videoStatus) videoStatus.style.display = "none";
+    if (videoBar) videoBar.style.display = "none";
+    if (videoPercent) videoPercent.style.display = "none";
+  }
 
- setTimeout(()=>{
-  const judul = next?.querySelector(".title, h2");
-  if(judul) scrollToEl(judul);
-  else window.scrollTo({top:0,behavior:"smooth"});
- },300);
+  setTimeout(() => {
+    const judul = next?.querySelector(".title, h2");
+    if (judul) scrollToEl(judul);
+    else window.scrollTo({top: 0, behavior: "smooth"});
+  }, 300);
 }
 
 document.getElementById("btnMulai").onclick = () => go(2);
