@@ -1728,29 +1728,6 @@ btnLogin.onclick = () => {
     return;
   }
 
-  if (email === "siswa01" && password === "siswa123") {
-    sessionStorage.setItem("authUser", JSON.stringify({
-      username: "siswa01",
-      role: "siswa"
-    }));
-
-    Swal.fire({
-      icon: "success",
-      title: "Login Berhasil",
-      confirmButtonColor: "#34d399"
-    }).then(()=>{
-      scrollToSection("section-kelas");
-    });
-  } else {
-    Swal.fire({
-      icon: "error",
-      title: "Login Gagal",
-      text: "Username atau password salah",
-      confirmButtonColor: "#ef4444"
-    });
-  }
-};
-  
   // === SIMULASI DATABASE ===
   if (email === "siswa01" && password === "siswa123") {
 
@@ -1766,12 +1743,9 @@ btnLogin.onclick = () => {
       title: "Login Berhasil",
       text: "Silakan pilih kelas",
       confirmButtonColor: "#34d399"
-    }).then(()=>{
+    }).then(() => {
       updateNavbarUser();
-      document.querySelector(".class-grid").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+      scrollToSection("section-kelas");
     });
 
   } else {
@@ -1783,6 +1757,7 @@ btnLogin.onclick = () => {
     });
   }
 };
+  
 // ======================================================
 // LOGIN GOOGLE (BELUM AKTIF)
 // ======================================================
@@ -1820,11 +1795,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("page-enter");
   updateNavbarUser();
 
-  if(window.isUserLoggedIn){
-    const heroLogin = document.querySelector(".hero-login");
-    if(heroLogin) heroLogin.style.display="none";
-  }
-});
+ if(isLoggedIn()){
+  const heroLogin = document.querySelector(".hero-login");
+  if(heroLogin) heroLogin.style.display="none";
+}
 
 // ======================================================
 // HERO SLIDER
