@@ -241,6 +241,7 @@ nav{
  font-weight:700;
  background:linear-gradient(135deg,var(--primary),#34d399);
  cursor:pointer
+font-size:12px;
 }
 
 .announce{
@@ -305,11 +306,12 @@ nav{
  font-weight:600
 }
 .section-head h2{
- font-size:42px;
+ font-size:36px;
  font-weight:800;
  margin:14px 0 10px
 }
 .section-head p{
+font-size:15px;
  max-width:640px;
  margin:auto;
  color:#374151;
@@ -498,13 +500,13 @@ section.announce-section {
 }
 
 .class-item {
-  padding: 46px 20px;
+  padding: 36px 16px;
   border-radius: 26px;
    background:linear-gradient(180deg,#6BCF9B,#34d399);
   color: #fff;
   text-align: center;
   font-weight: 800;
-  font-size: 26px;
+  font-size: 23px;
   letter-spacing: 1px;
   cursor: pointer;
   box-shadow: 0 15px 50px rgba(0,0,0,0.15);
@@ -810,6 +812,14 @@ section.announce-section {
   color: #059669;
 }
 
+  .info-item a{
+  color:#064e3b;
+  font-weight:600;
+  text-decoration:none;
+}
+.info-item a:hover{
+  text-decoration:underline;
+}
 /* RESPONSIVE */
 @media(max-width:900px){
   .contact-content {
@@ -875,7 +885,7 @@ footer{
 }
 @media(max-width:600px){
  section{
-  padding:60px 20px
+  padding:60px 24px
  }
  .section-head h2{
   font-size:32px
@@ -1335,6 +1345,7 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 </section>
 
+<section id="section-kelas" style="background:#f0fdf4">
 <section style="background:#f0fdf4">
  <div class="container">
   <div class="section-head">
@@ -1475,6 +1486,36 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 </section>
 
+  <section style="background:#ecfdf5">
+  <div class="container">
+    <div class="section-head">
+      <span>Pengembang Web</span>
+      <h2>Tim Mahasiswa PTI IPI Garut</h2>
+      <p>Website ini dikembangkan oleh mahasiswa Program Studi Pendidikan Teknologi Informasi</p>
+    </div>
+
+    <div class="class-grid">
+      <div class="class-item">
+        <img src="ifah.jpg" style="width:80px;border-radius:50%">
+        <h3>SITI ARIFAH ILMANIAH</h3>
+        <p style="font-size:14px">Mahasiswa PTI IPI Garut</p>
+      </div>
+
+      <div class="class-item">
+        <img src="ajeng.jpg" style="width:80px;border-radius:50%">
+        <h3>AJENG HABIBAH NP</h3>
+        <p style="font-size:14px">Mahasiswa PTI IPI Garut</p>
+      </div>
+
+      <div class="class-item">
+        <img src="tiara.jpg" style="width:80px;border-radius:50%">
+        <h3>TIARA SITI NURKOLBI</h3>
+        <p style="font-size:14px">Mahasiswa PTI IPI Garut</p>
+      </div>
+    </div>
+  </div>
+</section>
+  
 <section>
   <div class="container map-glass">
     <iframe
@@ -1531,14 +1572,16 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
           <p>Jalan Prof. H. Aam Hamdani No. 42.a, Tarogong Kaler, 44151, Kabupaten Garut</p>
         </div>
 
-        <div class="info-item">
+               <div class="info-item">
           <i class="fa-solid fa-phone"></i>
-          <p>0262-5000000</p>
+          <p><a href="tel:02625000000">0262-5000000</a></p>
         </div>
-
+        
         <div class="info-item">
           <i class="fa-solid fa-envelope"></i>
-          <p>sekolahalhikmah@ymail.com</p>
+          <p><a href="mailto:sekolahalhikmah@ymail.com">
+            sekolahalhikmah@ymail.com
+          </a></p>
         </div>
       </div>
     </div>
@@ -1608,14 +1651,27 @@ function isLoggedIn(){
 }
 
 function logout(){
-  sessionStorage.removeItem("authUser");
+  sessionStorage.clear();
+
+  // reset input login
+  document.getElementById("email").value = "";
+  document.getElementById("password").value = "";
+
   Swal.fire({
     icon: "success",
     title: "Logout berhasil",
     confirmButtonColor: "#34d399"
-  }).then(()=>location.reload());
+  }).then(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
 
+  function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
 // ======================================================
 // ELEMENT
 // ======================================================
@@ -1683,6 +1739,17 @@ btnLogin.onclick = () => {
     return;
   }
 
+  btnLogin.onclick = () => {
+  sessionStorage.setItem("authUser", JSON.stringify({ role:"siswa" }));
+
+  Swal.fire({
+    icon: "success",
+    title: "Login berhasil",
+    confirmButtonColor: "#34d399"
+  }).then(() => {
+    scrollToSection("section-kelas");
+  });
+};
   // === SIMULASI DATABASE ===
   if (email === "siswa01" && password === "siswa123") {
 
@@ -1832,6 +1899,11 @@ document.querySelectorAll(".class-btn").forEach(btn=>{
   };
 });
 
+  document.getElementById("mapel-grid").onclick = ()=>{
+  document.getElementById("section-pertemuan").style.display = "block";
+  scrollToSection("section-pertemuan");
+};
+  
 document.querySelectorAll(".semester-btn").forEach(btn=>{
   btn.onclick=()=>{
     sectionMapel.style.display="block";
@@ -1889,6 +1961,40 @@ function loadingKeAbsensi(){
   popupDaftar.style.right = "-420px";
   overlayDaftar.style.display = "none";
 };
+
+  const reveals = document.querySelectorAll(".reveal");
+window.addEventListener("scroll", () => {
+  reveals.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){
+      el.classList.add("active");
+    }
+  });
+});
+
+  const counters = document.querySelectorAll(".count");
+
+function runCounter(){
+  counters.forEach(counter=>{
+    const target = +counter.dataset.target;
+    let current = 0;
+    const step = target / 60;
+
+    const update = ()=>{
+      current += step;
+      if(current < target){
+        counter.innerText = Math.floor(current);
+        requestAnimationFrame(update);
+      }else{
+        counter.innerText = target;
+      }
+    };
+    update();
+  });
+}
+
+window.addEventListener("load", runCounter);
+
 </script>
 </body>
 </html>
