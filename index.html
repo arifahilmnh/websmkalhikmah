@@ -1746,6 +1746,7 @@ btnLogin.onclick = () => {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
 
+  // validasi kosong
   if (!email || !password) {
     Swal.fire({
       icon: "warning",
@@ -1756,13 +1757,32 @@ btnLogin.onclick = () => {
     return;
   }
 
-  Swal.fire({
-    icon: "success",
-    title: "Login berhasil",
-    confirmButtonColor: "#34d399"
-  }).then(() => {
-    scrollToSection("section-kelas");
-  });
+  // === SIMULASI DATABASE ===
+  if (email === "siswa01" && password === "siswa123") {
+
+    sessionStorage.setItem("authUser", JSON.stringify({
+      username: email,
+      role: "siswa"
+    }));
+
+    Swal.fire({
+      icon: "success",
+      title: "Login Berhasil",
+      text: "Silahkan untuk memilih kelas!",
+      confirmButtonColor: "#34d399"
+    }).then(() => {
+      updateNavbarUser();
+      scrollToSection("section-kelas");
+    });
+
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Login Gagal",
+      text: "Username atau password salah",
+      confirmButtonColor: "#ef4444"
+    });
+  }
 };
 
   function openDaftar(){
@@ -1777,35 +1797,6 @@ function closeDaftar(){
 
 document.querySelector("#popup-daftar .close").onclick = closeDaftar;
 overlayDaftar.onclick = closeDaftar;
-
-  // === SIMULASI DATABASE ===
- if (email === "siswa01" && password === "siswa123") {
-
-  sessionStorage.setItem("authUser", JSON.stringify({
-    username: email,
-    role: "siswa"
-  }));
-
-  Swal.fire({
-    icon: "success",
-    title: "Login Berhasil",
-    text: "Silahkan untuk memilih kelas!",
-    confirmButtonColor: "#34d399"
-  }).then(()=>{
-    updateNavbarUser();
-    scrollToSection("section-kelas");
-  });
-
-}
-  } else {
-    Swal.fire({
-      icon: "error",
-      title: "Login Gagal",
-      text: "Username atau password salah",
-      confirmButtonColor: "#ef4444"
-    });
-  }
-};
 // ======================================================
 // LOGIN GOOGLE (BELUM AKTIF)
 // ======================================================
@@ -1816,14 +1807,6 @@ btnGoogle.onclick = () => {
     text: "Fitur login Google akan segera aktif",
     confirmButtonColor: "#34d399"
   });
-};
-
-// ======================================================
-// CLOSE POPUP VIA OVERLAY
-// ======================================================
-overlayDaftar.onclick = () => {
-  popupDaftar.style.right = "-420px";
-  overlayDaftar.style.display = "none";
 };
   
 // ======================================================
@@ -1942,12 +1925,6 @@ document.querySelectorAll(".class-btn").forEach(btn => {
   };
 });
 
-    document.getElementById("section-semester").style.display = "block";
-    document.getElementById("section-semester")
-      .scrollIntoView({behavior:"smooth"});
-  };
-});
-
   document.getElementById("mapel-grid").onclick = ()=>{
   document.getElementById("section-pertemuan").style.display = "block";
   scrollToSection("section-pertemuan");
@@ -2020,6 +1997,11 @@ function loadingKeAbsensi(){
     btn.innerHTML = `<i class="fa-solid fa-user-plus"></i>`;
     btn.onclick = openDaftar;
   }
+
+    document.addEventListener("DOMContentLoaded", () => {
+  updateNavbarUser();
+});
+
 }
   document.querySelector("#popup-daftar .close").onclick = () => {
   popupDaftar.style.right = "-420px";
