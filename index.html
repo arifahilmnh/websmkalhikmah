@@ -1700,8 +1700,6 @@ const btnGoogle = document.getElementById("btnGoogle");
 // NAVBAR BUTTON
 // ======================================================
 document.getElementById("navUserBtn").onclick = openDaftar;
-  popupDaftar.style.right = "0";
-  overlayDaftar.style.display = "block";
   
 // ======================================================
 // DAFTAR SISWA
@@ -1740,8 +1738,7 @@ document.getElementById("submit-daftar").onclick = () => {
       block: "start"
     });
   });
-};
-
+  
 btnLogin.onclick = () => {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
@@ -1998,10 +1995,6 @@ function loadingKeAbsensi(){
     btn.onclick = openDaftar;
   }
 
-    document.addEventListener("DOMContentLoaded", () => {
-  updateNavbarUser();
-});
-
 }
   document.querySelector("#popup-daftar .close").onclick = () => {
   popupDaftar.style.right = "-420px";
@@ -2040,6 +2033,9 @@ function runCounter(){
 }
 
 window.addEventListener("load", runCounter);
+  document.addEventListener("DOMContentLoaded", () => {
+  updateNavbarUser();
+});
 
 </script>
 </body>
