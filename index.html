@@ -1699,6 +1699,7 @@ function logout(){
   // Clear login inputs
   document.getElementById("email").value = "";
   document.getElementById("password").value = "";
+  updateNavbarUser(); // Update navbar immediately
   Swal.fire({
     icon: "success",
     title: "Logout berhasil",
@@ -1718,8 +1719,27 @@ const btnGoogle = document.getElementById("btnGoogle");
 // NAVBAR BUTTON
 // ======================================================
 document.getElementById("navUserBtn").onclick = () => {
-  popupDaftar.style.right = "0";
-  overlayDaftar.style.display = "block";
+  if(isLoggedIn()){
+    // Jika sudah login, klik icon/nama untuk logout konfirmasi
+    Swal.fire({
+      icon: "question",
+      title: "Logout?",
+      text: "Apakah Anda ingin logout?",
+      showCancelButton: true,
+      confirmButtonText: "Ya, Logout",
+      cancelButtonText: "Batal",
+      confirmButtonColor: "#34d399",
+      cancelButtonColor: "#ef4444"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+      }
+    });
+  } else {
+    // Jika belum login, buka popup daftar siswa
+    popupDaftar.style.right = "0";
+    overlayDaftar.style.display = "block";
+  }
 };
 
 // ======================================================
@@ -1903,6 +1923,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ======================================================
+// RELOAD HANDLER FOR LOGOUT
+// ======================================================
+window.addEventListener('beforeunload', (e) => {
+  if(isLoggedIn()){
+    e.preventDefault();
+    e.returnValue = ''; // Chrome requires returnValue to be set
+    // Konfirmasi logout via Swal
+    Swal.fire({
+      icon: "question",
+      title: "Reload Halaman?",
+      text: "Reload akan logout akun Anda. Lanjutkan?",
+      showCancelButton: true,
+      confirmButtonText: "Ya, Reload & Logout",
+      cancelButtonText: "Batal",
+      confirmButtonColor: "#34d399",
+      cancelButtonColor: "#ef4444"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        // After logout, allow reload
+        window.location.reload();
+      }
+    });
+  }
+});
+
+// ======================================================
 // HERO SLIDER
 // ======================================================
 const slides = document.querySelectorAll(".hero-bg img");
@@ -1960,16 +2007,31 @@ const kelasData={
 
 document.querySelectorAll(".class-btn").forEach(btn=>{
   btn.onclick = () => {
+    const kelas = btn.getAttribute("data-class");
     if(!isLoggedIn()){
       Swal.fire({
         icon:"warning",
         title:"Harus Login",
         text:"Silakan login terlebih dahulu",
         confirmButtonColor:"#34d399"
+      }).then(() => {
+        document.querySelector(".hero-login").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
       });
       return;
     }
-
+    if(kelas === "X" || kelas === "XII"){
+      Swal.fire({
+        icon:"info",
+        title:"Kelas Terkunci",
+        text:"Hanya Kelas XI yang aktif saat ini",
+        confirmButtonColor:"#34d399"
+      });
+      return;
+    }
+    // Jika XI dan login
     document.getElementById("section-semester").style.display = "block";
     document.getElementById("section-semester")
       .scrollIntoView({behavior:"smooth"});
@@ -2020,15 +2082,12 @@ function updateNavbarUser(){
 
   if(user){
     text.textContent = user.username;
-    btn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Logout`;
-    btn.onclick = logout;
+    btn.innerHTML = `<i class="fa-solid fa-user"></i> ${user.username}`;
+    // Klik sudah dihandle di atas
   } else {
     text.textContent = "Daftar Siswa";
     btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
-    btn.onclick = () => {
-      popupDaftar.style.right = "0";
-      overlayDaftar.style.display = "block";
-    };
+    // Klik sudah dihandle di atas
   }
 }
 document.querySelector("#popup-daftar .close").onclick = () => {
