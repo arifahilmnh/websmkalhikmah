@@ -876,13 +876,52 @@ section.announce-section {
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.15);
 }
 
-.developer-card img {
+/* Tambahkan CSS untuk photo-slider */
+.photo-slider {
+  position: relative;
   width: 100px;
   height: 100px;
-  border-radius: 50%;
   margin-bottom: 20px;
-  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
   border: 4px solid #34d399;
+}
+
+.photo-slider img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.photo-slider img.active {
+  opacity: 1;
+}
+
+.slider-dots {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+}
+
+.slider-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slider-dots span.active {
+  background: #fff;
 }
 
 .developer-card h3 {
@@ -1608,17 +1647,44 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
     <h2>Pengembang Web</h2>
     <div class="developer-grid">
       <div class="developer-card">
-        <img src="siti.jpg" alt="SITI ARIFAH ILMANIAH">
+        <div class="photo-slider">
+          <img src="arifah.jpeg" alt="SITI ARIFAH ILMANIAH" class="active">
+          <img src="arifah 2.jpeg" alt="SITI ARIFAH ILMANIAH">
+          <img src="arifah 3.jpeg" alt="SITI ARIFAH ILMANIAH">
+          <div class="slider-dots">
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
         <h3>SITI ARIFAH ILMANIAH</h3>
         <p>Mahasiswa PTI IPI Garut</p>
       </div>
       <div class="developer-card">
-        <img src="ajeng.jpg" alt="AJENG HABIBAH NP">
+        <div class="photo-slider">
+          <img src="ajeng.jpeg" alt="AJENG HABIBAH NP" class="active">
+          <img src="ajeng 2.jpeg" alt="AJENG HABIBAH NP">
+          <img src="ajeng 3.jpeg" alt="AJENG HABIBAH NP">
+          <div class="slider-dots">
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
         <h3>AJENG HABIBAH NP</h3>
         <p>Mahasiswa PTI IPI Garut</p>
       </div>
       <div class="developer-card">
-        <img src="tiara.jpg" alt="TIARA SITI NURKOLBI">
+        <div class="photo-slider">
+          <img src="tiara.jpeg" alt="TIARA SITI NURKOLBI" class="active">
+          <img src="tiara 2.jpeg" alt="TIARA SITI NURKOLBI">
+          <img src="tiara 3.jpeg" alt="TIARA SITI NURKOLBI">
+          <div class="slider-dots">
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
         <h3>TIARA SITI NURKOLBI</h3>
         <p>Mahasiswa PTI IPI Garut</p>
       </div>
