@@ -1510,6 +1510,19 @@ function go(step) {
     setGlobalProgressSafe(progressMap.halaman[stepKeys[step]]);
   }
 
+  if (step === 5) {
+    // Hapus underline di judul rangkuman
+    const judulRangkuman = next?.querySelector("h2");
+    if (judulRangkuman) judulRangkuman.style.textDecoration = "none";
+    // Sembunyikan status dan progress video rangkuman
+    const videoStatus = document.getElementById("videoStatusrangkuman");
+    const videoBar = document.getElementById("videoBarrangkuman");
+    const videoPercent = document.getElementById("videoPercentrangkuman");
+    if (videoStatus) videoStatus.style.display = "none";
+    if (videoBar) videoBar.style.display = "none";
+    if (videoPercent) videoPercent.style.display = "none";
+  }
+
   setTimeout(() => {
     const judul = next?.querySelector(".title, h2");
     if (judul) scrollToEl(judul);
@@ -1791,7 +1804,7 @@ function selesaiLatihan() {
   setTimeout(() => {
     const buttons = `
       <div style="text-align:center; margin-top:30px;">
-        <button onclick="window.location.href='pertemuan2.html'" style="margin-right:20px;">Lanjut Pertemuan 2</button>
+                <button onclick="window.location.href='pertemuan2.html'" style="margin-right:20px;">Lanjut Pertemuan 2</button>
         <button onclick="window.location.href='BERANDA.html'">Kembali ke Beranda</button>
       </div>
     `;
@@ -1815,8 +1828,8 @@ function initVideo(ind) {
   const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
   const durasi = Number(box.dataset.durasi || 0);
 
-    videoState[ind] = {
-    watched:    watched: 0,
+  videoState[ind] = {
+    watched: 0,
     duration: durasi,
     playing: false,
     done: false,
@@ -1860,11 +1873,7 @@ function playVideo(ind) {
       box.style.position = 'relative'; // Pastikan box relative
       box.appendChild(overlay);
     }
-    // Hanya tampilkan overlay jika video diputar secara otomatis atau kondisi tertentu, bukan saat klik
-    // Misalnya, jika play dipanggil dari event selain klik, atau tambahkan flag
-    // Untuk sekarang, tampilkan overlay saat play, tapi pastikan tidak muncul saat klik langsung
-    // Jika ingin tidak muncul saat klik, hapus bagian ini atau kondisikan
-    overlay.style.display = 'flex'; // Tetap tampilkan saat play
+    overlay.style.display = 'flex'; // Tampilkan overlay saat play
   }
 
   v.timer = setInterval(() => {
@@ -1920,9 +1929,24 @@ function finishVideo(ind) {
     unlockButton(`btnQuiz${ind}`, `▶️ Mulai Kuis ${ind}`);
   }
 
-  // ================= VIDEO RANGKUMAN (OPSIONAL) =================
+  // ================= VIDEO RANGKUMAN =================
   if (ind === "rangkuman") {
-    // Opsional: unlock latihan atau sesuatu
+    const status = document.getElementById("videoStatusrangkuman");
+    const label = document.getElementById("videoLabelrangkuman");
+    const percent = document.getElementById("videoPercentrangkuman");
+
+    if (label) label.innerText = "✅ Video selesai";
+    if (percent) percent.innerText = "100%";
+
+    if (status) {
+      status.classList.add("done");
+      status.innerText = "Video rangkuman selesai";
+    }
+
+    unlockButton("btnLatihan", "▶️ Mulai Latihan Pertemuan 1");
+
+    // global progress 100%
+    setGlobalProgressSafe(progressMap.halaman.latihan);
   }
 }
 
@@ -1953,14 +1977,11 @@ document.querySelectorAll(".video-lumi").forEach(box => {
 
   if (playBtn) {
     playBtn.addEventListener("click", () => {
-      // Saat klik, jangan tampilkan overlay langsung, atau panggil playVideo tanpa overlay
-      // Untuk memenuhi permintaan, hapus overlay saat klik, atau jangan tampilkan
-      playVideo(ind); // Tetap panggil playVideo
+      playVideo(ind);
     });
   } else {
     // Jika tidak ada tombol, klik pada box
     box.addEventListener("click", () => {
-      // Sama seperti di atas
       playVideo(ind);
     });
   }
@@ -1978,41 +1999,10 @@ function unlockButton(id, text) {
   btn.innerHTML = text;
 }
 
-// Fungsi go yang diperbaiki (menghapus duplikasi dan menambahkan logika untuk rangkuman)
-function go(step) {
-  const prev = document.getElementById("s" + current);
-  const next = document.getElementById("s" + step);
-
-  prev?.classList.remove("active");
-  next?.classList.add("active");
-  current = step;
-
-  if (step === 5) {
-    setGlobalProgressSafe(progressMap.halaman.rangkuman);
-    // Hapus underline di judul rangkuman
-    const judulRangkuman = next?.querySelector("h2");
-    if (judulRangkuman) judulRangkuman.style.textDecoration = "none";
-    // Sembunyikan status dan progress video rangkuman
-    const videoStatus = document.getElementById("videoStatusrangkuman");
-    const videoBar = document.getElementById("videoBarrangkuman");
-    const videoPercent = document.getElementById("videoPercentrangkuman");
-    if (videoStatus) videoStatus.style.display = "none";
-    if (videoBar) videoBar.style.display = "none";
-    if (videoPercent) videoPercent.style.display = "none";
-  }
-
-  setTimeout(() => {
-    const judul = next?.querySelector(".title, h2");
-    if (judul) scrollToEl(judul);
-    else window.scrollTo({top: 0, behavior: "smooth"});
-  }, 300);
-}
-
 document.getElementById("btnMulai").onclick = () => go(2);
 
 // Tombol mulai latihan
 document.getElementById("btnMulaiLatihan").onclick = mulaiLatihan; // Asumsikan ada tombol dengan id btnMulaiLatihan
-</script>
 </script>
 </body>
 </html>
