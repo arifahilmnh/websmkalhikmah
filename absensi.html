@@ -489,38 +489,37 @@ function hasilAbsensi(st){
  }
 }
 
-/* ===== SUBMIT ===== */
-form.addEventListener("submit",e=>{
- e.preventDefault();
+<script>
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
- if(!kelas.value||!tanggal.value||!status.value){
-  Swal.fire("Lengkapi Data","Semua field wajib diisi","warning");
-  return;
- }
-
- const hasil=hasilAbsensi(status.value);
-
- badge.textContent="✅ Sudah Absen";
- badge.className="status-sudah";
-
- Swal.fire({
-  icon:"success",
-  title:"Absensi Tersimpan",
-  text: hasil.msg,
-  timer:1600,
-  showConfirmButton:false
- }).then(()=>{
-  if(status.value === "Hadir"){
-   window.location.href=hasil.redirect;
-  } else {
-   loadingText.textContent=hasil.msg;
-   loading.classList.add("active");
-
-   setTimeout(()=>{
-    window.location.href=hasil.redirect;
-   },1000);
+  if (!kelas.value || !tanggal.value || !status.value) {
+    Swal.fire("Lengkapi Data", "Semua field wajib diisi", "warning");
+    return;
   }
- });
+
+  const hasil = hasilAbsensi(status.value);
+
+  badge.textContent = "✅ Sudah Absen";
+  badge.className = "status-sudah";
+
+  // Tampilkan alert
+  Swal.fire({
+    icon: "success",
+    title: "Absensi Tersimpan",
+    text: hasil.msg,
+    timer: 1500,
+    showConfirmButton: false
+  });
+
+  // Tampilkan loading
+  loadingText.textContent = hasil.msg;
+  loading.classList.add("active");
+
+  // 🔥 REDIRECT PAKSA (AMAN DI HP)
+  setTimeout(() => {
+    window.location.replace(hasil.redirect);
+  }, 1000);
 });
 </script>
 </body>
