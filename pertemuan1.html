@@ -925,11 +925,6 @@ body.lock-scroll{
 
  <!-- VIDEO -->
  <div class="video-wrapper">
-  <div class="video-overlay"
-       aria-label="Klik untuk memulai video"
-       role="button"
-       tabindex="0"></div>
-
   <iframe
    src="https://app.lumi.education/run/Ax4fGZ?embed=true"
    loading="lazy"
@@ -941,7 +936,7 @@ body.lock-scroll{
  <!-- PROGRESS -->
  <div class="video-progress-wrap">
   <div class="video-progress-text">
-   <span id="videoLabel1">⏸️ Video belum diputar</span>
+   <span id="videoLabel1"><i class="fa-solid fa-lock"></i> Video belum diputar</span>
    <span id="videoPercent1">0%</span>
   </div>
 
@@ -1002,7 +997,7 @@ body.lock-scroll{
 <label><input type="radio" name="i1_5" value="0"> &lt;/title&gt;</label>
 </div>
 
-<button onclick="cekIndikator(1,3)">Submit Kuis</button>
+<button onclick="cekIndikator(1)">Submit Kuis</button>
 </div>
 </section>
 
@@ -1010,7 +1005,7 @@ body.lock-scroll{
 <section id="s3">
 <div class="container">
 <h2 class="title" id="judul-2">Indikator 2</h2>
-<p class="desc">Tag dan Format Teks HTML</p>
+<p class="subtitle">Tag dan Format Teks HTML</p>
 
 <div id="m2" class="box">
 <p><b>Tag HTML</b> adalah perintah khusus yang digunakan untuk memberi instruksi kepada browser tentang bagaimana suatu konten harus ditampilkan. Tag HTML ditulis menggunakan tanda kurung sudut (&lt; &gt;) dan umumnya ditulis berpasangan, yaitu tag pembuka dan tag penutup.</p>
@@ -1034,11 +1029,6 @@ body.lock-scroll{
 
  <!-- VIDEO -->
  <div class="video-wrapper">
-  <div class="video-overlay"
-       aria-label="Klik untuk memulai video"
-       role="button"
-       tabindex="0"></div>
-
   <iframe
    src="https://app.lumi.education/run/GwcWnk?embed=true"
    loading="lazy"
@@ -1050,7 +1040,7 @@ body.lock-scroll{
  <!-- PROGRESS -->
  <div class="video-progress-wrap">
   <div class="video-progress-text">
-   <span id="videoLabel2">⏸️ Video belum diputar</span>
+   <span id="videoLabel2"><i class="fa-solid fa-lock"></i> Video belum diputar</span>
    <span id="videoPercent2">0%</span>
   </div>
 
@@ -1083,7 +1073,7 @@ body.lock-scroll{
 
   <div class="quiz-card">
    <h4>2. Berikut ini yang termasuk tag format teks (pilih lebih dari satu)</h4>
-   <label><input type="checkbox" value="10"> &lt;b&gt;</label>
+     <label><input type="checkbox" value="10"> &lt;b&gt;</label>
    <label><input type="checkbox" value="10"> &lt;i&gt;</label>
    <label><input type="checkbox" value="10"> &lt;u&gt;</label>
    <label><input type="checkbox" value="0"> &lt;html&gt;</label>
@@ -1120,12 +1110,17 @@ body.lock-scroll{
 <section id="s4">
 <div class="container">
 <h2 class="title" id="judul-3">Indikator 3</h2>
-<p class="desc">Integrasi Struktur dan Format HTML</p>
+<p class="subtitle">Integrasi Struktur dan Format HTML</p>
 
 <div id="m3" class="box">
 <p>Pada tahap ini, peserta didik diharapkan mampu <b>mengintegrasikan struktur dasar HTML dengan berbagai format teks</b> untuk membentuk sebuah halaman web sederhana yang utuh.</p>
 
 <p>Contoh struktur HTML lengkap:</p>
+<pre>
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Web Pertamaku&lt;/title&gt;
+ &<p>Contoh struktur HTML lengkap:</p>
 <pre>
 &lt;html&gt;
  &lt;head&gt;
@@ -1145,11 +1140,6 @@ body.lock-scroll{
 
  <!-- VIDEO -->
  <div class="video-wrapper">
-  <div class="video-overlay"
-       aria-label="Klik untuk memulai video"
-       role="button"
-       tabindex="0"></div>
-
   <iframe
    src="https://app.lumi.education/run/D_tOW3?embed=true"
    loading="lazy"
@@ -1161,7 +1151,7 @@ body.lock-scroll{
  <!-- PROGRESS -->
  <div class="video-progress-wrap">
   <div class="video-progress-text">
-   <span id="videoLabel3">⏸️ Video belum diputar</span>
+   <span id="videoLabel3"><i class="fa-solid fa-lock"></i> Video belum diputar</span>
    <span id="videoPercent3">0%</span>
   </div>
 
@@ -1187,6 +1177,7 @@ body.lock-scroll{
 <h3>Kuis Indikator 3</h3>
 
   <div class="quiz-card">
+   <span class="question-type pg">Pilihan Ganda</span>
    <h4>1. Dokumen HTML diawali dengan tag …</h4>
    <label><input type="radio" name="i3_1" value="20"> &lt;html&gt;</label>
    <label><input type="radio" name="i3_1" value="0"> &lt;head&gt;</label>
@@ -1195,6 +1186,7 @@ body.lock-scroll{
   </div>
 
   <div class="quiz-card">
+   <span class="question-type pg">Pilihan Ganda</span>
    <h4>2. Judul halaman web ditampilkan pada …</h4>
    <label><input type="radio" name="i3_2" value="20"> Tab browser</label>
    <label><input type="radio" name="i3_2" value="0"> Isi halaman</label>
@@ -1203,28 +1195,32 @@ body.lock-scroll{
   </div>
 
   <div class="quiz-card">
+   <span class="question-type tf">Benar/Salah</span>
    <h4>3. Semua konten web berada di dalam tag &lt;body&gt;</h4>
    <label><input type="radio" name="i3_3" value="20"> Benar</label>
    <label><input type="radio" name="i3_3" value="0"> Salah</label>
   </div>
 
   <div class="quiz-card">
+   <span class="question-type tf">Benar/Salah</span>
    <h4>4. Struktur HTML harus ditutup secara berurutan</h4>
    <label><input type="radio" name="i3_4" value="20"> Benar</label>
    <label><input type="radio" name="i3_4" value="0"> Salah</label>
   </div>
 
   <div class="quiz-card">
+   <span class="question-type tf">Benar/Salah</span>
    <h4>5. HTML bersifat hierarkis</h4>
    <label><input type="radio" name="i3_5" value="20"> Benar</label>
    <label><input type="radio" name="i3_5" value="0"> Salah</label>
   </div>
 
-  <button onclick="cekIndikator(3,5)">Submit Kuis</button>
+  <button onclick="cekIndikator(3)">Submit Kuis</button>
 
  </div>
 </div>
 </section>
+
 <!-- ================= RANGKUMAN ================= -->
 <section id="s5">
 <div class="container">
@@ -1302,8 +1298,8 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
     </ul>
    </div>
 
-   <button id="btnLatihan" class="locked-btn" disabled>
-    🔒 Mulai Latihan Pertemuan 1
+   <button id="btnLatihan">
+    ▶️ Mulai Latihan Pertemuan 1
    </button>
   </div>
  </div>
@@ -1408,6 +1404,14 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
 <footer>
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
+<think>
+Pertama, pengguna meminta "fullkan js nya aja", yang berarti "fullkan JS nya saja", maksudnya lengkapi kode JavaScript lengkapnya saja.
+
+
+## Interpreting user request  
+- The user asked for "fullkan js nya aja," meaning "complete the JavaScript code only."  
+- This suggests they want a full, standalone JavaScript implementation, likely related to a previously discussed system.
+</think>```javascript
 <script>
 /* ======================= USER INTERACTION ======================= */
 let userInteracting = false;
@@ -1510,7 +1514,7 @@ function go(step) {
   current = step;
 
   // Update progress berdasarkan step
-  const stepKeys = {2: 'tujuan', 3: 'indikator1', 4: 'indikator2', 5: 'rangkuman', 6: 'latihan'};
+  const stepKeys = {2: 'tujuan', 3: 'indikator1', 4: 'indikator2', 5: 'rangkuman'};
   if (stepKeys[step]) {
     setGlobalProgressSafe(progressMap.halaman[stepKeys[step]]);
   }
@@ -1710,7 +1714,6 @@ const soalLatihan = [
 ];
 
 function mulaiLatihan() {
-  go(6); // Navigasi ke section latihan
   const container = document.getElementById("latihan");
   container.innerHTML = "<h3>Latihan Pertemuan 1</h3>";
   soalLatihan.forEach((soal, index) => {
@@ -1984,6 +1987,8 @@ function unlockButton(id, text) {
 }
 
 document.getElementById("btnMulai").onclick = () => go(2);
+
+// Tombol mulai latihan (untuk tombol yang di-unlock setelah video rangkuman)
 document.getElementById("btnLatihan").onclick = mulaiLatihan;
 
 // Tombol kuis indikator (untuk tombol yang di-unlock setelah video indikator selesai)
@@ -1991,13 +1996,6 @@ document.getElementById("btnQuiz1").onclick = () => showQuiz(1);
 document.getElementById("btnQuiz2").onclick = () => showQuiz(2);
 document.getElementById("btnQuiz3").onclick = () => showQuiz(3);
 
-unlockButton("btnLatihan","▶️ Mulai Latihan Pertemuan 1");
-
-  // global progress 100%
-  setGlobalProgressSafe(progressMap.halaman.latihan);
- }
-}
 </script>
- </script>
 </body>
 </html>
