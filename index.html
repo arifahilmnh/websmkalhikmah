@@ -1673,6 +1673,17 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
 <script>
+<think>
+Pertama, pengguna ingin memperbaiki kode JavaScript untuk halaman web ini. Mari saya pahami permintaan mereka:
+
+
+## Understanding User Request  
+- The user wants to fix their JavaScript code for a web page.  
+- The issue is that on page reload, all login inputs disappear, leaving the form empty.
+
+## Examining Code Details  
+- The code clears email and password inputs on DOM ready with `document.getElementById("email").value = "";` and `document.getElementById("password").value = "";`, and also on logout.
+</think>```javascript
 // ================= AUTH SYSTEM =================
 function getAuthUser(){
   return JSON.parse(sessionStorage.getItem("authUser"));
@@ -1798,6 +1809,7 @@ btnLogin.onclick = () => {
       confirmButtonColor: "#34d399"
     }).then(()=>{
       updateNavbarUser();
+      // Scroll ke section pilihan kelas (diasumsikan section dengan background #f0fdf4 adalah section pilihan kelas)
       document.querySelector("section[style*='background:#f0fdf4']").scrollIntoView({
         behavior: "smooth",
         block: "start"
@@ -1851,9 +1863,17 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("page-enter");
   updateNavbarUser();
 
-  // Clear login inputs on load
+  // Clear login inputs on load (pastikan input kosong saat reload)
   document.getElementById("email").value = "";
   document.getElementById("password").value = "";
+
+  // Tambahkan icon kunci pada tombol kelas X dan XII
+  document.querySelectorAll(".class-btn").forEach(btn => {
+    const kelas = btn.getAttribute("data-class");
+    if (kelas === "X" || kelas === "XII") {
+      btn.innerHTML += ' <i class="fa-solid fa-lock"></i>';
+    }
+  });
 
   if(window.isUserLoggedIn){
     const heroLogin = document.querySelector(".hero-login");
@@ -2003,6 +2023,7 @@ document.querySelectorAll(".class-btn").forEach(btn=>{
         text:"Silakan login terlebih dahulu",
         confirmButtonColor:"#34d399"
       }).then(() => {
+        // Scroll otomatis ke bagian hero login
         document.querySelector(".hero-login").scrollIntoView({
           behavior: "smooth",
           block: "start"
@@ -2013,8 +2034,8 @@ document.querySelectorAll(".class-btn").forEach(btn=>{
     if(kelas === "X" || kelas === "XII"){
       Swal.fire({
         icon:"info",
-        title:"Kelas Terkunci",
-        text:"Hanya Kelas XI yang aktif saat ini",
+        title:"Fitur Kelas Belum Tersedia",
+        text:"Fitur kelas belum tersedia",
         confirmButtonColor:"#34d399"
       });
       return;
