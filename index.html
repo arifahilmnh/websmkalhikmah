@@ -2023,6 +2023,44 @@ function runCounter(){
 }
 
 // ======================================================
+// FOOTER POSITIONING (PASTI MENYENTUH BAWAH HALAMAN)
+// ======================================================
+function adjustFooter() {
+  const footer = document.querySelector("footer");
+  if (!footer) return; // Pastikan footer ada
+
+  const body = document.body;
+  const html = document.documentElement;
+
+  const height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+  if (window.innerHeight >= height) {
+    footer.style.position = "fixed";
+    footer.style.bottom = "0";
+    footer.style.width = "100%";
+  } else {
+    footer.style.position = "static";
+  }
+}
+
+// ======================================================
+// RELOAD HANDLING (LOGOUT OTOMATIS JIKA RELOAD)
+// ======================================================
+window.addEventListener("beforeunload", (event) => {
+  if (isLoggedIn()) {
+    const confirmationMessage = "Apakah Anda ingin reload halaman? Ini akan logout akun Anda.";
+    event.returnValue = confirmationMessage; // Standard for most browsers
+    return confirmationMessage; // For some older browsers
+  }
+});
+
+window.addEventListener("unload", () => {
+  if (isLoggedIn()) {
+    sessionStorage.clear();
+  }
+});
+
+// ======================================================
 // EVENT LISTENERS
 // ======================================================
 // NAVBAR BUTTON
@@ -2098,8 +2136,10 @@ btnLogin.onclick = () => {
       confirmButtonColor: "#34d399"
     }).then(() => {
       updateNavbarUser();
-      // Scroll otomatis ke section-kelas setelah login
-      scrollToSection("section-kelas");
+      // Scroll otomatis ke section-kelas setelah login dengan animasi
+      setTimeout(() => {
+        scrollToSection("section-kelas");
+      }, 500); // Delay kecil untuk animasi smooth
     });
 
   } else {
@@ -2136,7 +2176,7 @@ document.querySelector("#popup-daftar .close").onclick = () => {
 document.querySelectorAll(".class-btn").forEach(btn=>{
   btn.onclick = () => {
     if(!isLoggedIn()){
-      // Jika belum login, scroll ke hero login
+      // Jika belum login, scroll ke hero login dan muncul notif
       scrollToSection("hero");
       Swal.fire({
         icon:"warning",
@@ -2190,6 +2230,8 @@ window.addEventListener("scroll", () => {
 });
 
 window.addEventListener("load", runCounter);
+window.addEventListener("load", adjustFooter);
+window.addEventListener("resize", adjustFooter);
 
 // ======================================================
 // DOM READY
@@ -2208,7 +2250,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("page-enter");
   updateNavbarUser();
 
-  // Clear input login saat refresh
+  // Clear input login saat refresh atau load ulang
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
   if(emailInput) emailInput.value = "";
