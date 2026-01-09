@@ -1802,10 +1802,10 @@ function selesaiLatihan() {
     if (finalEl) scrollToEl(finalEl);
   }, 500);
 
-  setTimeout(() => {
+setTimeout(() => {
     const buttons = `
       <div style="text-align:center; margin-top:30px;">
-                <button onclick="window.location.href='pertemuan2.html'" style="margin-right:20px;">Lanjut Pertemuan 2</button>
+        <button onclick="window.location.href='pertemuan2.html'" style="margin-right:20px;">Lanjut Pertemuan 2</button>
         <button onclick="window.location.href='BERANDA.html'">Kembali ke Beranda</button>
       </div>
     `;
@@ -1855,41 +1855,6 @@ function playVideo(ind) {
   // Hapus bagian overlay agar tidak muncul saat klik video
   // Status dan progress tetap berjalan
 
-  v.timer = setInterval(() => {
-    if (!pageVisible) return;
-
-    v.watched++;
-    const percent = Math.min(
-      Math.round((v.watched / v.duration) * 100),
-      100
-    );
-
-    updateVideoUI(ind, percent);
-    updateGlobalProgressRealtime(ind, percent);
-
-    if (percent >= 100) {
-      finishVideo(ind);
-    }
-  }, 1000);
-}
-
-    updateVideoUI(ind, percent);
-    updateGlobalProgressRealtime(ind, percent);
-
-    if (percent >= 100) {
-      finishVideo(ind);
-    }
-  }, 1000);
-}
-
-    updateVideoUI(ind, percent);
-    updateGlobalProgressRealtime(ind, percent);
-
-    if (percent >= 100) {
-      finishVideo(ind);
-    }
-  }, 1000);
-}
   v.timer = setInterval(() => {
     if (!pageVisible) return;
 
@@ -2017,6 +1982,6 @@ document.getElementById("btnMulai").onclick = () => go(2);
 
 // Tombol mulai latihan
 document.getElementById("btnMulaiLatihan").onclick = mulaiLatihan; // Asumsikan ada tombol dengan id btnMulaiLatihan
-</script>
+  </script>
 </body>
 </html>
