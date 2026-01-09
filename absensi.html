@@ -430,18 +430,6 @@ const REDIRECT_HOME="index.html";
 
 const siswaRaw = localStorage.getItem("loginSiswa");
 
-if(!siswaRaw){
- Swal.fire({
-  icon:"error",
-  title:"Akses Ditolak",
-  text:"Silakan login terlebih dahulu"
- }).then(()=>{
-  location.href="index.html";
- });
-}
-
-const siswa = JSON.parse(siswaRaw);
-
 const nama=document.getElementById("nama");
 const nis=document.getElementById("nis");
 const kelas=document.getElementById("kelas");
