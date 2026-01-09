@@ -1897,33 +1897,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Tambahkan icon kunci pada tombol kelas X dan XII, dan bedakan warna (opacity untuk yang terkunci)
   document.querySelectorAll(".class-btn").forEach(btn => {
-  const kelas = btn.dataset.class;
-
-  if (kelas === "X" || kelas === "XII") {
-    btn.innerHTML = `🔒 Kelas ${kelas}`;
-    btn.classList.add("locked");
-    btn.style.opacity = "0.5";
-    btn.onclick = () => {
-      Swal.fire("Terkunci", "Kelas belum tersedia", "info");
-    };
-  }
-});
-
+    const kelas = btn.dataset.class;
+    if (kelas === "X" || kelas === "XII") {
+      btn.innerHTML = `Kelas ${kelas} <i class="fa-solid fa-lock"></i>`;
+      btn.classList.add("locked");
+      btn.style.opacity = "0.5";
+      btn.onclick = () => {
+        Swal.fire("Terkunci", "Kelas belum tersedia", "info");
+      };
+    }
+  });
 
   // Tambahkan icon kunci pada tombol semester 2, dan bedakan warna (opacity untuk yang terkunci)
- document.querySelectorAll(".semester-btn").forEach(btn => {
-  const semester = btn.dataset.semester;
-
-  if (semester === "2") {
-    btn.innerHTML = `🔒 Semester ${semester}`;
-    btn.classList.add("locked");
-    btn.style.opacity = "0.5";
-    btn.onclick = () => {
-      Swal.fire("Terkunci", "Semester belum tersedia", "info");
-    };
-  }
-});
-} else {
+  document.querySelectorAll(".semester-btn").forEach(btn => {
+    const semester = btn.dataset.semester;
+    if (semester === "2") {
+      btn.innerHTML = `Semester ${semester} <i class="fa-solid fa-lock"></i>`;
+      btn.classList.add("locked");
+      btn.style.opacity = "0.5";
+      btn.onclick = () => {
+        Swal.fire("Terkunci", "Semester belum tersedia", "info");
+      };
+    } else {
+      // Untuk semester 1, enable klik
       btn.onclick = () => {
         if (sectionMapel && mapelGrid) {
           sectionMapel.style.display = "block";
@@ -1931,7 +1927,7 @@ document.addEventListener("DOMContentLoaded", () => {
           kelasData.XI[1].forEach(mp => {
             const d = document.createElement("div");
             d.className = "class-item";
-            d.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
+            d.innerHTML = mp.open ? mp.name : `${mp.name} <i class="fa-solid fa-lock"></i>`;
             d.style.opacity = mp.open ? 1 : 0.5;
             d.onclick = mp.open
               ? () => showPertemuan()
@@ -2109,13 +2105,13 @@ function showPertemuan(){
       const d=document.createElement("div");
       const open=i===1;
       d.className="class-item";
-      d.textContent = open
-          ? `Pertemuan ${i}`
-          : `🔒 Pertemuan ${i}`;
-        d.style.opacity = open ? 1 : 0.5;
-        d.onclick = open
-          ? () => loadingKeAbsensi()
-          : () => Swal.fire("Terkunci", "Pertemuan belum dibuka", "info");
+      d.innerHTML = open
+        ? `Pertemuan ${i}`
+        : `Pertemuan ${i} <i class="fa-solid fa-lock"></i>`;
+      d.style.opacity = open ? 1 : 0.5;
+      d.onclick = open
+        ? () => loadingKeAbsensi()
+        : () => Swal.fire("Terkunci", "Pertemuan belum dibuka", "info");
       pertemuanGrid.appendChild(d);
     }
     sectionPertemuan.scrollIntoView({behavior:"smooth"});
@@ -2159,6 +2155,6 @@ if (closePopup && popupDaftar && overlayDaftar) {
     overlayDaftar.style.display = "none";
   };
 }
-  </script>
+</script>
 </body>
 </html>
