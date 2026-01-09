@@ -1212,7 +1212,7 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   z-index:9999;
   opacity:0;
   pointer-events:none;
-  transition:.4s ease;
+  transition:.2s ease; /* Dipercepat dari 0.4s ke 0.2s untuk transisi yang lebih cepat */
 }
 
 #loadingAbsensi.active{
@@ -1226,7 +1226,7 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   border-radius:28px;
   text-align:center;
   box-shadow:0 30px 80px rgba(0,0,0,.18);
-  animation:pop .5s ease;
+  animation:pop .3s ease; /* Dipercepat dari 0.5s ke 0.3s untuk animasi pop yang lebih cepat */
 }
 
 #loadingAbsensi .spinner{
@@ -1235,7 +1235,7 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   border-radius:50%;
   border:5px solid #d1fae5;
   border-top-color:#10b981;
-  animation:spin 1s linear infinite;
+  animation:spin 0.5s linear infinite; /* Dipercepat dari 1s ke 0.5s untuk rotasi spinner yang lebih cepat */
   margin:0 auto 18px;
 }
 
@@ -1246,7 +1246,7 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   from{transform:scale(.9);opacity:0}
   to{transform:scale(1);opacity:1}
 }
-
+  
 /* ================= FLOW TIMELINE ================= */
 .flow-section{
   background:linear-gradient(180deg,#ffffff,#ecfdf5);
