@@ -426,7 +426,7 @@ footer{
 
 <script>
 const REDIRECT_TIME="pertemuan1.html";
-const REDIRECT_HOME="BERANDA.html";
+const REDIRECT_HOME="index.html"; // Diubah dari "BERANDA.html" ke "index.html"
 
 const siswa=JSON.parse(localStorage.getItem("loginSiswa"));
 
@@ -499,13 +499,16 @@ form.addEventListener("submit",e=>{
   timer:1600,
   showConfirmButton:false
  }).then(()=>{
-  // TAMPILKAN LOADING
-  loadingText.textContent=hasil.msg;
-  loading.classList.add("active");
-
-  setTimeout(()=>{
+  if(status.value === "Hadir"){
    window.location.href=hasil.redirect;
-  },1000);
+  } else {
+   loadingText.textContent=hasil.msg;
+   loading.classList.add("active");
+
+   setTimeout(()=>{
+    window.location.href=hasil.redirect;
+   },1000);
+  }
  });
 });
 </script>
