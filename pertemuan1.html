@@ -230,7 +230,7 @@ iframe:hover{ transform:scale(1.02); }
 }
 
 .quiz-card{
- background: linear-gradient(135deg, #ffffff, #f0fdf4);
+ background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(240,253,244,.9));
  padding:32px;
  border-radius:32px;
  box-shadow:0 20px 50px rgba(0,0,0,.12);
@@ -400,7 +400,7 @@ footer{
 }
 
 .summary-item{
- background: linear-gradient(180deg, #ffffff, #f0fdf4);
+ background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(240,253,244,.9));
  padding:44px 40px 50px;
  border-radius:40px;
  box-shadow:0 30px 80px rgba(0,0,0,.14);
@@ -452,7 +452,7 @@ footer{
  margin:40px 0 60px;
  padding:40px 40px 50px;
  border-radius:40px;
- background: linear-gradient(180deg, #ffffff, #f0fdf4);
+ background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(240,253,244,.9));
  box-shadow: var(--shadow-heavy);
  border-top:10px solid var(--primary);
  position:relative;
@@ -492,7 +492,7 @@ footer{
 
 .exercise-item{
  position:relative;
- background: linear-gradient(180deg, #ffffff, #f0fdf4);
+ background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(240,253,244,.9));
  padding:50px 50px 54px;
  border-radius:40px;
  box-shadow:0 35px 90px rgba(0,0,0,.15);
@@ -572,7 +572,7 @@ footer{
  margin:40px 0 40px;
  padding:40px 44px 50px;
  border-radius:50px;
- background: linear-gradient(180deg, #ffffff, #ecfdf5);
+ background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(240,253,244,.9));
  box-shadow: var(--shadow-heavy);
  border-top:12px solid var(--primary);
 }
@@ -685,7 +685,7 @@ footer{
 /* ================= VIDEO TUJUAN ================= */
 .video-lumi.tujuan{
  border-top:12px solid var(--primary);
- background: linear-gradient(180deg, #ffffff, #ecfdf5);
+ background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(240,253,244,.9));
 }
 
 .video-lumi.tujuan h3{
@@ -734,15 +734,7 @@ footer{
 }
 
 .quiz-card .question-type.tf{ background:#dbeafe; color:#1e40af; }
-<think>
-Pertama, pengguna berkata "lanjutan", yang berarti "continuation" dalam bahasa Indonesia. Ini mengacu pada pesan sebelumnya di mana saya memberikan CSS yang diperbaiki untuk tampilan keseluruhan dan responsivitas.
-
-Since there is no ExistingSummary, I'll start with a new subheading to summarize the new reasoning content.
-
-## Interpreting user request  
-- The user said "lanjutan," meaning "continuation" in Indonesian.  
-- This likely refers to a previous message where CSS was provided for overall appearance and responsiveness.
-</think>.quiz-card .question-type.pg{ background:#dcfce7; color:#166534; }
+.quiz-card .question-type.pg{ background:#dcfce7; color:#166534; }
 .quiz-card .question-type.cb{ background:#fef3c7; color:#92400e; }
 .quiz-card .question-type.es{ background:#fce7f3; color:#be185d; }
 
@@ -750,7 +742,7 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
 .final-result{
  text-align:center;
  padding:50px;
- background: linear-gradient(135deg, #ffffff, #f0fdf4);
+ background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(240,253,244,.9));
  border-radius:50px;
  box-shadow: var(--shadow-heavy);
  margin:50px 0;
@@ -806,6 +798,132 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
  color:var(--primary);
 }
 
+/* ================= LATIHAN STYLING ================= */
+#latihan{
+ margin-top:40px;
+}
+
+#latihan h3{
+ font-size:32px;
+ font-weight:900;
+ margin-bottom:40px;
+ color:var(--dark);
+ text-align:center;
+}
+
+.soal{
+ background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(240,253,244,.9));
+ padding:40px;
+ border-radius:40px;
+ box-shadow:0 20px 60px rgba(0,0,0,.1);
+ margin-bottom:30px;
+ transition:var(--transition);
+ border-left:10px solid var(--primary);
+ position:relative;
+}
+
+.soal:hover{
+ transform:translateY(-5px);
+ box-shadow:0 30px 80px rgba(0,0,0,.15);
+}
+
+.soal::before{
+ content:attr(id);
+ position:absolute;
+ top:-20px;
+ right:-20px;
+ font-size:60px;
+ font-weight:900;
+ color:rgba(16,185,129,.1);
+}
+
+.soal p{
+ font-size:18px;
+ font-weight:700;
+ margin-bottom:20px;
+ color:#065f46;
+}
+
+.soal input[type="text"]{
+ width:100%;
+ padding:16px 20px;
+ border-radius:20px;
+ border:2px solid #d1fae5;
+ font-size:16px;
+ transition:var(--transition);
+ background:#ecfdf5;
+}
+
+.soal input[type="text"]:focus{
+ border-color:var(--primary);
+ box-shadow:0 0 0 3px rgba(16,185,129,.2);
+}
+
+.soal input[type="radio"], .soal input[type="checkbox"]{
+ accent-color:#34d399;
+ transform:scale(1.3);
+ margin-right:12px;
+}
+
+.soal label{
+ display:block;
+ margin-top:14px;
+ padding:16px 20px;
+ border-radius:20px;
+ background:#ecfdf5;
+ cursor:pointer;
+ transition:var(--transition);
+ font-size:16px;
+ border:2px solid transparent;
+}
+
+.soal label:hover{
+ background:#d1fae5;
+ transform:translateX(8px) translateY(-2px);
+ box-shadow:0 10px 25px rgba(0,0,0,.15);
+ border-color: var(--primary);
+}
+
+.matching{
+ display:flex;
+ gap:40px;
+ justify-content:space-between;
+}
+
+.kolom{
+ flex:1;
+}
+
+.kolom h4{
+ font-size:18px;
+ font-weight:700;
+ margin-bottom:16px;
+ color:#065f46;
+}
+
+.kolom ul, .kolom ol{
+ list-style:none;
+ padding:0;
+}
+
+.kolom li{
+ display:flex;
+ align-items:center;
+ gap:16px;
+ margin-bottom:12px;
+ padding:12px 16px;
+ border-radius:16px;
+ background:#ecfdf5;
+}
+
+.kolom select{
+ padding:8px 12px;
+ border-radius:8px;
+ border:1px solid #d1fae5;
+ background:#f0fdf4;
+ font-size:14px;
+}
+
 /* ================= RESPONSIVE DESIGN ================= */
 
 /* Tablet and smaller desktops (max-width: 1024px) */
@@ -836,6 +954,13 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
  }
  iframe {
   height: 400px;
+ }
+ .soal {
+  padding: 30px;
+ }
+ .matching {
+  flex-direction: column;
+  gap: 20px;
  }
 }
 
@@ -994,6 +1119,20 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
  .final-result table td {
   padding: 10px 16px;
  }
+ .soal {
+  padding: 24px;
+ }
+ .soal p {
+  font-size: 16px;
+ }
+ .soal input[type="text"] {
+  padding: 14px 18px;
+  font-size: 15px;
+ }
+ .soal label {
+  font-size: 15px;
+  padding: 14px 18px;
+ }
 }
 
 /* Mobile portrait (max-width: 480px) */
@@ -1129,6 +1268,30 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
   padding: 20px;
   font-size: 13px;
  }
+ .soal {
+  padding: 20px;
+ }
+ .soal p {
+  font-size: 15px;
+ }
+ .soal input[type="text"] {
+  padding: 12px 16px;
+  font-size: 14px;
+ }
+ .soal label {
+  font-size: 14px;
+  padding: 12px 16px;
+ }
+ .matching {
+  gap: 16px;
+ }
+ .kolom h4 {
+  font-size: 16px;
+ }
+ .kolom li {
+  padding: 10px 14px;
+  font-size: 14px;
+ }
 }
 
 /* Extra small devices (max-width: 360px) */
@@ -1169,6 +1332,20 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
  }
  .final-result .score {
   font-size: 30px;
+ }
+ .soal h4 {
+  font-size: 14px;
+ }
+ .soal p {
+  font-size: 14px;
+ }
+ .soal input[type="text"] {
+  padding: 10px 14px;
+  font-size: 13px;
+ }
+ .soal label {
+  font-size: 13px;
+  padding: 10px 14px;
  }
 }
 </style>
@@ -1229,8 +1406,6 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
    <div class="video-progress-text">
     <span id="videoLabeltujuan"><i class="fa-solid fa-lock"></i> Video belum diputar</span>
     <span id="videoPercenttujuan">0%</span>
-   </div>
-
    <div class="video-progress-bar">
     <span id="videoBartujuan"></span>
    </div>
@@ -1481,11 +1656,6 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
 &lt;html&gt;
  &lt;head&gt;
   &lt;title&gt;Web Pertamaku&lt;/title&gt;
- &<p>Contoh struktur HTML lengkap:</p>
-<pre>
-&lt;html&gt;
- &lt;head&gt;
-  &lt;title&gt;Web Pertamaku&lt;/title&gt;
  &lt;/head&gt;
  &lt;body&gt;
   &lt;h1&gt;Selamat Datang&lt;/h1&gt;
@@ -1538,7 +1708,6 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
 <h3>Kuis Indikator 3</h3>
 
   <div class="quiz-card">
-   <span class="question-type pg">Pilihan Ganda</span>
    <h4>1. Dokumen HTML diawali dengan tag …</h4>
    <label><input type="radio" name="i3_1" value="20"> &lt;html&gt;</label>
    <label><input type="radio" name="i3_1" value="0"> &lt;head&gt;</label>
@@ -1547,7 +1716,6 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
   </div>
 
   <div class="quiz-card">
-   <span class="question-type pg">Pilihan Ganda</span>
    <h4>2. Judul halaman web ditampilkan pada …</h4>
    <label><input type="radio" name="i3_2" value="20"> Tab browser</label>
    <label><input type="radio" name="i3_2" value="0"> Isi halaman</label>
@@ -1556,21 +1724,18 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
   </div>
 
   <div class="quiz-card">
-   <span class="question-type tf">Benar/Salah</span>
    <h4>3. Semua konten web berada di dalam tag &lt;body&gt;</h4>
    <label><input type="radio" name="i3_3" value="20"> Benar</label>
    <label><input type="radio" name="i3_3" value="0"> Salah</label>
   </div>
 
   <div class="quiz-card">
-   <span class="question-type tf">Benar/Salah</span>
    <h4>4. Struktur HTML harus ditutup secara berurutan</h4>
    <label><input type="radio" name="i3_4" value="20"> Benar</label>
    <label><input type="radio" name="i3_4" value="0"> Salah</label>
   </div>
 
   <div class="quiz-card">
-   <span class="question-type tf">Benar/Salah</span>
    <h4>5. HTML bersifat hierarkis</h4>
    <label><input type="radio" name="i3_5" value="20"> Benar</label>
    <label><input type="radio" name="i3_5" value="0"> Salah</label>
@@ -2002,72 +2167,72 @@ const soalLatihan = [
     jawaban: false,
     nilai: 10
   },
-  // 3. PG (Pilihan Ganda)
+  // 3. Pilihan Ganda (PG)
   {
     jenis: "pg",
-    pertanyaan: "Apa fungsi utama CSS?",
-    pilihan: ["Membuat struktur halaman", "Mengatur tampilan halaman", "Menambahkan interaktivitas"],
-    jawaban: 1,
+    pertanyaan: "Tag untuk teks tebal adalah …",
+    pilihan: ["&lt;b&gt;", "&lt;p&gt;", "&lt;br&gt;"],
+    jawaban: 0,
     nilai: 10
   },
   // 4. Isian Singkat
   {
     jenis: "isian",
-    pertanyaan: "Bahasa pemrograman yang digunakan untuk web interaktif adalah _____.",
-    jawaban: "javascript",
+    pertanyaan: "Tag yang digunakan untuk paragraf adalah ...",
+    jawaban: "&lt;p&gt;",
     nilai: 10
   },
-  // 5. Pilih Lebih dari Satu (Checkbox)
+  // 5. Checkbox (Pilih Lebih dari Satu)
   {
     jenis: "checkbox",
-    pertanyaan: "Pilih teknologi web berikut yang benar:",
-    pilihan: ["HTML", "CSS", "Java", "JavaScript"],
+    pertanyaan: "Pilih tag format teks (lebih dari satu)",
+    pilihan: ["&lt;b&gt;", "&lt;i&gt;", "&lt;html&gt;", "&lt;u&gt;"],
     jawaban: [0, 1, 3], // Indeks benar
     nilai: 10
   },
-  // 6. Menjodohkan
-  {
-    jenis: "menjodohkan",
-    pertanyaan: "Jodohkan framework dengan bahasa:",
-    kolomA: ["React", "Vue", "Angular"],
-    kolomB: ["JavaScript", "JavaScript", "TypeScript"],
-    jawaban: {0: 0, 1: 0, 2: 1},
-    nilai: 10
-  },
-  // 7. True/False
+  // 6. True/False
   {
     jenis: "truefalse",
-    pertanyaan: "CSS dapat digunakan untuk mengatur warna teks.",
+    pertanyaan: "Tag HTML harus ditutup berpasangan.",
     jawaban: true,
     nilai: 10
   },
-  // 8. PG
+  // 7. Pilihan Ganda (PG)
   {
     jenis: "pg",
-    pertanyaan: "Tag HTML untuk paragraf adalah:",
-    pilihan: ["<p>", "<div>", "<span>"],
+    pertanyaan: "Judul halaman web berada di tag …",
+    pilihan: ["&lt;head&gt;", "&lt;body&gt;", "&lt;html&gt;"],
     jawaban: 0,
     nilai: 10
   },
-  // 9. Isian Singkat
+  // 8. Isian Singkat
   {
     jenis: "isian",
-    pertanyaan: "Protokol untuk transfer file web adalah _____.",
-    jawaban: "http",
+    pertanyaan: "Fungsi tag &lt;br&gt; adalah ...",
+    jawaban: "pindah baris",
     nilai: 10
   },
-  // 10. Checkbox
+  // 9. Checkbox (Pilih Lebih dari Satu)
   {
     jenis: "checkbox",
-    pertanyaan: "Pilih browser populer:",
-    pilihan: ["Chrome", "Firefox", "Safari", "Word"],
-    jawaban: [0, 1, 2],
+    pertanyaan: "Browser yang mendukung HTML (lebih dari satu)",
+    pilihan: ["Chrome", "Firefox", "Word", "Edge"],
+    jawaban: [0, 1, 3], // Indeks benar
+    nilai: 10
+  },
+  // 10. Menjodohkan (Matching)
+  {
+    jenis: "menjodohkan",
+    pertanyaan: "Menjodohkan format teks:",
+    kolomA: ["&lt;b&gt;", "&lt;i&gt;", "&lt;u&gt;"],
+    kolomB: ["Tebal", "Miring", "Garis bawah"],
+    jawaban: {0: 0, 1: 1, 2: 2}, // Indeks jawaban benar
     nilai: 10
   }
 ];
 
 function mulaiLatihan() {
- go(6)
+  go(6);
   const container = document.getElementById("latihan");
   container.innerHTML = "<h3>Latihan Pertemuan 1</h3>";
   soalLatihan.forEach((soal, index) => {
@@ -2142,37 +2307,37 @@ function selesaiLatihan() {
 
   launchConfetti(true);
 
-  const finalResult = `
-    <div class="final-result">
-      <h2>🎓 Hasil Akhir Pertemuan 1</h2>
-      <div class="predikat" style="background: ${predikat.color};">Predikat: <b>${predikat.huruf}</b> — ${predikat.label}</div>
-      <div class="score">${nilaiAkhir}</div>
-      <table>
-        <tr><td>Indikator 1</td><td>: ${nilai[1]}</td></tr>
-        <tr><td>Indikator 2</td><td>: ${nilai[2]}</td></tr>
-        <tr><td>Indikator 3</td><td>: ${nilai[3]}</td></tr>
-        <tr><td>Latihan</td><td>: ${nilaiLatihan}</td></tr>
-        <tr><td><b>Total Nilai</b></td><td><b>: ${nilaiAkhir}</b></td></tr>
-      </table>
-    </div>
-  `;
-
-  document.body.innerHTML += finalResult;
-
-  setTimeout(() => {
-    const finalEl = document.querySelector('.final-result');
-    if (finalEl) scrollToEl(finalEl);
-  }, 500);
-
- setTimeout(() => {
-    const buttons = `
-      <div style="text-align:center; margin-top:30px;">
-        <button onclick="window.location.href='pertemuan2.html'" style="margin-right:20px;">Lanjut Pertemuan 2</button>
-        <button onclick="window.location.href='BERANDA.html'">Kembali ke Beranda</button>
+  // Gunakan SweetAlert untuk popup hasil akhir
+  Swal.fire({
+    title: '🎓 Hasil Akhir Pertemuan 1',
+    html: `
+      <div class="final-result-popup">
+        <div class="predikat" style="background: ${predikat.color};">Predikat: <b>${predikat.huruf}</b> — ${predikat.label}</div>
+        <div class="score">${nilaiAkhir}</div>
+        <table>
+          <tr><td>Indikator 1</td><td>: ${nilai[1]}</td></tr>
+          <tr><td>Indikator 2</td><td>: ${nilai[2]}</td></tr>
+          <tr><td>Indikator 3</td><td>: ${nilai[3]}</td></tr>
+          <tr><td>Latihan</td><td>: ${nilaiLatihan}</td></tr>
+          <tr><td><b>Total Nilai</b></td><td><b>: ${nilaiAkhir}</b></td></tr>
+        </table>
       </div>
-    `;
-    document.querySelector('.final-result').innerHTML += buttons;
-  }, 2000);
+    `,
+    showConfirmButton: true,
+    confirmButtonText: 'Lanjut Pertemuan 2',
+    showDenyButton: true,
+    denyButtonText: 'Kembali ke Beranda',
+    confirmButtonColor: "#10b981",
+    denyButtonColor: "#064e3b",
+    backdrop: `rgba(16,185,129,.15)`,
+    allowOutsideClick: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = 'pertemuan2.html';
+    } else if (result.isDenied) {
+      window.location.href = 'BERANDA.html';
+    }
+  });
 }
 
 const videoState = {};
@@ -2349,7 +2514,6 @@ document.getElementById("btnLatihan").onclick = mulaiLatihan;
 document.getElementById("btnQuiz1").onclick = () => showQuiz(1);
 document.getElementById("btnQuiz2").onclick = () => showQuiz(2);
 document.getElementById("btnQuiz3").onclick = () => showQuiz(3);
-
 </script>
-</body>
+ </body>
 </html>
