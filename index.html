@@ -1899,7 +1899,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".class-btn").forEach(btn => {
     const kelas = btn.dataset.class;
     if (kelas === "X" || kelas === "XII") {
-      btn.innerHTML = `Kelas ${kelas} <i class="fa-solid fa-lock"></i>`;
+      btn.innerHTML = `Kelas ${kelas} 🔒`;
       btn.classList.add("locked");
       btn.style.opacity = "0.5";
       btn.onclick = () => {
@@ -1912,7 +1912,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".semester-btn").forEach(btn => {
     const semester = btn.dataset.semester;
     if (semester === "2") {
-      btn.innerHTML = `Semester ${semester} <i class="fa-solid fa-lock"></i>`;
+      btn.innerHTML = `Semester ${semester} 🔒`;
       btn.classList.add("locked");
       btn.style.opacity = "0.5";
       btn.onclick = () => {
@@ -1927,7 +1927,7 @@ document.addEventListener("DOMContentLoaded", () => {
           kelasData.XI[1].forEach(mp => {
             const d = document.createElement("div");
             d.className = "class-item";
-            d.innerHTML = mp.open ? mp.name : `${mp.name} <i class="fa-solid fa-lock"></i>`;
+            d.innerHTML = mp.open ? mp.name : `${mp.name} 🔒`;
             d.style.opacity = mp.open ? 1 : 0.5;
             d.onclick = mp.open
               ? () => showPertemuan()
@@ -2107,7 +2107,7 @@ function showPertemuan(){
       d.className="class-item";
       d.innerHTML = open
         ? `Pertemuan ${i}`
-        : `Pertemuan ${i} <i class="fa-solid fa-lock"></i>`;
+        : `Pertemuan ${i} 🔒`;
       d.style.opacity = open ? 1 : 0.5;
       d.onclick = open
         ? () => loadingKeAbsensi()
