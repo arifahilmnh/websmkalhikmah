@@ -424,8 +424,7 @@ footer{
 
  
 <script>
-const REDIRECT_TIME="pertemuan1.html";
-const REDIRECT_HOME="index.html";
+const REDIRECT_HOME="index.html"; // Selalu redirect ke beranda setelah absensi
 
 const siswaRaw = localStorage.getItem("loginSiswa");
 
@@ -467,28 +466,6 @@ tanggal.valueAsDate = new Date();
 badge.textContent = "⏳ Belum Absen";
 badge.className = "status-belum";
 
-/* ===== MESSAGE & REDIRECT ===== */
-function hasilAbsensi(st){
- if(st==="Hadir"){
-  return {
-   msg:"Mengalihkan ke pembelajaran...",
-   redirect:REDIRECT_TIME
-  };
- }
- if(st==="Sakit"){
-  return {
-   msg:"Mengalihkan ke beranda...",
-   redirect:REDIRECT_HOME
-  };
- }
- if(st==="Izin"){
-  return {
-   msg:"Mengalihkan ke beranda...",
-   redirect:REDIRECT_HOME
-  };
- }
-}
-
 /* ===== SUBMIT ===== */
 form.addEventListener("submit",e=>{
  e.preventDefault();
@@ -498,25 +475,32 @@ form.addEventListener("submit",e=>{
   return;
  }
 
- const hasil=hasilAbsensi(status.value);
+ // Simpan data absensi ke localStorage
+ const absensiData = {
+  nis: siswa.nis,
+  kelas: kelas.value,
+  tanggal: tanggal.value,
+  status: status.value,
+  timestamp: new Date().toISOString()
+ };
+ localStorage.setItem("absensiHariIni", JSON.stringify(absensiData));
 
  badge.textContent="✅ Sudah Absen";
  badge.className="status-sudah";
 
- // Tampilkan pesan sukses singkat tanpa timer, lalu langsung loading screen
+ // Tampilkan pesan sukses dan redirect ke beranda
  Swal.fire({
   icon:"success",
   title:"Absensi Tersimpan",
-  text: hasil.msg,
+  text:"Mengalihkan ke beranda...",
   showConfirmButton:false,
-  timer:800 // Timer lebih singkat untuk menghindari masalah di mobile
+  timer:800
  }).then(()=>{
-  // Selalu gunakan loading screen untuk konsistensi, terutama di mobile
-  loadingText.textContent=hasil.msg;
+  loadingText.textContent="Mengalihkan ke beranda...";
   loading.classList.add("active");
 
   setTimeout(()=>{
-   window.location.href=hasil.redirect;
+   window.location.href=REDIRECT_HOME;
   },1000);
  });
 });
