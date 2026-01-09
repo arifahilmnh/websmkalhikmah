@@ -1795,22 +1795,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
 <script>
-  
-const absensiRaw = localStorage.getItem("absensiHariIni");
-if(absensiRaw){
- const absensi = JSON.parse(absensiRaw);
- const today = new Date().toISOString().split('T')[0]; // Tanggal hari ini
- if(absensi.tanggal === today && absensi.status === "Hadir"){
-  // Tampilkan tombol masuk pembelajaran
-  document.body.innerHTML += '<button onclick="location.href=\'pertemuan1.html\'">Masuk Pembelajaran</button>';
- } else {
-  // Tampilkan pesan tidak bisa masuk
-  document.body.innerHTML += '<p>Anda tidak bisa masuk pembelajaran hari ini.</p>';
- }
-} else {
- // Belum absen, redirect ke absensi
- location.href="absensi.html"; // Ganti dengan nama file absensi Anda
-}
 // ================= AUTH SYSTEM =================
 function getAuthUser(){
   return JSON.parse(sessionStorage.getItem("authUser"));
