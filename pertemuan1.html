@@ -1852,30 +1852,40 @@ function playVideo(ind) {
   v.playing = true;
 
   // Tambahkan overlay transparan untuk menunjukkan video sedang diputar, hanya di dalam .video-lumi
-  const box = document.querySelector(`.video-lumi[data-indikator="${ind}"]`);
-  if (box) {
-    let overlay = box.querySelector('.video-overlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.className = 'video-overlay';
-      overlay.style.position = 'absolute';
-      overlay.style.top = '0';
-      overlay.style.left = '0';
-      overlay.style.width = '100%';
-      overlay.style.height = '100%';
-      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.1)'; // Transparan
-      overlay.style.display = 'flex';
-      overlay.style.alignItems = 'center';
-      overlay.style.justifyContent = 'center';
-      overlay.style.color = 'white';
-      overlay.style.fontSize = '24px';
-      overlay.innerHTML = '▶️ Sedang Diputar';
-      box.style.position = 'relative'; // Pastikan box relative
-      box.appendChild(overlay);
-    }
-    overlay.style.display = 'flex'; // Tampilkan overlay saat play
+  function playVideo(ind) {
+  initVideo(ind);
+  const v = videoState[ind];
+
+  if (v.done) return;
+
+  // 🛑 hentikan timer lama jika ada
+  if (v.timer) {
+    clearInterval(v.timer);
+    v.timer = null;
   }
 
+  v.playing = true;
+
+  // Hapus bagian overlay agar tidak muncul saat klik video
+  // Status dan progress tetap berjalan
+
+  v.timer = setInterval(() => {
+    if (!pageVisible) return;
+
+    v.watched++;
+    const percent = Math.min(
+      Math.round((v.watched / v.duration) * 100),
+      100
+    );
+
+    updateVideoUI(ind, percent);
+    updateGlobalProgressRealtime(ind, percent);
+
+    if (percent >= 100) {
+      finishVideo(ind);
+    }
+  }, 1000);
+}
   v.timer = setInterval(() => {
     if (!pageVisible) return;
 
