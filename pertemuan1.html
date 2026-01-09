@@ -474,81 +474,86 @@ footer{
 
 /* ================= LATIHAN ================= */
 .exercise-progress{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin:0 0 40px;
- font-size:16px;
- font-weight:800;
- color:#047857;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:32px;
+  font-size:16px;
+  font-weight:800;
+  color:#047857;
 }
 
-.exercise-progress span{
- background:#d1fae5;
- padding:10px 20px;
- border-radius:50px;
- box-shadow:0 10px 20px rgba(0,0,0,.12);
-}
-
+/* KARTU SOAL */
 .exercise-item{
- position:relative;
- background: linear-gradient(180deg, #ffffff, #f0fdf4);
- padding:50px 50px 54px;
- border-radius:40px;
- box-shadow:0 35px 90px rgba(0,0,0,.15);
- border-left:12px solid var(--primary);
- overflow:hidden;
- transition:var(--transition);
- margin-bottom:40px;
-}
-
-.exercise-item::before{
- content:attr(data-no);
- position:absolute;
- top:-30px;
- right:-20px;
- font-size:100px;
- font-weight:900;
- color:rgba(16,185,129,.1);
+  position:relative;
+  background:linear-gradient(180deg,#ffffff,#ecfdf5);
+  padding:48px;
+  border-radius:36px;
+  box-shadow:0 30px 80px rgba(0,0,0,.12);
+  border-left:14px solid #10b981;
+  transition:.4s ease;
 }
 
 .exercise-item:hover{
- transform:translateY(-12px) scale(1.02);
- box-shadow: var(--shadow-ultra);
+  transform:translateY(-10px);
+  box-shadow:0 40px 100px rgba(0,0,0,.18);
+}
+
+/* NOMOR BESAR */
+.exercise-item::before{
+  content:attr(data-no);
+  position:absolute;
+  top:-28px;
+  right:-16px;
+  font-size:96px;
+  font-weight:900;
+  color:rgba(16,185,129,.12);
 }
 
 .exercise-item h4{
- font-size:20px;
- font-weight:900;
- margin-bottom:24px;
- color:#065f46;
- line-height:1.4;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:24px;
+  color:#065f46;
 }
 
+.exercise-item p{
+  margin-bottom:14px;
+}
+
+/* OPSI */
 .exercise-item label{
- display:flex;
- align-items:center;
- gap:16px;
- margin-top:18px;
- padding:18px 22px;
- border-radius:24px;
- background:#ecfdf5;
- cursor:pointer;
- transition:var(--transition);
- font-size:16px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-top:16px;
+  padding:16px 22px;
+  border-radius:24px;
+  background:#ecfdf5;
+  cursor:pointer;
+  transition:.3s;
 }
 
 .exercise-item label:hover{
- background:#d1fae5;
- transform:translateX(10px);
- box-shadow:0 12px 28px rgba(0,0,0,.14);
+  background:#d1fae5;
+  transform:translateX(8px);
 }
 
-.exercise-item input{
- accent-color:#10b981;
- transform:scale(1.3);
+/* INPUT */
+.exercise-item input[type="text"]{
+  width:100%;
+  padding:12px 16px;
+  border-radius:16px;
+  border:2px solid #d1fae5;
+  margin-top:12px;
+  font-size:15px;
 }
 
+.exercise-item input[type="radio"],
+.exercise-item input[type="checkbox"]{
+  transform:scale(1.3);
+  accent-color:#10b981;
+}
 /* ================= NOTE ================= */
 .note-box{
  margin:60px auto 0;
@@ -734,15 +739,7 @@ footer{
 }
 
 .quiz-card .question-type.tf{ background:#dbeafe; color:#1e40af; }
-<think>
-Pertama, pengguna berkata "lanjutan", yang berarti "continuation" dalam bahasa Indonesia. Ini mengacu pada pesan sebelumnya di mana saya memberikan CSS yang diperbaiki untuk tampilan keseluruhan dan responsivitas.
-
-Since there is no ExistingSummary, I'll start with a new subheading to summarize the new reasoning content.
-
-## Interpreting user request  
-- The user said "lanjutan," meaning "continuation" in Indonesian.  
-- This likely refers to a previous message where CSS was provided for overall appearance and responsiveness.
-</think>.quiz-card .question-type.pg{ background:#dcfce7; color:#166534; }
+. quiz-card .question-type.pg{ background:#dcfce7; color:#166534; }
 .quiz-card .question-type.cb{ background:#fef3c7; color:#92400e; }
 .quiz-card .question-type.es{ background:#fce7f3; color:#be185d; }
 
@@ -1171,10 +1168,90 @@ Since there is no ExistingSummary, I'll start with a new subheading to summarize
   font-size: 30px;
  }
 }
+
+ .btn-primary{
+  margin:60px auto 0;
+  display:block;
+  padding:18px 40px;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(135deg,#10b981,#059669);
+  color:#fff;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 20px 40px rgba(16,185,129,.4);
+  transition:.3s;
+}
+
+.btn-primary:hover{
+  transform:scale(1.05);
+}
+
+ .modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.modal-box{
+  background:#fff;
+  width:90%;
+  max-width:520px;
+  border-radius:36px;
+  padding:40px;
+  box-shadow:0 40px 100px rgba(0,0,0,.3);
+  animation:popup .4s ease;
+}
+
+@keyframes popup{
+  from{transform:scale(.8);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.modal-close{
+  position:absolute;
+  top:18px;
+  right:22px;
+  font-size:28px;
+  cursor:pointer;
+  font-weight:800;
+}
+
+.final-result h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.predikat{
+  padding:14px;
+  border-radius:20px;
+  color:#fff;
+  font-weight:800;
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.score{
+  font-size:56px;
+  font-weight:900;
+  text-align:center;
+  margin-bottom:20px;
+}
 </style>
 </head>
 <body>
-
+<div id="resultModal" class="modal">
+  <div class="modal-box">
+    <span class="modal-close" onclick="closeModal()">×</span>
+    <div id="modalContent"></div>
+  </div>
+</div>
 <nav>
  <div class="brand">
   <img src="logo.png" alt="Logo">
@@ -1758,7 +1835,7 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
 </div>
 
 </div>
-<button onclick="selesaiLatihan()">Selesai Latihan</button>
+<button class="btn-primary" onclick="selesaiLatihan()">Selesai Latihan</button>
 </div>
 </section>
 
@@ -2142,22 +2219,30 @@ function selesaiLatihan() {
 
   launchConfetti(true);
 
-  const finalResult = `
+  const html = `
     <div class="final-result">
-      <h2>🎓 Hasil Akhir Pertemuan 1</h2>
-      <div class="predikat" style="background: ${predikat.color};">Predikat: <b>${predikat.huruf}</b> — ${predikat.label}</div>
+      <h2>🎓 Hasil Akhir</h2>
+      <div class="predikat" style="background:${predikat.color}">
+        ${predikat.huruf} — ${predikat.label}
+      </div>
       <div class="score">${nilaiAkhir}</div>
       <table>
         <tr><td>Indikator 1</td><td>: ${nilai[1]}</td></tr>
         <tr><td>Indikator 2</td><td>: ${nilai[2]}</td></tr>
         <tr><td>Indikator 3</td><td>: ${nilai[3]}</td></tr>
         <tr><td>Latihan</td><td>: ${nilaiLatihan}</td></tr>
-        <tr><td><b>Total Nilai</b></td><td><b>: ${nilaiAkhir}</b></td></tr>
+        <tr><td><b>Total</b></td><td><b>: ${nilaiAkhir}</b></td></tr>
       </table>
     </div>
   `;
 
-  document.body.innerHTML += finalResult;
+  document.getElementById("modalContent").innerHTML = html;
+  document.getElementById("resultModal").style.display = "flex";
+}
+
+function closeModal(){
+  document.getElementById("resultModal").style.display = "none";
+}
 
   setTimeout(() => {
     const finalEl = document.querySelector('.final-result');
@@ -2174,7 +2259,6 @@ function selesaiLatihan() {
     document.querySelector('.final-result').innerHTML += buttons;
   }, 2000);
 }
-
 const videoState = {};
 let pageVisible = true;
 
