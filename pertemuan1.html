@@ -799,6 +799,7 @@ footer{
 }
 
 /* ================= LATIHAN STYLING ================= */
+/* ================= LATIHAN STYLING ================= */
 #latihan{
  margin-top:40px;
 }
@@ -827,7 +828,8 @@ footer{
  box-shadow:0 30px 80px rgba(0,0,0,.15);
 }
 
-.soal::before{
+/* Hapus ::before untuk menghilangkan nomor besar di kanan atas */
+/* .soal::before{
  content:attr(id);
  position:absolute;
  top:-20px;
@@ -835,7 +837,7 @@ footer{
  font-size:60px;
  font-weight:900;
  color:rgba(16,185,129,.1);
-}
+} */
 
 .soal p{
  font-size:18px;
@@ -868,6 +870,7 @@ footer{
 .soal label{
  display:block;
  margin-top:14px;
+ margin-bottom:14px; /* Tambahkan jarak bawah antara jawaban */
  padding:16px 20px;
  border-radius:20px;
  background:#ecfdf5;
@@ -875,6 +878,15 @@ footer{
  transition:var(--transition);
  font-size:16px;
  border:2px solid transparent;
+}
+
+/* Variasi style untuk membuat pilihan jawaban tidak monoton */
+.soal label:nth-child(odd) {
+ background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+}
+
+.soal label:nth-child(even) {
+ background: linear-gradient(135deg, #f0fdf4, #bbf7d0);
 }
 
 .soal label:hover{
@@ -923,7 +935,7 @@ footer{
  background:#f0fdf4;
  font-size:14px;
 }
-
+ 
 /* ================= RESPONSIVE DESIGN ================= */
 
 /* Tablet and smaller desktops (max-width: 1024px) */
