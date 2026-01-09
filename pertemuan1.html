@@ -905,7 +905,17 @@ body.lock-scroll{
 <p class="subtitle">Struktur Dasar HTML</p>
 
 <div id="m1" class="box">
-<p><b>HTML (HyperText Markup Language)</b> merupakan bahasa markup standar yang digunakan untuk membuat dan menampilkan halaman web melalui browser seperti Google Chrome, Mozilla Firefox, dan Microsoft Edge. HTML berasal dari pengembangan <b>SGML</b> dan dikendalikan oleh <b>World Wide Web Consortium (W3C)</b>.</p>
+<p style="
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+  margin: 0;
+">
+  Struktur HTML bersifat <b>hierarkis</b>, artinya setiap elemen memiliki hubungan induk dan anak.
+  Pemahaman struktur ini sangat penting agar halaman web dapat dikembangkan lebih lanjut
+  menggunakan CSS dan JavaScript.
+</p>
 
 <p>Dokumen HTML tersusun dari elemen-elemen yang ditandai dengan tag. Struktur dasar HTML terdiri dari:</p>
 <ul>
@@ -1706,6 +1716,7 @@ const soalLatihan = [
 ];
 
 function mulaiLatihan() {
+ go(6)
   const container = document.getElementById("latihan");
   container.innerHTML = "<h3>Latihan Pertemuan 1</h3>";
   soalLatihan.forEach((soal, index) => {
