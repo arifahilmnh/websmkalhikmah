@@ -426,20 +426,6 @@ footer{
 const REDIRECT_TIME = "pertemuan1.html";
 const REDIRECT_HOME = "index.html";
 
-// ================== AMBIL DATA SISWA (AMAN) ==================
-let siswa = {
-  nis: "-"
-};
-
-const siswaRaw = localStorage.getItem("loginSiswa");
-if (siswaRaw) {
-  try {
-    siswa = JSON.parse(siswaRaw);
-  } catch (e) {
-    siswa = { nis: "-" };
-  }
-}
-
 // ================== ELEMENT ==================
 const nama = document.getElementById("nama");
 const nis = document.getElementById("nis");
@@ -454,10 +440,17 @@ const loading = document.getElementById("loadingScreen");
 const loadingText = document.getElementById("loadingText");
 const submitBtn = form.querySelector("button");
 
+// ================== DATA STATIS SISWA ==================
+// (sengaja dibuat statis, bukan dari login)
+const DATA_SISWA = {
+  nama: "Siswa01",
+  nis: "1234567890"
+};
+
 // ================== SET DATA AWAL ==================
-nama.value = "Siswa";
-nis.value = siswa.nis || "-";
-navNama.textContent = "Siswa";
+nama.value = DATA_SISWA.nama;
+nis.value = DATA_SISWA.nis;
+navNama.textContent = DATA_SISWA.nama;
 
 tanggal.valueAsDate = new Date();
 badge.textContent = "⏳ Belum Absen";
@@ -467,13 +460,13 @@ badge.className = "status-belum";
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  // Validasi
+  // Validasi form
   if (!kelas.value || !tanggal.value || !status.value) {
     Swal.fire("Lengkapi Data", "Semua field wajib diisi", "warning");
     return;
   }
 
-  // Kunci tombol agar tidak double klik
+  // Kunci tombol biar tidak double klik
   submitBtn.disabled = true;
 
   badge.textContent = "✅ Sudah Absen";
