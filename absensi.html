@@ -426,21 +426,19 @@ footer{
 const REDIRECT_TIME = "pertemuan1.html";
 const REDIRECT_HOME = "index.html";
 
-// ================== CEK LOGIN ==================
+// ================== AMBIL DATA SISWA (AMAN) ==================
+let siswa = {
+  nis: "-"
+};
+
 const siswaRaw = localStorage.getItem("loginSiswa");
-
-if (!siswaRaw) {
-  Swal.fire({
-    icon: "error",
-    title: "Akses Ditolak",
-    text: "Silakan login terlebih dahulu"
-  });
-  setTimeout(() => {
-    window.location.replace("index.html");
-  }, 1200);
+if (siswaRaw) {
+  try {
+    siswa = JSON.parse(siswaRaw);
+  } catch (e) {
+    siswa = { nis: "-" };
+  }
 }
-
-const siswa = JSON.parse(siswaRaw);
 
 // ================== ELEMENT ==================
 const nama = document.getElementById("nama");
@@ -456,9 +454,9 @@ const loading = document.getElementById("loadingScreen");
 const loadingText = document.getElementById("loadingText");
 const submitBtn = form.querySelector("button");
 
-// ================== SET DATA ==================
+// ================== SET DATA AWAL ==================
 nama.value = "Siswa";
-nis.value = siswa.nis;
+nis.value = siswa.nis || "-";
 navNama.textContent = "Siswa";
 
 tanggal.valueAsDate = new Date();
@@ -469,12 +467,13 @@ badge.className = "status-belum";
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
+  // Validasi
   if (!kelas.value || !tanggal.value || !status.value) {
     Swal.fire("Lengkapi Data", "Semua field wajib diisi", "warning");
     return;
   }
 
-  // Kunci tombol biar gak dobel klik
+  // Kunci tombol agar tidak double klik
   submitBtn.disabled = true;
 
   badge.textContent = "✅ Sudah Absen";
