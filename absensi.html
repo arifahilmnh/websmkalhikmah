@@ -421,88 +421,132 @@ footer{
 <footer>
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
-
- 
 <script>
-const REDIRECT_HOME="index.html"; // Selalu redirect ke beranda setelah absensi
+// ================== KONFIG ==================
+const REDIRECT_TIME = "pertemuan1.html";
+const REDIRECT_HOME = "index.html";
 
+// ================== CEK LOGIN ==================
 const siswaRaw = localStorage.getItem("loginSiswa");
 
-if(!siswaRaw){
- Swal.fire({
-  icon:"error",
-  title:"Akses Ditolak",
-  text:"Silakan login terlebih dahulu"
- }).then(()=>{
-  location.href="index.html";
- });
+if (!siswaRaw) {
+  Swal.fire({
+    icon: "error",
+    title: "Akses Ditolak",
+    text: "Silakan login terlebih dahulu"
+  });
+  setTimeout(() => {
+    window.location.replace("index.html");
+  }, 1200);
 }
 
 const siswa = JSON.parse(siswaRaw);
 
-const nama=document.getElementById("nama");
-const nis=document.getElementById("nis");
-const kelas=document.getElementById("kelas");
-const tanggal=document.getElementById("tanggal");
-const status=document.getElementById("status");
-const badge=document.getElementById("absenStatus");
-const navNama=document.getElementById("navNama");
-const form=document.getElementById("form-absensi");
+// ================== ELEMENT ==================
+const nama = document.getElementById("nama");
+const nis = document.getElementById("nis");
+const kelas = document.getElementById("kelas");
+const tanggal = document.getElementById("tanggal");
+const status = document.getElementById("status");
+const badge = document.getElementById("absenStatus");
+const navNama = document.getElementById("navNama");
+const form = document.getElementById("form-absensi");
 
-const loading=document.getElementById("loadingScreen");
-const loadingText=document.getElementById("loadingText");
+const loading = document.getElementById("loadingScreen");
+const loadingText = document.getElementById("loadingText");
+const submitBtn = form.querySelector("button");
 
-// Isi form (nama disamarkan)
+// ================== SET DATA ==================
 nama.value = "Siswa";
-nis.value = siswa.nis; // NIS tetap boleh tampil (opsional)
-
-// Navbar tetap "Siswa"
+nis.value = siswa.nis;
 navNama.textContent = "Siswa";
 
-// Tanggal otomatis hari ini
 tanggal.valueAsDate = new Date();
-
-// Status awal
 badge.textContent = "⏳ Belum Absen";
 badge.className = "status-belum";
 
-/* ===== SUBMIT ===== */
-form.addEventListener("submit",e=>{
- e.preventDefault();
+// ================== SUBMIT ABSENSI ==================
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
- if(!kelas.value||!tanggal.value||!status.value){
-  Swal.fire("Lengkapi Data","Semua field wajib diisi","warning");
-  return;
- }
+  if (!kelas.value || !tanggal.value || !status.value) {
+    Swal.fire("Lengkapi Data", "Semua field wajib diisi", "warning");
+    return;
+  }
 
- // Simpan data absensi ke localStorage
- const absensiData = {
-  nis: siswa.nis,
-  kelas: kelas.value,
-  tanggal: tanggal.value,
-  status: status.value,
-  timestamp: new Date().toISOString()
- };
- localStorage.setItem("absensiHariIni", JSON.stringify(absensiData));
+  // Kunci tombol biar gak dobel klik
+  submitBtn.disabled = true;
 
- badge.textContent="✅ Sudah Absen";
- badge.className="status-sudah";
+  badge.textContent = "✅ Sudah Absen";
+  badge.className = "status-sudah";
 
- // Tampilkan pesan sukses dan redirect ke beranda
- Swal.fire({
-  icon:"success",
-  title:"Absensi Tersimpan",
-  text:"Mengalihkan ke beranda...",
-  showConfirmButton:false,
-  timer:800
- }).then(()=>{
-  loadingText.textContent="Mengalihkan ke beranda...";
-  loading.classList.add("active");
+  // ================== JIKA HADIR ==================
+  if (status.value === "Hadir") {
+    Swal.fire({
+      icon: "success",
+      title: "Absensi Tersimpan",
+      text: "Mengalihkan ke pembelajaran...",
+      timer: 1500,
+      showConfirmButton: false
+    });
 
-  setTimeout(()=>{
-   window.location.href=REDIRECT_HOME;
-  },1000);
- });
+    loadingText.textContent = "Mengalihkan ke pembelajaran...";
+    loading.classList.add("active");
+
+    setTimeout(() => {
+      window.location.replace(REDIRECT_TIME);
+    }, 1600);
+
+    return;
+  }
+
+  // ================== JIKA SAKIT / IZIN ==================
+  Swal.fire({
+    icon: "question",
+    title: "Konfirmasi",
+    text: "Apakah Anda ingin mengikuti pembelajaran?",
+    showCancelButton: true,
+    confirmButtonText: "Ya",
+    cancelButtonText: "Tidak",
+    confirmButtonColor: "#10b981"
+  }).then((result) => {
+
+    // ====== JIKA YA ======
+    if (result.isConfirmed) {
+      Swal.fire({
+        icon: "success",
+        title: "Permintaan Dicatat",
+        text: "Anda diizinkan mengikuti pembelajaran",
+        timer: 1500,
+        showConfirmButton: false
+      });
+
+      loadingText.textContent = "Mengalihkan ke pembelajaran...";
+      loading.classList.add("active");
+
+      setTimeout(() => {
+        window.location.replace(REDIRECT_TIME);
+      }, 1600);
+    }
+
+    // ====== JIKA TIDAK ======
+    else {
+      Swal.fire({
+        icon: "info",
+        title: "Baik",
+        text: "Anda diarahkan ke beranda",
+        timer: 1200,
+        showConfirmButton: false
+      });
+
+      loadingText.textContent = "Mengalihkan ke beranda...";
+      loading.classList.add("active");
+
+      setTimeout(() => {
+        window.location.replace(REDIRECT_HOME);
+      }, 1300);
+    }
+  });
 });
 </script>
 </body>
