@@ -415,8 +415,9 @@ footer{
 <footer>
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
-
-<!-- ===== LOADING OVERLAY ===== -->
+ 
+ <script>
+ <!-- ===== LOADING OVERLAY ===== */
 <div id="loadingScreen">
   <div class="loader-card">
     <div class="spinner"></div>
@@ -426,9 +427,21 @@ footer{
 
 <script>
 const REDIRECT_TIME="pertemuan1.html";
-const REDIRECT_HOME="index.html"; // Diubah dari "BERANDA.html" ke "index.html"
+const REDIRECT_HOME="index.html";
 
-const siswa=JSON.parse(localStorage.getItem("loginSiswa"));
+const siswaRaw = localStorage.getItem("loginSiswa");
+
+if(!siswaRaw){
+ Swal.fire({
+  icon:"error",
+  title:"Akses Ditolak",
+  text:"Silakan login terlebih dahulu"
+ }).then(()=>{
+  location.href="index.html";
+ });
+}
+
+const siswa = JSON.parse(siswaRaw);
 
 const nama=document.getElementById("nama");
 const nis=document.getElementById("nis");
