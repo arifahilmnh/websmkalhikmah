@@ -426,9 +426,9 @@ footer{
 
 <script>
 const REDIRECT_TIME="pertemuan1.html";
-const REDIRECT_HOME="index.html";
+const REDIRECT_HOME="BERANDA.html";
 
-const siswaRaw = localStorage.getItem("loginSiswa");
+const siswa=JSON.parse(localStorage.getItem("loginSiswa"));
 
 const nama=document.getElementById("nama");
 const nis=document.getElementById("nis");
@@ -443,11 +443,11 @@ const loading=document.getElementById("loadingScreen");
 const loadingText=document.getElementById("loadingText");
 
 // Isi form (nama disamarkan)
-nama.value = "Siswa01";
+nama.value = "Siswa";
 nis.value = siswa.nis; // NIS tetap boleh tampil (opsional)
 
 // Navbar tetap "Siswa"
-navNama.textContent = "Siswa01";
+navNama.textContent = "Siswa";
 
 // Tanggal otomatis hari ini
 tanggal.valueAsDate = new Date();
@@ -505,7 +505,7 @@ form.addEventListener("submit",e=>{
 
   setTimeout(()=>{
    window.location.href=hasil.redirect;
-  },1000); // Diubah dari 2000ms ke 1000ms (1 detik) untuk loading yang lebih cepat sebelum redirect
+  },1000);
  });
 });
 </script>
