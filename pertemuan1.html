@@ -580,6 +580,20 @@ footer{
  border-top:12px solid var(--primary);
 }
 
+ .video-overlay {
+    position: absolute; /* Pastikan posisi absolut untuk kontrol */
+    top: 10px; /* Majukan ke atas, sesuaikan nilai ini agar pas dengan ikon play */
+    left: 50%; /* Pusatkan horizontal jika perlu */
+    transform: translateX(-50%); /* Untuk pusat sempurna */
+    z-index: 10; /* Pastikan di atas video tapi tidak mengganggu */
+    /* Tambahkan styling lain seperti background, opacity, dll. */
+}
+
+/* Jika ada ikon play spesifik di dalam overlay */
+.video-overlay .play-icon {
+    /* Sesuaikan ukuran atau posisi ikon jika perlu */
+}
+
 .video-lumi h3{
  font-size:28px;
  font-weight:900;
@@ -1851,7 +1865,6 @@ function playVideo(ind) {
 
   v.playing = true;
 
-  // Tambahkan overlay transparan untuk menunjukkan video sedang diputar, hanya di dalam .video-lumi
   function playVideo(ind) {
   initVideo(ind);
   const v = videoState[ind];
@@ -1868,6 +1881,10 @@ function playVideo(ind) {
 
   // Hapus bagian overlay agar tidak muncul saat klik video
   // Status dan progress tetap berjalan
+  const overlay = document.querySelector('.video-overlay'); // Ganti dengan selector yang sesuai
+  if (overlay) {
+    overlay.style.display = 'none'; // Sembunyikan overlay saat play
+  }
 
   v.timer = setInterval(() => {
     if (!pageVisible) return;
@@ -1877,6 +1894,15 @@ function playVideo(ind) {
       Math.round((v.watched / v.duration) * 100),
       100
     );
+
+    updateVideoUI(ind, percent);
+    updateGlobalProgressRealtime(ind, percent);
+
+    if (percent >= 100) {
+      finishVideo(ind);
+    }
+  }, 1000);
+}
 
     updateVideoUI(ind, percent);
     updateGlobalProgressRealtime(ind, percent);
