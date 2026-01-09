@@ -1907,6 +1907,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Tambahkan icon kunci pada tombol semester 2, dan bedakan warna (opacity untuk yang terkunci)
+  document.querySelectorAll(".semester-btn").forEach(btn => {
+    const semester = btn.getAttribute("data-semester");
+    if (semester === "2") {
+      btn.innerHTML += ' <i class="fa-solid fa-lock"></i>';
+      btn.classList.add("locked"); // Tambah class locked untuk styling (misal opacity 0.5)
+      btn.style.opacity = "0.5"; // Bedakan warna dengan opacity
+      btn.onclick = () => {
+        Swal.fire({
+          icon: "info",
+          title: "Fitur Semester Belum Tersedia",
+          text: "Fitur semester ini belum tersedia",
+          confirmButtonColor: "#34d399"
+        });
+      };
+    } else {
+      btn.onclick = () => {
+        if (sectionMapel && mapelGrid) {
+          sectionMapel.style.display = "block";
+          mapelGrid.innerHTML = "";
+          kelasData.XI[1].forEach(mp => {
+            const d = document.createElement("div");
+            d.className = "class-item";
+            d.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
+            d.style.opacity = mp.open ? 1 : .5;
+            d.onclick = mp.open ? () => showPertemuan() : () => Swal.fire("Terkunci", "", "info");
+            mapelGrid.appendChild(d);
+          });
+          sectionMapel.scrollIntoView({ behavior: "smooth" });
+        }
+      };
+    }
+  });
+
   if(window.isUserLoggedIn){
     const heroLogin = document.querySelector(".hero-login");
     if(heroLogin) heroLogin.style.display="none";
@@ -2060,24 +2094,6 @@ document.querySelectorAll(".class-btn").forEach(btn=>{
     if (sectionSemester) {
       sectionSemester.style.display = "block";
       sectionSemester.scrollIntoView({behavior:"smooth"});
-    }
-  };
-});
-
-document.querySelectorAll(".semester-btn").forEach(btn=>{
-  btn.onclick=()=>{
-    if (sectionMapel && mapelGrid) {
-      sectionMapel.style.display="block";
-      mapelGrid.innerHTML="";
-      kelasData.XI[1].forEach(mp=>{
-        const d=document.createElement("div");
-        d.className="class-item";
-        d.textContent=mp.open?mp.name:`🔒 ${mp.name}`;
-        d.style.opacity=mp.open?1:.5;
-        d.onclick=mp.open?()=>showPertemuan():()=>Swal.fire("Terkunci","","info");
-        mapelGrid.appendChild(d);
-      });
-      sectionMapel.scrollIntoView({behavior:"smooth"});
     }
   };
 });
