@@ -1818,13 +1818,14 @@ if (btnLogin) {
         loginAt: new Date().toISOString()
       }));
 
+      updateNavbarUser(); // Update navbar segera setelah login
+
       Swal.fire({
         icon: "success",
         title: "Login Berhasil",
         text: "Silakan pilih kelas",
         confirmButtonColor: "#34d399"
       }).then(()=>{
-        updateNavbarUser();
         // Scroll ke section pilihan kelas (diasumsikan section dengan background #f0fdf4 adalah section pilihan kelas)
         const sectionKelas = document.querySelector("section[style*='background:#f0fdf4']");
         if (sectionKelas) sectionKelas.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1880,6 +1881,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.body.classList.add("page-enter");
+
+  // Hapus akun saat reload untuk kembali ke tampilan awal (navbar "Daftar Siswa")
+  if (isLoggedIn()) {
+    sessionStorage.removeItem("authUser");
+  }
+
   updateNavbarUser();
 
   // Clear login inputs on load (pastikan input kosong saat reload)
