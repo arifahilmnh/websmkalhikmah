@@ -1404,6 +1404,14 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
 <footer>
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
+<think>
+Pertama, pengguna meminta "fullkan js nya aja", yang berarti "fullkan JS nya saja", maksudnya lengkapi kode JavaScript lengkapnya saja.
+
+
+## Interpreting user request  
+- The user asked for "fullkan js nya aja," meaning "complete the JavaScript code only."  
+- This suggests they want a full, standalone JavaScript implementation, likely related to a previously discussed system.
+</think>```javascript
 <script>
 /* ======================= USER INTERACTION ======================= */
 let userInteracting = false;
@@ -1802,7 +1810,7 @@ function selesaiLatihan() {
     if (finalEl) scrollToEl(finalEl);
   }, 500);
 
-setTimeout(() => {
+ setTimeout(() => {
     const buttons = `
       <div style="text-align:center; margin-top:30px;">
         <button onclick="window.location.href='pertemuan2.html'" style="margin-right:20px;">Lanjut Pertemuan 2</button>
@@ -1980,8 +1988,16 @@ function unlockButton(id, text) {
 
 document.getElementById("btnMulai").onclick = () => go(2);
 
-// Tombol mulai latihan
-document.getElementById("btnMulaiLatihan").onclick = mulaiLatihan; // Asumsikan ada tombol dengan id btnMulaiLatihan
-  </script>
+// Tombol mulai latihan (untuk tombol yang di-unlock setelah video rangkuman)
+document.getElementById("btnLatihan").onclick = mulaiLatihan;
+
+// Tombol kuis indikator (untuk tombol yang di-unlock setelah video indikator selesai)
+document.getElementById("btnQuiz1").onclick = () => showQuiz(1);
+document.getElementById("btnQuiz2").onclick = () => showQuiz(2);
+document.getElementById("btnQuiz3").onclick = () => showQuiz(3);
+
+// Pastikan tombol lainnya sudah terdefinisi, seperti btnMulai yang sudah ada di atas
+// Jika ada tombol lain yang perlu ditambahkan, tambahkan di sini sesuai kebutuhan
+</script>
 </body>
 </html>
