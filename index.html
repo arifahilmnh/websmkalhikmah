@@ -1271,6 +1271,11 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   }
 }
 
+  .locked {
+  cursor: not-allowed;
+  filter: grayscale(30%);
+}
+
 </style>
 </head>
 <body>
@@ -1882,11 +1887,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.classList.add("page-enter");
 
-  // Hapus akun saat reload untuk kembali ke tampilan awal (navbar "Daftar Siswa")
-  if (isLoggedIn()) {
-    sessionStorage.removeItem("authUser");
-  }
-
   updateNavbarUser();
 
   // Clear login inputs on load (pastikan input kosong saat reload)
@@ -1897,32 +1897,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Tambahkan icon kunci pada tombol kelas X dan XII, dan bedakan warna (opacity untuk yang terkunci)
   document.querySelectorAll(".class-btn").forEach(btn => {
-    const kelas = btn.getAttribute("data-class");
-    if (kelas === "X" || kelas === "XII") {
-      btn.innerHTML += ' <i class="fa-solid fa-lock"></i>';
-      btn.classList.add("locked"); // Tambah class locked untuk styling (misal opacity 0.5)
-      btn.style.opacity = "0.5"; // Bedakan warna dengan opacity
-    } else {
-      btn.style.opacity = "1"; // Aktif penuh
-    }
-  });
+  const kelas = btn.dataset.class;
+
+  if (kelas === "X" || kelas === "XII") {
+    btn.innerHTML = `🔒 Kelas ${kelas}`;
+    btn.classList.add("locked");
+    btn.style.opacity = "0.5";
+    btn.onclick = () => {
+      Swal.fire("Terkunci", "Kelas belum tersedia", "info");
+    };
+  }
+});
+
 
   // Tambahkan icon kunci pada tombol semester 2, dan bedakan warna (opacity untuk yang terkunci)
-  document.querySelectorAll(".semester-btn").forEach(btn => {
-    const semester = btn.getAttribute("data-semester");
-    if (semester === "2") {
-      btn.innerHTML += ' <i class="fa-solid fa-lock"></i>';
-      btn.classList.add("locked"); // Tambah class locked untuk styling (misal opacity 0.5)
-      btn.style.opacity = "0.5"; // Bedakan warna dengan opacity
-      btn.onclick = () => {
-        Swal.fire({
-          icon: "info",
-          title: "Fitur Semester Belum Tersedia",
-          text: "Fitur semester ini belum tersedia",
-          confirmButtonColor: "#34d399"
-        });
-      };
-    } else {
+ document.querySelectorAll(".semester-btn").forEach(btn => {
+  const semester = btn.dataset.semester;
+
+  if (semester === "2") {
+    btn.innerHTML = `🔒 Semester ${semester}`;
+    btn.classList.add("locked");
+    btn.style.opacity = "0.5";
+    btn.onclick = () => {
+      Swal.fire("Terkunci", "Semester belum tersedia", "info");
+    };
+  }
+});
+} else {
       btn.onclick = () => {
         if (sectionMapel && mapelGrid) {
           sectionMapel.style.display = "block";
@@ -1930,9 +1931,11 @@ document.addEventListener("DOMContentLoaded", () => {
           kelasData.XI[1].forEach(mp => {
             const d = document.createElement("div");
             d.className = "class-item";
-            d.innerHTML = mp.open ? mp.name : `${mp.name} <i class="fa-solid fa-lock"></i>`;
-            d.style.opacity = mp.open ? 1 : .5;
-            d.onclick = mp.open ? () => showPertemuan() : () => Swal.fire("Terkunci", "", "info");
+            d.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
+            d.style.opacity = mp.open ? 1 : 0.5;
+            d.onclick = mp.open
+              ? () => showPertemuan()
+              : () => Swal.fire("Terkunci", "Mapel belum tersedia", "info");
             mapelGrid.appendChild(d);
           });
           sectionMapel.scrollIntoView({ behavior: "smooth" });
@@ -2106,9 +2109,13 @@ function showPertemuan(){
       const d=document.createElement("div");
       const open=i===1;
       d.className="class-item";
-      d.innerHTML = open ? `Pertemuan ${i}` : `Pertemuan ${i} <i class="fa-solid fa-lock"></i>`;
-      d.style.opacity=open?1:.5;
-      d.onclick=open?()=>loadingKeAbsensi():()=>Swal.fire("Terkunci","","info");
+      d.textContent = open
+          ? `Pertemuan ${i}`
+          : `🔒 Pertemuan ${i}`;
+        d.style.opacity = open ? 1 : 0.5;
+        d.onclick = open
+          ? () => loadingKeAbsensi()
+          : () => Swal.fire("Terkunci", "Pertemuan belum dibuka", "info");
       pertemuanGrid.appendChild(d);
     }
     sectionPertemuan.scrollIntoView({behavior:"smooth"});
@@ -2125,16 +2132,22 @@ function loadingKeAbsensi(){
 
 function updateNavbarUser(){
   const btn = document.getElementById("navUserBtn");
-  const text = document.getElementById("navUserText");
-  if (!btn || !text) return;
+  if (!btn) return;
 
   const user = getAuthUser();
+
   if(user){
-    text.textContent = user.username;
-    btn.innerHTML = `<i class="fa-solid fa-user"></i> ${user.username}`;
+    btn.innerHTML = `
+      <i class="fa-solid fa-user"></i>
+      ${user.username}
+    `;
+    btn.classList.add("logged-in");
   } else {
-    text.textContent = "Daftar Siswa";
-    btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Daftar Siswa`;
+    btn.innerHTML = `
+      <i class="fa-solid fa-user-plus"></i>
+      Daftar Siswa
+    `;
+    btn.classList.remove("logged-in");
   }
 }
 
