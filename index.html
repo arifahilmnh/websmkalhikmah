@@ -1930,7 +1930,7 @@ document.addEventListener("DOMContentLoaded", () => {
           kelasData.XI[1].forEach(mp => {
             const d = document.createElement("div");
             d.className = "class-item";
-            d.textContent = mp.open ? mp.name : `🔒 ${mp.name}`;
+            d.innerHTML = mp.open ? mp.name : `${mp.name} <i class="fa-solid fa-lock"></i>`;
             d.style.opacity = mp.open ? 1 : .5;
             d.onclick = mp.open ? () => showPertemuan() : () => Swal.fire("Terkunci", "", "info");
             mapelGrid.appendChild(d);
@@ -2106,7 +2106,7 @@ function showPertemuan(){
       const d=document.createElement("div");
       const open=i===1;
       d.className="class-item";
-      d.textContent=open?`Pertemuan ${i}`:`🔒 Pertemuan ${i}`;
+      d.innerHTML = open ? `Pertemuan ${i}` : `Pertemuan ${i} <i class="fa-solid fa-lock"></i>`;
       d.style.opacity=open?1:.5;
       d.onclick=open?()=>loadingKeAbsensi():()=>Swal.fire("Terkunci","","info");
       pertemuanGrid.appendChild(d);
