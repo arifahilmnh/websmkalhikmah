@@ -853,6 +853,12 @@ section.announce-section {
   letter-spacing: .12em;
   color: #064e3b;
   text-shadow: 0 8px 30px rgba(16,185,129,.25);
+  animation: title-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes title-glow {
+  0% { text-shadow: 0 8px 30px rgba(16,185,129,.25); }
+  100% { text-shadow: 0 8px 30px rgba(16,185,129,.5); }
 }
 
 /* GRID */
@@ -865,7 +871,7 @@ section.announce-section {
   perspective: 1200px;
 }
 
-/* CARD - Tambahan efek tidak sejajar (staggered/miring) */
+/* CARD - Efek tidak sejajar dihapus, sekarang rata */
 .developer-card {
   position: relative;
   background: rgba(255,255,255,.88);
@@ -876,17 +882,9 @@ section.announce-section {
     0 25px 80px rgba(0,0,0,.15),
     inset 0 0 0 1px rgba(255,255,255,.45);
   transition: transform .6s cubic-bezier(.22,.61,.36,1),
-              box-shadow .6s ease;
-  /* Efek tidak sejajar: card ganjil miring kiri, genap miring kanan */
-  transform: rotate(0deg);
-}
-
-.developer-card:nth-child(odd) {
-  transform: rotate(-3deg);
-}
-
-.developer-card:nth-child(even) {
-  transform: rotate(3deg);
+              box-shadow .6s ease,
+              background .6s ease;
+  /* Tambahan: gradient background saat hover */
 }
 
 .developer-card::before {
@@ -906,10 +904,11 @@ section.announce-section {
 }
 
 .developer-card:hover {
-  transform: translateY(-16px) rotateX(6deg) rotate(0deg); /* Reset rotasi pada hover untuk efek lift */
+  transform: translateY(-16px) rotateX(6deg);
   box-shadow:
     0 50px 140px rgba(0,0,0,.25),
     0 0 60px rgba(16,185,129,.35);
+  background: rgba(255,255,255,.95); /* Lebih terang saat hover */
 }
 
 .developer-card:hover::before {
@@ -926,6 +925,11 @@ section.announce-section {
   overflow: hidden;
   border: 4px solid #10b981;
   box-shadow: 0 15px 35px rgba(16,185,129,.35);
+  transition: box-shadow .6s ease;
+}
+
+.developer-photos:hover {
+  box-shadow: 0 20px 50px rgba(16,185,129,.5); /* Lebih dramatis saat hover */
 }
 
 .developer-photos .slider-container {
@@ -940,6 +944,11 @@ section.announce-section {
   height: 100%;
   object-fit: cover;
   flex-shrink: 0;
+  transition: transform .6s ease; /* Tambahan smooth zoom */
+}
+
+.developer-photos:hover img {
+  transform: scale(1.05); /* Zoom sedikit saat hover container */
 }
 
 @keyframes slide-horizontal {
@@ -948,12 +957,27 @@ section.announce-section {
   66.67%, 100% { transform: translateX(-66.666%); }
 }
 
+/* Tambahan animasi fade-in untuk slider */
+@keyframes fade-in {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.developer-photos img {
+  animation: fade-in 1s ease-in-out;
+}
+
 /* NAME */
 .developer-card h3 {
   font-size: 24px;
   font-weight: 900;
   margin-bottom: 6px;
   color: #064e3b;
+  transition: color .6s ease;
+}
+
+.developer-card:hover h3 {
+  color: #10b981; /* Warna hijau saat hover */
 }
 
 /* ROLE */
@@ -966,6 +990,11 @@ section.announce-section {
   font-size: 13px;
   font-weight: 700;
   margin-bottom: 14px;
+  transition: background .6s ease;
+}
+
+.developer-card:hover span {
+  background: linear-gradient(135deg, #34d399, #10b981); /* Reverse gradient saat hover */
 }
 
 /* DESC */
@@ -974,6 +1003,11 @@ section.announce-section {
   line-height: 1.8;
   color: #374151;
   margin: 0;
+  transition: color .6s ease;
+}
+
+.developer-card:hover p {
+  color: #1f2937; /* Lebih gelap saat hover */
 }
 
 /* RESPONSIVE */
