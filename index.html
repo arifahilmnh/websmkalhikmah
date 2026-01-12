@@ -865,7 +865,7 @@ section.announce-section {
   perspective: 1200px;
 }
 
-/* CARD */
+/* CARD - Tambahan efek tidak sejajar (staggered/miring) */
 .developer-card {
   position: relative;
   background: rgba(255,255,255,.88);
@@ -877,15 +877,16 @@ section.announce-section {
     inset 0 0 0 1px rgba(255,255,255,.45);
   transition: transform .6s cubic-bezier(.22,.61,.36,1),
               box-shadow .6s ease;
+  /* Efek tidak sejajar: card ganjil miring kiri, genap miring kanan */
+  transform: rotate(0deg);
 }
 
-/* Membuat kartu tidak sejajar ke samping (zigzag effect) */
 .developer-card:nth-child(odd) {
-  transform: translateX(-10px) rotateY(-2deg);
+  transform: rotate(-3deg);
 }
 
 .developer-card:nth-child(even) {
-  transform: translateX(10px) rotateY(2deg);
+  transform: rotate(3deg);
 }
 
 .developer-card::before {
@@ -905,7 +906,7 @@ section.announce-section {
 }
 
 .developer-card:hover {
-  transform: translateY(-16px) rotateX(6deg) !important; /* Override zigzag untuk hover */
+  transform: translateY(-16px) rotateX(6deg) rotate(0deg); /* Reset rotasi pada hover untuk efek lift */
   box-shadow:
     0 50px 140px rgba(0,0,0,.25),
     0 0 60px rgba(16,185,129,.35);
@@ -915,61 +916,36 @@ section.announce-section {
   opacity:1;
 }
 
-/* ================= FOTO 3 LAPIS ================= */
+/* ================= FOTO SLIDER ================= */
 .developer-photos {
   position: relative;
-  width: 150px;
-  height: 150px;
-  margin: 0 auto 28px;
-  border-radius: 50%; /* Membuat kotak foto lebih bulat dan rapi */
-  overflow: hidden; /* Memastikan foto tidak keluar dari container */
-  background: rgba(16,185,129,.1); /* Tambahan background halus untuk kotak */
-  box-shadow: inset 0 0 20px rgba(16,185,129,.2); /* Shadow inset untuk efek kotak */
-}
-
-.developer-photos img {
   width: 120px;
   height: 120px;
-  object-fit: cover;
+  margin: 0 auto 28px;
   border-radius: 50%;
+  overflow: hidden;
   border: 4px solid #10b981;
-  position: absolute;
-  transition: transform .6s ease, box-shadow .6s ease, opacity .6s ease;
   box-shadow: 0 15px 35px rgba(16,185,129,.35);
 }
 
-/* posisi layer */
-.developer-photos img:nth-child(1) {
-  top: 0;
-  left: 15px;
-  z-index: 3;
+.developer-photos .slider-container {
+  display: flex;
+  width: 300%; /* 3 gambar x 100% */
+  height: 100%;
+  animation: slide-horizontal 9s infinite ease-in-out;
 }
 
-.developer-photos img:nth-child(2) {
-  top: 22px;
-  left: -6px;
-  z-index: 2;
-  opacity: .85;
+.developer-photos img {
+  width: 33.333%; /* 1/3 dari container */
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
-.developer-photos img:nth-child(3) {
-  top: 22px;
-  left: 36px;
-  z-index: 1;
-  opacity: .7;
-}
-
-/* hover effect dengan slide (geser ke samping) */
-.developer-card:hover .developer-photos img:nth-child(1) {
-  transform: translateY(-8px) scale(1.08) translateX(10px); /* Slide ke kanan */
-}
-
-.developer-card:hover .developer-photos img:nth-child(2) {
-  transform: translate(-6px, -2px) scale(1.04) translateX(-5px); /* Slide ke kiri sedikit */
-}
-
-.developer-card:hover .developer-photos img:nth-child(3) {
-  transform: translate(6px, -2px) scale(1.02) translateX(15px); /* Slide ke kanan lebih jauh */
+@keyframes slide-horizontal {
+  0%, 33.33% { transform: translateX(0); }
+  33.34%, 66.66% { transform: translateX(-33.333%); }
+  66.67%, 100% { transform: translateX(-66.666%); }
 }
 
 /* NAME */
@@ -1015,44 +991,29 @@ section.announce-section {
   }
 
   .developer-photos {
-    width: 130px;
-    height: 130px;
-  }
-
-  .developer-photos img {
     width: 105px;
     height: 105px;
   }
-
-  /* Kurangi zigzag di mobile untuk menghindari overlap */
-  .developer-card:nth-child(odd),
-  .developer-card:nth-child(even) {
-    transform: none;
-  }
 }
 
-/* Tambahan responsivitas untuk layar kecil */
-@media (max-width: 480px) {
+/* Responsivitas tambahan */
+@media (max-width: 768px) {
   .developer-section {
-    padding: 60px 15px;
+    padding: 80px 20px;
   }
   .developer-section h2 {
-    font-size: 28px;
-    margin-bottom: 40px;
+    font-size: 36px;
+    margin-bottom: 50px;
   }
   .developer-grid {
-    gap: 20px;
+    gap: 30px;
   }
   .developer-card {
-    padding: 25px 15px;
+    padding: 30px 20px;
   }
   .developer-photos {
     width: 100px;
     height: 100px;
-  }
-  .developer-photos img {
-    width: 80px;
-    height: 80px;
   }
 }
 /* ================= FOOTER ================= */
@@ -1699,9 +1660,11 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
       <!-- ARIFAH -->
       <div class="developer-card">
         <div class="developer-photos">
-          <img src="arifah.jpeg" alt="Siti Arifah Ilmaniah">
-          <img src="arifah 2.jpeg" alt="Siti Arifah Ilmaniah">
-          <img src="arifah 3.jpeg" alt="Siti Arifah Ilmaniah">
+          <div class="slider-container">
+            <img src="arifah.jpeg" alt="Siti Arifah Ilmaniah">
+            <img src="arifah 2.jpeg" alt="Siti Arifah Ilmaniah">
+            <img src="arifah 3.jpeg" alt="Siti Arifah Ilmaniah">
+          </div>
         </div>
         <h3>SITI ARIFAH ILMANIAH</h3>
         <span>Web Development</span>
@@ -1714,9 +1677,11 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
       <!-- AJENG -->
       <div class="developer-card">
         <div class="developer-photos">
-          <img src="ajeng.jpeg" alt="Ajeng Habibah NP">
-          <img src="ajeng 2.jpeg" alt="Ajeng Habibah NP">
-          <img src="ajeng 3.jpeg" alt="Ajeng Habibah NP">
+          <div class="slider-container">
+            <img src="ajeng.jpeg" alt="Ajeng Habibah NP">
+            <img src="ajeng 2.jpeg" alt="Ajeng Habibah NP">
+            <img src="ajeng 3.jpeg" alt="Ajeng Habibah NP">
+          </div>
         </div>
         <h3>AJENG HABIBAH NP</h3>
         <span>Video Pembelajaran</span>
@@ -1729,9 +1694,11 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
       <!-- TIARA -->
       <div class="developer-card">
         <div class="developer-photos">
-          <img src="tiara.jpeg" alt="Tiara Siti Nurkolbi">
-          <img src="tiara 2.jpeg" alt="Tiara Siti Nurkolbi">
-          <img src="tiara 3.jpeg" alt="Tiara Siti Nurkolbi">
+          <div class="slider-container">
+            <img src="tiara.jpeg" alt="Tiara Siti Nurkolbi">
+            <img src="tiara 2.jpeg" alt="Tiara Siti Nurkolbi">
+            <img src="tiara 3.jpeg" alt="Tiara Siti Nurkolbi">
+          </div>
         </div>
         <h3>TIARA SITI NURKOLBI</h3>
         <span>Susunan Laporan Web</span>
