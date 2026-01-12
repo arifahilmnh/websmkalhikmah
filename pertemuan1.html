@@ -1363,7 +1363,6 @@ footer{
 </style>
 </head>
 <body>
-
 <nav>
  <div class="brand">
   <img src="logo.png" alt="Logo">
@@ -1432,7 +1431,7 @@ footer{
 
  <!-- BUTTON -->
  <button id="btnMulai" class="locked-btn" disabled>
-  🔒 Mulai Pembelajaran
+  Mulai Pembelajaran
  </button>
 </section>
 
@@ -1502,7 +1501,7 @@ footer{
 <!-- QUIZ -->
 <button id="btnQuiz1" class="locked-btn" disabled style="display:none"
  onclick="showQuiz(1)">
- 🔒 Mulai Kuis
+ Mulai Kuis
 </button>
 
 <div id="quiz1" class="quiz" style="display:none">
@@ -1606,7 +1605,7 @@ footer{
 <!-- QUIZ -->
 <button id="btnQuiz2" class="locked-btn" disabled style="display:none"
  onclick="showQuiz(2)">
- 🔒 Mulai Kuis
+ Mulai Kuis
 </button>
 
 <div id="quiz2" class="quiz" style="display:none">
@@ -1712,7 +1711,7 @@ footer{
 <!-- QUIZ -->
 <button id="btnQuiz3" class="locked-btn" disabled style="display:none"
  onclick="showQuiz(3)">
- 🔒 Mulai Kuis
+ Mulai Kuis
 </button>
 
 <div id="quiz3" class="quiz" style="display:none">
@@ -1837,7 +1836,7 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
    </div>
 
    <button id="btnLatihan">
-    ▶️ Mulai Latihan Pertemuan 1
+    Mulai Latihan Pertemuan 1
    </button>
   </div>
  </div>
@@ -1852,12 +1851,6 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
    <div class="section-divider"></div>
   </div>
     <div id="latihan" class="exercise-list">
-
-   <div class="exercise-progress">
-    <div>📘 Latihan Pertemuan 1</div>
-    <span>10 Soal</span>
-   </div>
-
 <!-- MENJODOHKAN -->
 <div class="exercise-item" data-no="01">
 <h4>1. Menjodohkan tag HTML dengan fungsinya</h4>
@@ -2487,12 +2480,12 @@ function finishVideo(ind) {
 
   // ================= VIDEO TUJUAN =================
   if (ind === "tujuan") {
-    unlockButton("btnMulai", "▶️ Mulai Pembelajaran");
+    unlockButton("btnMulai", "Mulai Pembelajaran");
   }
 
   // ================= VIDEO INDIKATOR =================
   if (["1", "2", "3"].includes(String(ind))) {
-    unlockButton(`btnQuiz${ind}`, `▶️ Mulai Kuis ${ind}`);
+    unlockButton(`btnQuiz${ind}`, `Mulai Kuis ${ind}`);
   }
 
   // ================= VIDEO RANGKUMAN =================
@@ -2509,7 +2502,7 @@ function finishVideo(ind) {
       status.innerText = "Video rangkuman selesai";
     }
 
-    unlockButton("btnLatihan", "▶️ Mulai Latihan Pertemuan 1");
+    unlockButton("btnLatihan", "Mulai Latihan Pertemuan 1");
 
     // global progress 100%
     setGlobalProgressSafe(progressMap.halaman.latihan);
