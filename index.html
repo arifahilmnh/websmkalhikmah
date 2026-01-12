@@ -819,151 +819,197 @@ section.announce-section {
   }
 }
 
-/* ================= DEVELOPER SECTION ================= */
+/* ================= DEVELOPER SECTION (ULTRA PREMIUM) ================= */
 .developer-section {
-  background: linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 50%, #d1fae5 100%);
+  background:
+    radial-gradient(circle at top, rgba(16,185,129,.18), transparent 45%),
+    linear-gradient(135deg, #f0fdfa, #ecfdf5);
   padding: 120px 24px;
   text-align: center;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fadeInUp 1.2s ease-out forwards;
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.developer-section::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(16,185,129,.03),
+      rgba(16,185,129,.03) 1px,
+      transparent 1px,
+      transparent 80px
+    );
+  pointer-events:none;
 }
 
+/* TITLE */
 .developer-section h2 {
-  font-size: 48px;
+  font-size: 46px;
   font-weight: 900;
-  margin-bottom: 80px;
-  color: #065f46;
-  letter-spacing: 0.1em;
-  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 70px;
+  letter-spacing: .12em;
+  color: #064e3b;
+  text-shadow: 0 8px 30px rgba(16,185,129,.25);
 }
 
+/* GRID */
 .developer-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 50px;
-  max-width: 1400px;
+  gap: 48px;
+  max-width: 1200px;
   margin: auto;
+  perspective: 1200px;
 }
 
+/* CARD */
 .developer-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: 28px;
-  padding: 40px 25px;
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.12);
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease, filter 0.3s ease;
   position: relative;
-  overflow: hidden;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(20px) saturate(1.3);
+  border-radius: 30px;
+  padding: 44px 30px;
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.15),
+    inset 0 0 0 1px rgba(255,255,255,.45);
+  transition: transform .6s cubic-bezier(.22,.61,.36,1),
+              box-shadow .6s ease;
 }
 
 .developer-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(52, 211, 153, 0.1), rgba(16, 185, 129, 0.05));
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:
+    linear-gradient(
+      135deg,
+      transparent,
+      rgba(16,185,129,.25),
+      transparent
+    );
+  opacity:0;
+  transition:.6s;
 }
 
 .developer-card:hover {
-  transform: translateY(-12px) rotateX(5deg);
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
-  filter: brightness(1.05);
+  transform: translateY(-16px) rotateX(6deg);
+  box-shadow:
+    0 50px 140px rgba(0,0,0,.25),
+    0 0 60px rgba(16,185,129,.35);
 }
 
 .developer-card:hover::before {
-  opacity: 1;
+  opacity:1;
 }
 
-/* Photo Slider */
-.photo-slider {
+/* ================= FOTO 3 LAPIS ================= */
+.developer-photos {
   position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 28px;
+}
+
+.developer-photos img {
   width: 120px;
   height: 120px;
-  margin: 0 auto 25px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 5px solid #10b981;
-  animation: photoGlow 3s ease-in-out infinite alternate;
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-  transition: box-shadow 0.5s ease;
-}
-
-@keyframes photoGlow {
-  0% {
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), 0 0 40px rgba(16, 185, 129, 0.2);
-  }
-  100% {
-    box-shadow: 0 0 30px rgba(16, 185, 129, 0.8), 0 0 60px rgba(16, 185, 129, 0.4);
-  }
-}
-
-.photo-slider img {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.photo-slider img.active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.slider-dots {
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 5px;
-}
-
-.slider-dots span {
-  width: 8px;
-  height: 8px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  transition: background 0.4s ease, transform 0.3s ease;
+  border: 4px solid #10b981;
+  position: absolute;
+  transition: transform .6s ease, box-shadow .6s ease, opacity .6s ease;
+  box-shadow: 0 15px 35px rgba(16,185,129,.35);
 }
 
-.slider-dots span.active {
-  background: #fff;
-  transform: scale(1.3);
+/* posisi layer */
+.developer-photos img:nth-child(1) {
+  top: 0;
+  left: 15px;
+  z-index: 3;
 }
 
-.slider-dots span:hover {
-  background: rgba(255, 255, 255, 0.9);
+.developer-photos img:nth-child(2) {
+  top: 22px;
+  left: -6px;
+  z-index: 2;
+  opacity: .85;
 }
 
+.developer-photos img:nth-child(3) {
+  top: 22px;
+  left: 36px;
+  z-index: 1;
+  opacity: .7;
+}
+
+/* hover effect */
+.developer-card:hover .developer-photos img:nth-child(1) {
+  transform: translateY(-8px) scale(1.08);
+}
+
+.developer-card:hover .developer-photos img:nth-child(2) {
+  transform: translate(-6px, -2px) scale(1.04);
+}
+
+.developer-card:hover .developer-photos img:nth-child(3) {
+  transform: translate(6px, -2px) scale(1.02);
+}
+
+/* NAME */
 .developer-card h3 {
   font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 10px;
-  color: #065f46;
+  font-weight: 900;
+  margin-bottom: 6px;
+  color: #064e3b;
 }
 
+/* ROLE */
+.developer-card span {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #10b981, #34d399);
+  color: #043b2a;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+/* DESC */
 .developer-card p {
-  font-size: 16px;
-  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #374151;
   margin: 0;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .developer-section {
+    padding: 90px 20px;
+  }
+
+  .developer-section h2 {
+    font-size: 34px;
+  }
+
+  .developer-card {
+    padding: 36px 24px;
+  }
+
+  .developer-photos {
+    width: 130px;
+    height: 130px;
+  }
+
+  .developer-photos img {
+    width: 105px;
+    height: 105px;
+  }
 }
 
 /* Responsivitas */
@@ -1691,56 +1737,45 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
   </div>
 </section>
 
-<section class="developer-section" id="developer-section">
-  <div class="container">
-    <h2>Pengembang Web</h2>
-    <div class="developer-grid">
-      <div class="developer-card">
-        <div class="photo-slider" data-slider="arifah">
-          <img src="arifah.jpeg" alt="SITI ARIFAH ILMANIAH" class="active">
-          <img src="arifah 2.jpeg" alt="SITI ARIFAH ILMANIAH">
-          <img src="arifah 3.jpeg" alt="SITI ARIFAH ILMANIAH">
-          <div class="slider-dots">
-            <span class="active" data-slide="0"></span>
-            <span data-slide="1"></span>
-            <span data-slide="2"></span>
-          </div>
-        </div>
-        <h3>SITI ARIFAH ILMANIAH</h3>
-        <p>Mahasiswa PTI IPI Garut</p>
-      </div>
-      <div class="developer-card">
-        <div class="photo-slider" data-slider="ajeng">
-          <img src="ajeng.jpeg" alt="AJENG HABIBAH NP" class="active">
-          <img src="ajeng 2.jpeg" alt="AJENG HABIBAH NP">
-          <img src="ajeng 3.jpeg" alt="AJENG HABIBAH NP">
-          <div class="slider-dots">
-            <span class="active" data-slide="0"></span>
-            <span data-slide="1"></span>
-            <span data-slide="2"></span>
-          </div>
-        </div>
-        <h3>AJENG HABIBAH NP</h3>
-        <p>Mahasiswa PTI IPI Garut</p>
-      </div>
-      <div class="developer-card">
-        <div class="photo-slider" data-slider="tiara">
-          <img src="tiara.jpeg" alt="TIARA SITI NURKOLBI" class="active">
-          <img src="tiara 2.jpeg" alt="TIARA SITI NURKOLBI">
-          <img src="tiara 2.jpeg" alt="TIARA SITI NURKOLBI">
-          <img src="tiara 3.jpeg" alt="TIARA SITI NURKOLBI">
-          <div class="slider-dots">
-            <span class="active" data-slide="0"></span>
-            <span data-slide="1"></span>
-            <span data-slide="2"></span>
-          </div>
-        </div>
-        <h3>TIARA SITI NURKOLBI</h3>
-        <p>Mahasiswa PTI IPI Garut</p>
-      </div>
-    </div>
+<div class="developer-card">
+  <div class="developer-photos">
+    <img src="arifah.jpeg" alt="Siti Arifah Ilmaniah">
+    <img src="arifah 2.jpeg" alt="Siti Arifah Ilmaniah">
+    <img src="arifah 3.jpeg" alt="Siti Arifah Ilmaniah">
   </div>
-</section>
+  <h3>SITI ARIFAH ILMANIAH</h3>
+  <span>Web Development</span>
+  <p>
+    Berfokus pada pengembangan dan pengelolaan website,
+    termasuk struktur halaman, tampilan, dan fungsionalitas web.
+  </p>
+</div>
+<div class="developer-card">
+  <div class="developer-photos">
+    <img src="tiara.jpeg" alt="Tiara Siti Nurkolbi">
+    <img src="tiara 2.jpeg" alt="Tiara Siti Nurkolbi">
+    <img src="tiara 3.jpeg" alt="Tiara Siti Nurkolbi">
+  </div>
+  <h3>TIARA SITI NURKOLBI</h3>
+  <span>Susunan Laporan Web</span>
+  <p>
+    Menyusun dan mengelola laporan pengembangan website
+    secara sistematis, rapi, dan terstruktur.
+  </p>
+</div>
+<div class="developer-card">
+  <div class="developer-photos">
+    <img src="tiara.jpeg" alt="Tiara Siti Nurkolbi">
+    <img src="tiara 2.jpeg" alt="Tiara Siti Nurkolbi">
+    <img src="tiara 3.jpeg" alt="Tiara Siti Nurkolbi">
+  </div>
+  <h3>TIARA SITI NURKOLBI</h3>
+  <span>Susunan Laporan Web</span>
+  <p>
+    Menyusun dan mengelola laporan pengembangan website
+    secara sistematis, rapi, dan terstruktur.
+  </p>
+</div>
 
 <div id="overlay-daftar" style="
   position:fixed;inset:0;
