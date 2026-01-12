@@ -1933,11 +1933,7 @@ Struktur HTML bersifat hierarkis, artinya setiap elemen memiliki hubungan induk 
 <p>&lt;i&gt; → <input type="text" name="menjodoh5" placeholder="Format..."> (Miring)</p>
 <p>&lt;u&gt; → <input type="text" name="menjodoh6" placeholder="Format..."> (Garis bawah)</p>
 </div>
-
-</div>
-<button onclick="selesaiLatihan()">Selesai Latihan</button>
-</div>
-</section>
+    </section>
 
 <footer>
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
@@ -2285,28 +2281,79 @@ function mulaiLatihan() {
 
 function cekLatihan() {
   let skor = 0;
+  let adaJawaban = false;
+
   soalLatihan.forEach((soal, index) => {
+
     if (soal.jenis === "menjodohkan") {
+      let terisi = false;
       let benar = true;
+
       Object.keys(soal.jawaban).forEach(i => {
         const select = document.getElementById(`match${index}_${i}`);
+        if (select.value !== "") terisi = true;
         if (select.value != soal.jawaban[i]) benar = false;
       });
-      if (benar) skor += soal.nilai;
-    } else if (soal.jenis === "truefalse") {
+
+      if (terisi) adaJawaban = true;
+      if (terisi && benar) skor += soal.nilai;
+    }
+
+    else if (soal.jenis === "truefalse") {
       const selected = document.querySelector(`input[name="tf${index}"]:checked`);
-      if (selected && selected.value === soal.jawaban.toString()) skor += soal.nilai;
-    } else if (soal.jenis === "pg") {
+      if (selected) {
+        adaJawaban = true;
+        if (selected.value === soal.jawaban.toString()) skor += soal.nilai;
+      }
+    }
+
+    else if (soal.jenis === "pg") {
       const selected = document.querySelector(`input[name="pg${index}"]:checked`);
-      if (selected && parseInt(selected.value) === soal.jawaban) skor += soal.nilai;
-    } else if (soal.jenis === "isian") {
+      if (selected) {
+        adaJawaban = true;
+        if (parseInt(selected.value) === soal.jawaban) skor += soal.nilai;
+      }
+    }
+
+    else if (soal.jenis === "isian") {
       const input = document.getElementById(`isian${index}`);
-      if (input.value.toLowerCase().trim() === soal.jawaban.toLowerCase()) skor += soal.nilai;
-    } else if (soal.jenis === "checkbox") {
-      const selected = Array.from(document.querySelectorAll(`input[name="cb${index}"]:checked`)).map(cb => parseInt(cb.value));
-      if (JSON.stringify(selected.sort()) === JSON.stringify(soal.jawaban.sort())) skor += soal.nilai;
+      if (input.value.trim() !== "") {
+        adaJawaban = true;
+        if (input.value.toLowerCase().trim() === soal.jawaban.toLowerCase()) {
+          skor += soal.nilai;
+        }
+      }
+    }
+
+    else if (soal.jenis === "checkbox") {
+      const selected = Array.from(
+        document.querySelectorAll(`input[name="cb${index}"]:checked`)
+      ).map(cb => parseInt(cb.value));
+
+      if (selected.length > 0) {
+        adaJawaban = true;
+        if (
+          JSON.stringify(selected.sort()) ===
+          JSON.stringify(soal.jawaban.sort())
+        ) {
+          skor += soal.nilai;
+        }
+      }
     }
   });
+
+  // 🚨 VALIDASI KOSONG
+  if (!adaJawaban) {
+    Swal.fire({
+      icon: "warning",
+      title: "Latihan belum dikerjakan ❗",
+      text: "Silakan isi terlebih dahulu latihan sebelum melanjutkan.",
+      confirmButtonColor: "#ef4444",
+      allowOutsideClick: false
+    });
+    return; // ⛔ STOP TOTAL
+  }
+
   nilaiLatihan = skor;
   selesaiLatihan();
 }
