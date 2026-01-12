@@ -2246,39 +2246,40 @@ const soalLatihan = [
 function mulaiLatihan() {
   go(6);
   const container = document.getElementById("latihan");
-  container.innerHTML = "<h3>Latihan Pertemuan 1</h3>";
+  let html = "<h3>Latihan Pertemuan 1</h3>";
   soalLatihan.forEach((soal, index) => {
-    let html = `<div class="soal" id="soal${index}"><p><b>${index + 1}. ${soal.pertanyaan}</b></p>`;
+    let soalHtml = `<div class="soal" id="soal${index}"><p><b>${index + 1}. ${soal.pertanyaan}</b></p>`;
     if (soal.jenis === "menjodohkan") {
-      html += "<div class='matching'>";
-      html += "<div class='kolom'><h4>Kolom A</h4><ul>";
+      soalHtml += "<div class='matching'>";
+      soalHtml += "<div class='kolom'><h4>Kolom A</h4><ul>";
       soal.kolomA.forEach((item, i) => {
-        html += `<li>${item} <select id="match${index}_${i}"><option value="">Pilih</option>`;
-        soal.kolomB.forEach((opt, j) => html += `<option value="${j}">${opt}</option>`);
-        html += "</select></li>";
+        soalHtml += `<li>${item} <select id="match${index}_${i}"><option value="">Pilih</option>`;
+        soal.kolomB.forEach((opt, j) => soalHtml += `<option value="${j}">${opt}</option>`);
+        soalHtml += "</select></li>";
       });
-      html += "</ul></div>";
-      html += "<div class='kolom'><h4>Kolom B</h4><ol>";
-      soal.kolomB.forEach(item => html += `<li>${item}</li>`);
-      html += "</ol></div></div>";
+      soalHtml += "</ul></div>";
+      soalHtml += "<div class='kolom'><h4>Kolom B</h4><ol>";
+      soal.kolomB.forEach(item => soalHtml += `<li>${item}</li>`);
+      soalHtml += "</ol></div></div>";
     } else if (soal.jenis === "truefalse") {
-      html += `<input type="radio" name="tf${index}" value="true"> Benar<br>`;
-      html += `<input type="radio" name="tf${index}" value="false"> Salah`;
+      soalHtml += `<input type="radio" name="tf${index}" value="true"> Benar<br>`;
+      soalHtml += `<input type="radio" name="tf${index}" value="false"> Salah`;
     } else if (soal.jenis === "pg") {
       soal.pilihan.forEach((opt, i) => {
-        html += `<input type="radio" name="pg${index}" value="${i}"> ${opt}<br>`;
+        soalHtml += `<input type="radio" name="pg${index}" value="${i}"> ${opt}<br>`;
       });
     } else if (soal.jenis === "isian") {
-      html += `<input type="text" id="isian${index}">`;
+      soalHtml += `<input type="text" id="isian${index}">`;
     } else if (soal.jenis === "checkbox") {
       soal.pilihan.forEach((opt, i) => {
-        html += `<input type="checkbox" name="cb${index}" value="${i}"> ${opt}<br>`;
+        soalHtml += `<input type="checkbox" name="cb${index}" value="${i}"> ${opt}<br>`;
       });
     }
-    html += "</div>";
-    container.innerHTML += html;
+    soalHtml += "</div>";
+    html += soalHtml;
   });
-  container.innerHTML += '<button onclick="cekLatihan()">Selesai Latihan</button>';
+  html += '<button onclick="cekLatihan()">Selesai Latihan</button>';
+  container.innerHTML = html;
   scrollToEl(container);
 }
 
@@ -2319,7 +2320,7 @@ function selesaiLatihan() {
 
   launchConfetti(true);
 
-  // Gunakan SweetAlert untuk popup hasil akhir
+    // Gunakan SweetAlert untuk popup hasil akhir
   Swal.fire({
     title: '🎓 Hasil Akhir Pertemuan 1',
     html: `
