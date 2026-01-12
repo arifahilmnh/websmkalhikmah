@@ -1795,26 +1795,6 @@ body.page-enter section:nth-of-type(4){animation-delay:.5s}
  © 2025 Mahasiswa PTI IPI Garut | SMK Al-Hikmah Tarogong Kaler Garut
 </footer>
 <script>
-<think>
-Pertama, pengguna memberikan kode JavaScript yang panjang, dan meminta untuk memperbaiki agar tombol "selesai latihan" hanya ada satu, karena saat ini ada dua.
-
-
-## Reviewing User Request  
-- User provided a long JavaScript code and asked for a fix to ensure only one "Finish Exercise" button appears, as currently there are two.  
-- The task involves identifying and modifying the code to remove duplicate button instances.
-
-## Reviewing User Request  
-- The JavaScript code provided appears to be for the main website page, including login, registration, and a slider, with no direct reference to a "Finish Exercise" button.  
-- The user likely refers to a different page, possibly absensi.html, mentioned in the loadingKeAbsensi() function, where the button duplication occurs.  
-
-## Investigating Code Context  
-- The code seems complete for the homepage (index.html), but the "Finish Exercise" button may be dynamically created elsewhere, possibly in absensi.html.  
-- There’s no element with an ID or class for "Finish Exercise" in the provided code, suggesting the issue lies in a separate file or omitted section.  
-
-## Exploring Possible Solutions  
-- The duplication might result from multiple event listeners or dynamic button creation in the code for absensi.html.  
-- To fix, we need to identify where the button is created and ensure only one instance is generated, possibly by reviewing or modifying the relevant page.
-</think>```javascript
 // ================= AUTH SYSTEM =================
 function getAuthUser(){
   return JSON.parse(sessionStorage.getItem("authUser"));
@@ -2257,26 +2237,6 @@ function showPertemuan(){
         : () => Swal.fire("Terkunci", "Pertemuan belum dibuka", "info");
       pertemuanGrid.appendChild(d);
     }
-    // Tambahkan tombol "Selesai Latihan" hanya jika belum ada (untuk menghindari duplikasi)
-    if (!document.getElementById("selesaiLatihanBtn")) {
-      const selesaiBtn = document.createElement("button");
-      selesaiBtn.id = "selesaiLatihanBtn";
-      selesaiBtn.innerHTML = "Selesai Latihan";
-      selesaiBtn.className = "btn-selesai"; // Tambahkan class untuk styling jika diperlukan
-      selesaiBtn.onclick = () => {
-        Swal.fire({
-          icon: "success",
-          title: "Latihan Selesai",
-          text: "Terima kasih telah menyelesaikan latihan!",
-          confirmButtonColor: "#34d399"
-        }).then(() => {
-          // Aksi setelah selesai, misalnya kembali ke halaman utama atau reset
-          location.reload(); // Contoh: reload halaman
-        });
-      };
-      // Tambahkan tombol setelah grid pertemuan
-      sectionPertemuan.appendChild(selesaiBtn);
-    }
     sectionPertemuan.scrollIntoView({behavior:"smooth"});
   }
 }
@@ -2333,14 +2293,6 @@ if (closePopup && popupDaftar && overlayDaftar) {
       images.forEach(img => img.classList.remove('active'));
       dots.forEach(dot => dot.classList.remove('active'));
       images[index].classList.add('active');
-     <think>
-Pertama, pengguna meminta untuk melanjutkan kode JavaScript yang terpotong. Kode asli berakhir di tengah-tengah fungsi `changeSlide` di dalam `document.addEventListener('DOMContentLoaded', () => { ... });`.
-
-
-## Continuing Code Analysis  
-- The user asked to resume a partially completed JavaScript code snippet.  
-- The original code ended mid-function in `changeSlide` within a `DOMContentLoaded` event listener.
-</think>```javascript
       dots[index].classList.add('active');
       currentIndex = index;
     };
